@@ -22,6 +22,81 @@ const uLocalized = function (inputData) {
 	return inputData + 'LOCALIZED';
 };
 
+describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
+
+	const __OLSKFundSetupPostPay = function (inputData = {}) {
+		const item = [];
+
+		mod._OLSKFundSetupPostPay(uWindow(Object.assign({
+			location: Object.assign(new URL('https://example.com/form'), {
+				hash: (new URLSearchParams(inputData.confirmation ? {
+					confirmation: inputData.confirmation,
+				} : {})).toString(),
+			}),
+		})), inputData.param2 || null, inputData.param3 ? function () {
+			item.push(inputData.param3());
+		} : function () {
+			item.push(...arguments);
+		});
+
+		return item;
+	};
+
+	it('throws if param1 not valid', function () {
+		throws(function () {
+			mod._OLSKFundSetupPostPay({}, null, function () {});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param3 not function', function () {
+		throws(function () {
+			mod._OLSKFundSetupPostPay(uWindow(), null, null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('breaks if no code', function () {
+		deepEqual(__OLSKFundSetupPostPay(), []);
+	});
+
+	it('breaks if code matches param2', function () {
+		const param2 = Math.random().toString();
+
+		deepEqual(__OLSKFundSetupPostPay({
+			confirmation: param2,
+			param2,
+		}), []);
+	});
+
+	it('breaks if param2 different', function () {
+		const param2 = Math.random().toString();
+
+		deepEqual(__OLSKFundSetupPostPay({
+			confirmation: Date.now().toString(),
+			param2,
+		}), []);
+	});
+
+	it('passes code to param3', function () {
+		const confirmation = Date.now().toString();
+
+		deepEqual(__OLSKFundSetupPostPay({
+			confirmation
+		}), [confirmation]);
+	});
+
+	it('returns param3', function () {
+		const item = Date.now().toString();
+
+		deepEqual(__OLSKFundSetupPostPay({
+			confirmation: Date.now().toString(),
+			param3: (function () {
+				return item;
+			}),
+		}), [item]);
+	});
+
+});
+
 describe('OLSKFundSetup', function test_OLSKFundSetup() {
 
 	const _OLSKFundSetup = function (inputData = {}) {

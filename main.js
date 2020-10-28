@@ -1,5 +1,27 @@
 const mod = {
 
+	_OLSKFundSetupPostPay (param1, param2, param3) {
+		if (!param1.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof param3 !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		const confirmation = Object.fromEntries((new URLSearchParams(param1.location.hash.slice(1))).entries()).confirmation;
+
+		if (!confirmation) {
+			return
+		}
+
+		if (param2) {
+			return;
+		}
+
+		return param3(confirmation);
+	},
+
 	OLSKFundSetup (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
