@@ -22,6 +22,18 @@ const uLocalized = function (inputData) {
 	return inputData + 'LOCALIZED';
 };
 
+const uPromise = function (inputData) {
+	if (inputData instanceof Promise) {
+		return inputData;
+	}
+
+	return {
+		then (res) {
+			return res(inputData);
+		},
+	};
+};
+
 describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 
 	const __OLSKFundSetupPostPay = function (inputData = {}) {
@@ -102,7 +114,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 	const _OLSKFundSetup = function (inputData = {}) {
 		const item = {};
 
-		Object.assign(Object.assign({}, mod), {
+		return uPromise(Object.assign(Object.assign({}, mod), {
 			_OLSKFundSetupPostPay: (function () {
 				item._OLSKFundSetupPostPay = Array.from(arguments);
 			}),
@@ -113,9 +125,9 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			ParamNavigator: uNavigator({
 				serviceWorker: inputData.serviceWorker,
 			}),
-		}, inputData));
-
-		return item;
+		}, inputData))).then(function () {
+			return item;
+		})
 	}
 
 	it('throws if not object', function () {
@@ -144,13 +156,17 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		})._OLSKFundSetupGrant, []);
 	});
 
-	it('calls _OLSKFundSetupGrant after _OLSKFundSetupPostPay', function () {
+	it('calls _OLSKFundSetupGrant after _OLSKFundSetupPostPay', async function () {
 		const item = [];
 
-		_OLSKFundSetup({
+		await _OLSKFundSetup({
 			serviceWorker: {},
 			_OLSKFundSetupPostPay: (function () {
-				item.push('_OLSKFundSetupPostPay');
+				return new Promise(function (res) {
+					return setTimeout(function () {
+						return res(item.push('_OLSKFundSetupPostPay'));
+					});
+				});
 			}),
 			_OLSKFundSetupGrant: (function () {
 				item.push('_OLSKFundSetupGrant');

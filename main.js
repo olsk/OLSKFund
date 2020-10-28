@@ -1,3 +1,15 @@
+const uPromise = function (inputData) {
+	if (inputData instanceof Promise) {
+		return inputData;
+	}
+
+	return {
+		then (res) {
+			return res(inputData);
+		},
+	};
+};
+
 const mod = {
 
 	_OLSKFundSetupPostPay (param1, param2, param3) {
@@ -32,11 +44,14 @@ const mod = {
 		}
 
 		if (!params.ParamNavigator.serviceWorker) {
-			return
+			return;
 		}
 
-		this._OLSKFundSetupPostPay();
-		this._OLSKFundSetupGrant();
+		const _this = this;
+
+		return uPromise(_this._OLSKFundSetupPostPay()).then(function () {
+			_this._OLSKFundSetupGrant();
+		});
 	},
 
 	OLSKFundConfirm (param1, OLSKLocalized) {
