@@ -12,6 +12,38 @@ const mod = {
 		return param1.confirm(OLSKLocalized('OLSKFundConfirmText'));
 	},
 
+	OLSKFundURL (params) {
+		if (typeof params !== 'object' || params === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamFormURL !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamProject !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamIdentity !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamHomeURL !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return Object.assign(new URL(params.ParamFormURL), {
+			hash: (new URLSearchParams({
+				seed: JSON.stringify({
+					project: params.ParamProject,
+					identity: params.ParamIdentity,
+					home: params.ParamHomeURL,
+				}),
+			})).toString(),
+		}).href;
+	},
+
 	OLSKFundLauncherFakeItemProxy () {
 		return {
 			LCHRecipeName: 'OLSKFundLauncherFakeItemProxy',

@@ -54,6 +54,69 @@ describe('OLSKFundConfirm', function test_OLSKFundConfirm() {
 
 });
 
+describe('OLSKFundURL', function test_OLSKFundURL() {
+
+	const _OLSKFundURL = function (inputData = {}) {
+		return mod.OLSKFundURL(Object.assign({
+			ParamFormURL: 'https://example.com/form',
+			ParamProject: 'alfa',
+			ParamIdentity: 'bravo',
+			ParamHomeURL: 'https://example.com/charlie',
+		}, inputData))
+	}
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.OLSKFundURL(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamFormURL not string', function () {
+		throws(function () {
+			_OLSKFundURL({
+				ParamFormURL: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamProject not string', function () {
+		throws(function () {
+			_OLSKFundURL({
+				ParamProject: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamIdentity not string', function () {
+		throws(function () {
+			_OLSKFundURL({
+				ParamIdentity: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamHomeURL not string', function () {
+		throws(function () {
+			_OLSKFundURL({
+				ParamHomeURL: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns producton recipes', function () {
+		deepEqual(_OLSKFundURL(), Object.assign(new URL('https://example.com/form'), {
+			hash: (new URLSearchParams({
+				seed: JSON.stringify({
+					project: 'alfa',
+					identity: 'bravo',
+					home: 'https://example.com/charlie',
+				}),
+			})).toString(),
+		}).href);
+	});
+
+});
+
 describe('OLSKFundLauncherFakeItemProxy', function test_OLSKFundLauncherFakeItemProxy() {
 
 	it('returns object', function () {
