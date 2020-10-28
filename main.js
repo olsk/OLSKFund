@@ -1,5 +1,22 @@
 const mod = {
 
+	OLSKFundSetup (params) {
+		if (typeof params !== 'object' || params === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamNavigator.platform !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!params.ParamNavigator.serviceWorker) {
+			return
+		}
+
+		this._OLSKFundSetupPostPay();
+		this._OLSKFundSetupGrant();
+	},
+
 	OLSKFundConfirm (param1, OLSKLocalized) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');

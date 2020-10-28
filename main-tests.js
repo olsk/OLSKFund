@@ -12,9 +12,86 @@ const uWindow = function (inputData = {}) {
 	}, inputData);
 };
 
+const uNavigator = function (inputData) {
+	return Object.assign({
+		platform: Math.random().toString(),
+	}, inputData);
+};
+
 const uLocalized = function (inputData) {
 	return inputData + 'LOCALIZED';
 };
+
+describe('OLSKFundSetup', function test_OLSKFundSetup() {
+
+	const _OLSKFundSetup = function (inputData = {}) {
+		const item = {};
+
+		Object.assign(Object.assign({}, mod), {
+			_OLSKFundSetupPostPay: (function () {
+				item._OLSKFundSetupPostPay = Array.from(arguments);
+			}),
+			_OLSKFundSetupGrant: (function () {
+				item._OLSKFundSetupGrant = Array.from(arguments);
+			}),
+		}, inputData).OLSKFundSetup(Object.assign({
+			ParamNavigator: uNavigator({
+				serviceWorker: inputData.serviceWorker,
+			}),
+		}, inputData));
+
+		return item;
+	}
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.OLSKFundSetup(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamNavigator not valid', function () {
+		throws(function () {
+			_OLSKFundSetup({
+				ParamNavigator: {},
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('calls _OLSKFundSetupPostPay', function () {
+		deepEqual(_OLSKFundSetup({
+			serviceWorker: {},
+		})._OLSKFundSetupPostPay, []);
+	});
+
+	it('calls _OLSKFundSetupGrant', function () {
+		deepEqual(_OLSKFundSetup({
+			serviceWorker: {},
+		})._OLSKFundSetupGrant, []);
+	});
+
+	it('calls _OLSKFundSetupGrant after _OLSKFundSetupPostPay', function () {
+		const item = [];
+
+		_OLSKFundSetup({
+			serviceWorker: {},
+			_OLSKFundSetupPostPay: (function () {
+				item.push('_OLSKFundSetupPostPay');
+			}),
+			_OLSKFundSetupGrant: (function () {
+				item.push('_OLSKFundSetupGrant');
+			}),
+		});
+
+		deepEqual(item, ['_OLSKFundSetupPostPay', '_OLSKFundSetupGrant']);
+	});
+
+	it('breaks if no serviceWorker', function () {
+		deepEqual(_OLSKFundSetup({
+			serviceWorker: null,
+		}), {});
+	});
+
+});
 
 describe('OLSKFundConfirm', function test_OLSKFundConfirm() {
 
