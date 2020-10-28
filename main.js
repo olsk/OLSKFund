@@ -1,5 +1,17 @@
 const mod = {
 
+	OLSKFundConfirm (param1, OLSKLocalized) {
+		if (!param1.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof OLSKLocalized !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return param1.confirm(OLSKLocalized('OLSKFundConfirmText'));
+	},
+
 	OLSKFundLauncherFakeItemProxy () {
 		return {
 			LCHRecipeName: 'OLSKFundLauncherFakeItemProxy',

@@ -16,6 +16,44 @@ const uLocalized = function (inputData) {
 	return inputData + 'LOCALIZED';
 };
 
+describe('OLSKFundConfirm', function test_OLSKFundConfirm() {
+
+	it('throws if param1 not window', function () {
+		throws(function () {
+			mod.OLSKFundConfirm({}, uLocalized, true);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not OLSKLocalized', function () {
+		throws(function () {
+			mod.OLSKFundConfirm(uWindow(), null, true);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('calls window.confirm', function () {
+		const item = [];
+
+		mod.OLSKFundConfirm(uWindow({
+			confirm () {
+				item.push(...arguments);
+			},
+		}), uLocalized);
+
+		deepEqual(item, [uLocalized('OLSKFundConfirmText')]);
+	});
+
+	it('returns window.confirm', function () {
+		const item = Math.random().toString();
+
+		deepEqual(mod.OLSKFundConfirm(uWindow({
+			confirm () {
+				return item;
+			},
+		}), uLocalized), item);
+	});
+
+});
+
 describe('OLSKFundLauncherFakeItemProxy', function test_OLSKFundLauncherFakeItemProxy() {
 
 	it('returns object', function () {

@@ -16,6 +16,10 @@
 			});
 		},
 
+		InterfaceFakeConfirmButtonDidClick () {
+			exports.OLSKFundConfirm(window, window.OLSKLocalized);
+		},
+
 		InterfaceFakeGrantAuthorizedButtonDidClick () {
 			mod._ValueFakeGrantAuthorized = true;
 		},
