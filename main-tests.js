@@ -2,6 +2,8 @@ const { throws, rejects, deepEqual } = require('assert');
 
 const mod = require('./main.js');
 
+const OLSKPact = require('OLSKPact');
+
 const uWindow = function (inputData = {}) {
 	return Object.assign({
 		prompt () {},
@@ -105,6 +107,102 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 				return item;
 			}),
 		}), [item]);
+	});
+
+});
+
+describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
+
+	const __OLSKFundSetupGrant = function (inputData = {}) {
+		const item = [];
+
+		mod._OLSKFundSetupGrant(Object.assign({
+			ParamWindow: uWindow({
+				fetch: inputData.fetch || (function () {
+					item.push(...arguments);
+				}),
+			}),
+			ParamURL: inputData.ParamURL || Math.random().toString(),
+		}, inputData, {
+			ParamBody: Object.assign({
+				OLSKPactAuthType: OLSKPact.OLSKPactAuthTypeEmail(),
+				OLSKPactAuthIdentity: 'alfa@bravo.charlie',
+				OLSKPactAuthProof: Math.random().toString(),
+				OLSKPactPayIdentity: 'alfa@bravo.charlie',
+				OLSKPactPayTransaction: Math.random().toString(),
+				OLSKPactPayProcessor: OLSKPact.OLSKPactPayProcessorStripe(),
+			}, inputData.ParamBody || {}),
+		}));
+		
+		return item;
+	};
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod._OLSKFundSetupGrant(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamWindow not valid', function () {
+		throws(function () {
+			__OLSKFundSetupGrant({
+				ParamWindow: {},
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamURL not string', function () {
+		throws(function () {
+			__OLSKFundSetupGrant({
+				ParamURL: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamBody not OLSKPactAuthModel', function () {
+		throws(function () {
+			__OLSKFundSetupGrant({
+				ParamBody: {
+					OLSKPactAuthProof: null,
+				},
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamBody not OLSKPactPayModel', function () {
+		throws(function () {
+			__OLSKFundSetupGrant({
+				ParamBody: {
+					OLSKPactPayTransaction: null,
+				},
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('calls window.fetch', function () {
+		const ParamURL = Math.random().toString();
+		const ParamBody = {
+			OLSKPactAuthProof: Math.random().toString(),
+			OLSKPactPayTransaction: Math.random().toString(),
+		};
+
+		deepEqual(__OLSKFundSetupGrant({
+			ParamURL,
+			ParamBody,
+		}), [ParamURL,{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				OLSKPactAuthType: OLSKPact.OLSKPactAuthTypeEmail(),
+				OLSKPactAuthIdentity: 'alfa@bravo.charlie',
+				OLSKPactAuthProof: ParamBody.OLSKPactAuthProof,
+				OLSKPactPayIdentity: 'alfa@bravo.charlie',
+				OLSKPactPayTransaction: ParamBody.OLSKPactPayTransaction,
+				OLSKPactPayProcessor: OLSKPact.OLSKPactPayProcessorStripe(),
+			}),
+		}]);
 	});
 
 });

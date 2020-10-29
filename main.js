@@ -1,3 +1,5 @@
+const OLSKPact = require('OLSKPact');
+
 const uPromise = function (inputData) {
 	if (inputData instanceof Promise) {
 		return inputData;
@@ -32,6 +34,36 @@ const mod = {
 		}
 
 		return param3(confirmation);
+	},
+
+	_OLSKFundSetupGrant (params) {
+		if (typeof params !== 'object' || params === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!params.ParamWindow.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		
+		if (typeof params.ParamURL !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (OLSKPact.OLSKPactAuthModelErrors(params.ParamBody)) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (OLSKPact.OLSKPactPayModelErrors(params.ParamBody)) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		params.ParamWindow.fetch(params.ParamURL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(params.ParamBody),
+		});
 	},
 
 	OLSKFundSetup (params) {
