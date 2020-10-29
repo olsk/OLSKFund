@@ -41,30 +41,45 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 	const __OLSKFundSetupPostPay = function (inputData = {}) {
 		const item = [];
 
-		mod._OLSKFundSetupPostPay(uWindow(Object.assign({
-			location: Object.assign(new URL('https://example.com/form'), {
-				hash: (new URLSearchParams(inputData.confirmation ? {
-					confirmation: inputData.confirmation,
-				} : {})).toString(),
-			}),
-		})), inputData.param2 || null, inputData.param3 ? function () {
-			item.push(inputData.param3());
-		} : function () {
-			item.push(...arguments);
+		mod._OLSKFundSetupPostPay({
+			ParamWindow: inputData.ParamWindow || uWindow(Object.assign({
+				location: Object.assign(new URL('https://example.com/form'), {
+					hash: (new URLSearchParams(inputData.confirmation ? {
+						confirmation: inputData.confirmation,
+					} : {})).toString(),
+				}),
+			})),
+			ParamExistingCode: inputData.ParamExistingCode,
+			ParamDispatchPersist: inputData.ParamDispatchPersist ? function () {
+				item.push(inputData.ParamDispatchPersist());
+			} : function () {
+				item.push(...arguments);
+			},
 		});
 
 		return item;
 	};
 
-	it('throws if param1 not valid', function () {
+	it('throws if not object', function () {
 		throws(function () {
-			mod._OLSKFundSetupPostPay({}, null, function () {});
+			mod._OLSKFundSetupPostPay(null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if param3 not function', function () {
+	it('throws if ParamWindow not valid', function () {
 		throws(function () {
-			mod._OLSKFundSetupPostPay(uWindow(), null, null);
+			__OLSKFundSetupPostPay({
+				ParamWindow: {},
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamDispatchPersist not function', function () {
+		throws(function () {
+			mod._OLSKFundSetupPostPay({
+				ParamWindow: uWindow(),
+				ParamDispatchPersist: null,
+			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
@@ -72,38 +87,38 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 		deepEqual(__OLSKFundSetupPostPay(), []);
 	});
 
-	it('breaks if code matches param2', function () {
-		const param2 = Math.random().toString();
+	it('breaks if code matches ParamExistingCode', function () {
+		const ParamExistingCode = Math.random().toString();
 
 		deepEqual(__OLSKFundSetupPostPay({
-			confirmation: param2,
-			param2,
+			confirmation: ParamExistingCode,
+			ParamExistingCode,
 		}), []);
 	});
 
-	it('breaks if param2 different', function () {
-		const param2 = Math.random().toString();
+	it('breaks if ParamExistingCode different', function () {
+		const ParamExistingCode = Math.random().toString();
 
 		deepEqual(__OLSKFundSetupPostPay({
-			confirmation: Date.now().toString(),
-			param2,
+			confirmation: Math.random().toString(),
+			ParamExistingCode,
 		}), []);
 	});
 
-	it('passes code to param3', function () {
-		const confirmation = Date.now().toString();
+	it('passes code to ParamDispatchPersist', function () {
+		const confirmation = Math.random().toString();
 
 		deepEqual(__OLSKFundSetupPostPay({
 			confirmation
 		}), [confirmation]);
 	});
 
-	it('returns param3', function () {
-		const item = Date.now().toString();
+	it('returns ParamDispatchPersist', function () {
+		const item = Math.random().toString();
 
 		deepEqual(__OLSKFundSetupPostPay({
-			confirmation: Date.now().toString(),
-			param3: (function () {
+			confirmation: Math.random().toString(),
+			ParamDispatchPersist: (function () {
 				return item;
 			}),
 		}), [item]);

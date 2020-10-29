@@ -14,26 +14,30 @@ const uPromise = function (inputData) {
 
 const mod = {
 
-	_OLSKFundSetupPostPay (param1, param2, param3) {
-		if (!param1.location) {
+	_OLSKFundSetupPostPay (params) {
+		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof param3 !== 'function') {
+		if (!params.ParamWindow.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		
+		if (typeof params.ParamDispatchPersist !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		const confirmation = Object.fromEntries((new URLSearchParams(param1.location.hash.slice(1))).entries()).confirmation;
+		const confirmation = Object.fromEntries((new URLSearchParams(params.ParamWindow.location.hash.slice(1))).entries()).confirmation;
 
 		if (!confirmation) {
 			return
 		}
 
-		if (param2) {
+		if (params.ParamExistingCode) {
 			return;
 		}
 
-		return param3(confirmation);
+		return params.ParamDispatchPersist(confirmation);
 	},
 
 	_OLSKFundSetupGrant (params) {
