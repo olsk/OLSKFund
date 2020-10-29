@@ -1,6 +1,12 @@
 {
   "name": "OLSKFund",
   "main": "main.js",
+  "dependencies": {
+  	"// SPEC": null,
+  	"OLSKPact": "olsk/OLSKPact",
+  	
+    "// I sacrifice myself for the commas of others": null    
+  },
   "devDependencies": {
   	"// SPEC": null,
   	"OLSKSpec": "olsk/OLSKSpec",
