@@ -85,7 +85,7 @@ const mod = {
 		let response;
 
 		try {
-			response = params.ParamWindow.fetch(params.ParamURL, {
+			response = await params.ParamWindow.fetch(params.ParamURL, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
