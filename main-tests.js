@@ -133,8 +133,15 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 
 		await Object.assign(Object.assign({}, mod), {
 			_DataFoilIDBKeyVal: {
-				'get': inputData.get || (function () {}),
-				Store: inputData.Store || (function () {}),
+				'get': inputData.get || (function () {
+					item.get = Array.from(arguments);
+				}),
+				'set': inputData.set || (function () {
+					item.set = Array.from(arguments);
+				}),
+				Store: inputData.Store || (function () {
+					return Array.from(arguments);
+				}),
 			},
 		})._OLSKFundSetupGrant(Object.assign({
 			ParamWindow: uWindow({
@@ -142,6 +149,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				fetch: inputData.fetch || (function () {
 					item.fetch = Array.from(arguments);
 					return {
+						response: 200,
 						json: (function () {
 							return {};
 						}),
@@ -219,18 +227,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 	});
 
 	it('calls _DataFoilIDBKeyVal.get', async function () {
-		const item = [];
-
-		await __OLSKFundSetupGrant({
-			'get': (function () {
-				item.push(...arguments)
-			}),
-			Store: (function () {
-				return Array.from(arguments);
-			}),
-		});
-
-		deepEqual(item, ['OLSKFundGrant', ['OLSK', 'OLSK']]);
+		deepEqual((await __OLSKFundSetupGrant()).get, ['OLSKFundGrant', ['OLSK', 'OLSK']]);
 	});
 
 	it('calls ParamDispatchGrant if cached', async function () {
@@ -311,6 +308,24 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				};
 			}),
 		})).alert, [uLocalized('OLSKFundGrantErrorExpired')]);
+	});
+
+	it('calls _DataFoilIDBKeyVal.set', async function () {
+		const item = {
+			OLSKPactGrantEndDate: new Date(Date.now() + 1000),
+			alfa: Math.random().toString(),
+		};
+
+		deepEqual((await __OLSKFundSetupGrant({
+			fetch: (function () {
+				return {
+					status: 200,
+					json: (function () {
+						return item;
+					}),
+				};
+			}),
+		})).set, ['OLSKFundGrant', JSON.stringify(item), ['OLSK', 'OLSK']]);
 	});
 
 });

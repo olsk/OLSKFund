@@ -110,6 +110,8 @@ const mod = {
 		if (json.OLSKPactGrantEndDate < new Date()) {
 			return params.ParamWindow.alert(params.ParamLocalize('OLSKFundGrantErrorExpired'));
 		}
+
+		this._DataFoilIDBKeyVal.set('OLSKFundGrant', JSON.stringify(json), new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
 	},
 
 	OLSKFundSetup (params) {
