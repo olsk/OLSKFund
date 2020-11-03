@@ -111,7 +111,9 @@ const mod = {
 			return params.ParamWindow.alert(params.ParamLocalize('OLSKFundGrantErrorExpired'));
 		}
 
-		this._DataFoilIDBKeyVal.set('OLSKFundGrant', JSON.stringify(json), new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
+		await this._DataFoilIDBKeyVal.set('OLSKFundGrant', JSON.stringify(json), new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
+
+		return params.ParamDispatchGrant(json);
 	},
 
 	OLSKFundSetup (params) {
