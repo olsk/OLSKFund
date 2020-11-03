@@ -1,6 +1,6 @@
 (function() {
 
-const _require = typeof require === 'undefined' ? (e) => window[e] : require;
+const _require = typeof require === 'undefined' ? (e) => exports : require;
 const OLSKPact = _require('OLSKPact');
 
 const uPromise = function (inputData) {
@@ -55,7 +55,7 @@ const mod = {
 		if (typeof params.ParamURL !== 'string') {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
-		
+
 		if (OLSKPact.OLSKPactAuthModelErrors(params.ParamBody)) {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
@@ -72,12 +72,12 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		if (!params.ParamWindow.indexedDB) {
+		if (!params.ParamWindow.indexedDB && !params.OLSK_TESTING_BEHAVIOUR) {
 			return;
 		}
 
-		const grant = await this._DataFoilIDBKeyVal.get('OLSKFundGrant', new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
 
+		const grant = params.OLSK_TESTING_BEHAVIOUR ? null : await this._DataFoilIDBKeyVal.get('OLSKFundGrant', new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
 		if (grant) {
 			return params.ParamDispatchGrant(JSON.parse(grant));
 		}

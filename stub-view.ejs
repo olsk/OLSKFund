@@ -9,8 +9,13 @@
 	<script type="text/javascript" src="/node_modules/launchlet/__compiled/launchlet.js"></script>
 	
 	<script type="text/javascript" src="/node_modules/OLSKPact/main.js"></script>
+	
 	<script type="text/javascript" src="/node_modules/idb-keyval/dist/idb-keyval-iife.js"></script>
-
+	<script type="text/javascript">
+		Object.assign(window.exports, idbKeyval);
+	</script>
+	
+	
 	<script type="text/javascript" src="/node_modules/OLSKInternational/main.js"></script>
 	<script type="text/javascript">
 		window.OLSKLocalized = function(translationConstant) {
@@ -28,6 +33,8 @@
 <script src="/<%= OLSKSharedPageControllerSlug %>/ui-behaviour.js"></script>
 
 <button class="OLSKAppToolbarLauncherButton" onclick="OLSKFundBehaviour.InterfaceLauncherButtonDidClick()"></button>
+
+<button id="TestFakeErrorConnection" onclick="OLSKFundBehaviour.InterfaceFakeErrorConnectionButtonDidClick()"></button>
 
 <button id="TestFakeConfirm" onclick="OLSKFundBehaviour.InterfaceFakeConfirmButtonDidClick()"></button>
 
