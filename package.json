@@ -1,6 +1,13 @@
 {
   "name": "OLSKFund",
   "main": "main.js",
+  "scripts": {
+    "postinstall": "node ./package-postinstall.js",
+    
+    "start": "olsk-express .",
+
+    "test": "olsk-spec"
+  },
   "dependencies": {
   	"// MODEL": null,
   	"OLSKPact": "olsk/OLSKPact",
@@ -14,6 +21,12 @@
   	"// SPEC": null,
   	"OLSKSpec": "olsk/OLSKSpec",
   	
+    "// UI TESTS": null,
+    "launchlet": "latest",
+    "OLSKExpress": "olsk/OLSKExpress",
+    "OLSKString": "olsk/OLSKString",
+    "OLSKInternational": "olsk/OLSKInternational",
+    
     "// I sacrifice myself for the commas of others": null    
   }
 }
