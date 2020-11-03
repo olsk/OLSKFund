@@ -139,6 +139,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				}),
 			}),
 			ParamURL: inputData.ParamURL || Math.random().toString(),
+			ParamDispatchGrant: (function () {}),
 		}, inputData, {
 			ParamBody: Object.assign({
 				OLSKPactAuthType: OLSKPact.OLSKPactAuthTypeEmail(),
@@ -191,6 +192,14 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				ParamBody: {
 					OLSKPactPayTransaction: null,
 				},
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamDispatchGrant not function', function () {
+		throws(function () {
+			__OLSKFundSetupGrant({
+				ParamDispatchGrant: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});

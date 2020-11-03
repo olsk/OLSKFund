@@ -52,12 +52,16 @@ const mod = {
 		if (typeof params.ParamURL !== 'string') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
-
+		
 		if (OLSKPact.OLSKPactAuthModelErrors(params.ParamBody)) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		if (OLSKPact.OLSKPactPayModelErrors(params.ParamBody)) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamDispatchGrant !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
