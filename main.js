@@ -1,4 +1,7 @@
-const OLSKPact = require('OLSKPact');
+(function() {
+
+const _require = typeof require === 'undefined' ? (e) => window[e] : require;
+const OLSKPact = _require('OLSKPact');
 
 const uPromise = function (inputData) {
 	if (inputData instanceof Promise) {
@@ -279,8 +282,10 @@ const mod = {
 
 	// DATA
 
-	_DataFoilIDBKeyVal: require('idb-keyval'),
+	_DataFoilIDBKeyVal: _require('idb-keyval'),
 
 };
 
 Object.assign(exports, mod);
+
+})();
