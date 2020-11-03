@@ -129,12 +129,12 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 
 	const __OLSKFundSetupGrant = function (inputData = {}) {
-		const item = [];
+		const item = {};
 
 		mod._OLSKFundSetupGrant(Object.assign({
 			ParamWindow: uWindow({
 				fetch: inputData.fetch || (function () {
-					item.push(...arguments);
+					item.fetch = Array.from(arguments);
 				}),
 			}),
 			ParamURL: inputData.ParamURL || Math.random().toString(),
@@ -204,7 +204,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		deepEqual(__OLSKFundSetupGrant({
 			ParamURL,
 			ParamBody,
-		}), [ParamURL,{
+		}).fetch, [ParamURL,{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
