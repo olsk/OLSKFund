@@ -93,10 +93,22 @@ const mod = {
 			return params.ParamWindow.alert(params.ParamLocalize('OLSKFundGrantErrorConnection'));
 		}
 
-		const json = response.json();
+		const json = (function(inputData) {
+			for (const key in inputData) {
+				if (key.slice(-4) === 'Date') {
+					inputData[key] = new Date(inputData[key]);
+				}
+			}
+
+			return inputData;
+		})(await response.json());
 
 		if (response.status !== 200) {
 			return params.ParamWindow.alert(json.RCSAPIError);
+		}
+
+		if (json.OLSKPactGrantEndDate < new Date()) {
+			return params.ParamWindow.alert(params.ParamLocalize('OLSKFundGrantErrorExpired'));
 		}
 	},
 

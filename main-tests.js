@@ -298,6 +298,21 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		})).alert, [RCSAPIError]);
 	});
 
+	it('alerts if expired', async function () {
+		deepEqual((await __OLSKFundSetupGrant({
+			fetch: (function () {
+				return {
+					status: 200,
+					json: (function () {
+						return {
+							OLSKPactGrantEndDate: new Date(Date.now() - 1000),
+						};
+					}),
+				};
+			}),
+		})).alert, [uLocalized('OLSKFundGrantErrorExpired')]);
+	});
+
 });
 
 describe('OLSKFundSetup', function test_OLSKFundSetup() {
