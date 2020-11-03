@@ -24,6 +24,12 @@
 			});
 		},
 
+		InterfaceFakeErrorExpiredButtonDidClick () {
+			mod.ControlGrant({
+				OLSKFundStubGrantRoute: 'OLSKFundStubGrantRouteExpired',
+			});
+		},
+
 		InterfaceFakeConfirmButtonDidClick () {
 			exports.OLSKFundConfirm(window, window.OLSKLocalized);
 		},

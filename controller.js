@@ -9,6 +9,21 @@ const mod = {
 				return res.render(require('path').join(__dirname, 'stub-view'));
 			},
 			OLSKRouteLanguages: ['en', 'fr', 'es'],
+		}, {
+			OLSKRoutePath: '/OLSKFundStubGrantRoute',
+			OLSKRouteMethod: 'post',
+			OLSKRouteSignature: 'OLSKFundStubGrantRoute',
+			OLSKRouteFunction: function OLSKFundStubGrantRoute (req, res, next) {
+				if (req.body.OLSKFundStubGrantRoute === 'OLSKFundStubGrantRouteExpired') {
+					return res.json({
+						OLSKPactGrantEndDate: new Date(Date.now() - 1000),
+					});
+				}
+
+				return res.json({
+					alfa: 'bravo',
+				});
+			},
 		}];
 	},
 
