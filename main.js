@@ -40,29 +40,29 @@ const mod = {
 		return params.ParamDispatchPersist(confirmation);
 	},
 
-	_OLSKFundSetupGrant (params) {
+	async _OLSKFundSetupGrant (params) {
 		if (typeof params !== 'object' || params === null) {
-			throw new Error('OLSKErrorInputNotValid');
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
 		if (!params.ParamWindow.location) {
-			throw new Error('OLSKErrorInputNotValid');
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 		
 		if (typeof params.ParamURL !== 'string') {
-			throw new Error('OLSKErrorInputNotValid');
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 		
 		if (OLSKPact.OLSKPactAuthModelErrors(params.ParamBody)) {
-			throw new Error('OLSKErrorInputNotValid');
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
 		if (OLSKPact.OLSKPactPayModelErrors(params.ParamBody)) {
-			throw new Error('OLSKErrorInputNotValid');
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
 		if (typeof params.ParamDispatchGrant !== 'function') {
-			throw new Error('OLSKErrorInputNotValid');
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
 		if (!params.ParamWindow.indexedDB) {

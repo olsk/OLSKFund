@@ -128,10 +128,10 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 
 describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 
-	const __OLSKFundSetupGrant = function (inputData = {}) {
+	const __OLSKFundSetupGrant = async function (inputData = {}) {
 		const item = {};
 
-		mod._OLSKFundSetupGrant(Object.assign({
+		await mod._OLSKFundSetupGrant(Object.assign({
 			ParamWindow: uWindow({
 				indexedDB: {},
 				fetch: inputData.fetch || (function () {
@@ -154,58 +154,46 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		return item;
 	};
 
-	it('throws if not object', function () {
-		throws(function () {
-			mod._OLSKFundSetupGrant(null);
-		}, /OLSKErrorInputNotValid/);
+	it('rejects if not object', async function () {
+		await rejects(mod._OLSKFundSetupGrant(null), /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamWindow not valid', function () {
-		throws(function () {
-			__OLSKFundSetupGrant({
-				ParamWindow: {},
-			});
-		}, /OLSKErrorInputNotValid/);
+	it('rejects if ParamWindow not valid', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			ParamWindow: {},
+		}), /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamURL not string', function () {
-		throws(function () {
-			__OLSKFundSetupGrant({
-				ParamURL: null,
-			});
-		}, /OLSKErrorInputNotValid/);
+	it('rejects if ParamURL not string', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			ParamURL: null,
+		}), /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamBody not OLSKPactAuthModel', function () {
-		throws(function () {
-			__OLSKFundSetupGrant({
-				ParamBody: {
-					OLSKPactAuthProof: null,
-				},
-			});
-		}, /OLSKErrorInputNotValid/);
+	it('rejects if ParamBody not OLSKPactAuthModel', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			ParamBody: {
+				OLSKPactAuthProof: null,
+			},
+		}), /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamBody not OLSKPactPayModel', function () {
-		throws(function () {
-			__OLSKFundSetupGrant({
-				ParamBody: {
-					OLSKPactPayTransaction: null,
-				},
-			});
-		}, /OLSKErrorInputNotValid/);
+	it('rejects if ParamBody not OLSKPactPayModel', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			ParamBody: {
+				OLSKPactPayTransaction: null,
+			},
+		}), /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamDispatchGrant not function', function () {
-		throws(function () {
-			__OLSKFundSetupGrant({
-				ParamDispatchGrant: null,
-			});
-		}, /OLSKErrorInputNotValid/);
+	it('rejects if ParamDispatchGrant not function', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			ParamDispatchGrant: null,
+		}), /OLSKErrorInputNotValid/);
 	});
 
-	it('returns if no ParamWindow.indexedDB', function () {
-		deepEqual(__OLSKFundSetupGrant({
+	it('returns if no ParamWindow.indexedDB', async function () {
+		deepEqual(await __OLSKFundSetupGrant({
 			ParamWindow: uWindow(),
 		}), {});
 	});
