@@ -273,7 +273,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 			fetch: (function () {
 				throw new Error(Math.random().toString());
 			}),
-		})).alert, [uLocalized('OLSKFundGrantErrorConnection')]);
+		})).alert, [uLocalized('OLSKFundGrantErrorConnectionText')]);
 	});
 
 	it('alerts if ParamWindow.fetch response not 200', async function () {
@@ -304,7 +304,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 					}),
 				};
 			}),
-		})).alert, [uLocalized('OLSKFundGrantErrorExpired')]);
+		})).alert, [uLocalized('OLSKFundGrantErrorExpiredText')]);
 	});
 
 	it('calls _DataFoilIDBKeyVal.set', async function () {

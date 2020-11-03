@@ -93,7 +93,7 @@ const mod = {
 				body: JSON.stringify(params.ParamBody),
 			});
 		} catch (error) {
-			return params.ParamWindow.alert(params.ParamLocalize('OLSKFundGrantErrorConnection'));
+			return params.ParamWindow.alert(params.ParamLocalize('OLSKFundGrantErrorConnectionText'));
 		}
 
 		const json = (function(inputData) {
@@ -111,7 +111,7 @@ const mod = {
 		}
 
 		if (json.OLSKPactGrantEndDate < new Date()) {
-			return params.ParamWindow.alert(params.ParamLocalize('OLSKFundGrantErrorExpired'));
+			return params.ParamWindow.alert(params.ParamLocalize('OLSKFundGrantErrorExpiredText'));
 		}
 
 		await this._DataFoilIDBKeyVal.set('OLSKFundGrant', JSON.stringify(json), new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
