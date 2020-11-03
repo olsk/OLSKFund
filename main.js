@@ -61,6 +61,10 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
+		if (typeof params.ParamLocalize !== 'function') {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
 		if (typeof params.ParamDispatchGrant !== 'function') {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
@@ -69,13 +73,31 @@ const mod = {
 			return;
 		}
 
-		params.ParamWindow.fetch(params.ParamURL, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(params.ParamBody),
-		});
+		const grant = await this._DataFoilIDBKeyVal.get('OLSKFundGrant', new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
+
+		if (grant) {
+			return params.ParamDispatchGrant(JSON.parse(grant));
+		}
+
+		let response;
+
+		try {
+			response = params.ParamWindow.fetch(params.ParamURL, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(params.ParamBody),
+			});
+		} catch (error) {
+			return params.ParamWindow.alert(params.ParamLocalize('OLSKFundGrantErrorConnection'));
+		}
+
+		const json = response.json();
+
+		if (response.status !== 200) {
+			return params.ParamWindow.alert(json.RCSAPIError);
+		}
 	},
 
 	OLSKFundSetup (params) {
@@ -238,6 +260,10 @@ const mod = {
 			return !(e.LCHRecipeSignature || e.LCHRecipeName).match(/Fake/);
 		});
 	},
+
+	// DATA
+
+	_DataFoilIDBKeyVal: require('idb-keyval'),
 
 };
 

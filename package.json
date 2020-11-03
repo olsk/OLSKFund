@@ -2,8 +2,11 @@
   "name": "OLSKFund",
   "main": "main.js",
   "dependencies": {
-  	"// SPEC": null,
+  	"// MODEL": null,
   	"OLSKPact": "olsk/OLSKPact",
+
+    "// PERSISTENCE": null,
+    "idb-keyval": "latest",
   	
     "// I sacrifice myself for the commas of others": null    
   },

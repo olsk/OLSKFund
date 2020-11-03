@@ -21,7 +21,7 @@ const uNavigator = function (inputData) {
 };
 
 const uLocalized = function (inputData) {
-	return inputData + 'LOCALIZED';
+	return inputData + '-LOCALIZED';
 };
 
 const uPromise = function (inputData) {
@@ -131,14 +131,28 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 	const __OLSKFundSetupGrant = async function (inputData = {}) {
 		const item = {};
 
-		await mod._OLSKFundSetupGrant(Object.assign({
+		await Object.assign(Object.assign({}, mod), {
+			_DataFoilIDBKeyVal: {
+				'get': inputData.get || (function () {}),
+				Store: inputData.Store || (function () {}),
+			},
+		})._OLSKFundSetupGrant(Object.assign({
 			ParamWindow: uWindow({
 				indexedDB: {},
 				fetch: inputData.fetch || (function () {
 					item.fetch = Array.from(arguments);
+					return {
+						json: (function () {
+							return {};
+						}),
+					};
+				}),
+				alert: inputData.alert || (function () {
+					item.alert = Array.from(arguments);
 				}),
 			}),
 			ParamURL: inputData.ParamURL || Math.random().toString(),
+			ParamLocalize: uLocalized,
 			ParamDispatchGrant: (function () {}),
 		}, inputData, {
 			ParamBody: Object.assign({
@@ -192,36 +206,96 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		}), /OLSKErrorInputNotValid/);
 	});
 
+	it('rejects if ParamLocalize not function', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			ParamLocalize: null,
+		}), /OLSKErrorInputNotValid/);
+	});
+
 	it('returns if no ParamWindow.indexedDB', async function () {
 		deepEqual(await __OLSKFundSetupGrant({
 			ParamWindow: uWindow(),
 		}), {});
 	});
 
-	it('calls window.fetch', function () {
+	it('calls _DataFoilIDBKeyVal.get', async function () {
+		const item = [];
+
+		await __OLSKFundSetupGrant({
+			'get': (function () {
+				item.push(...arguments)
+			}),
+			Store: (function () {
+				return Array.from(arguments);
+			}),
+		});
+
+		deepEqual(item, ['OLSKFundGrant', ['OLSK', 'OLSK']]);
+	});
+
+	it('calls ParamDispatchGrant if cached', async function () {
+		const value = {
+			alfa: Math.random().toString(),
+		};
+		const item = [];
+
+		await __OLSKFundSetupGrant({
+			ParamDispatchGrant: (function () {
+				item.push(...arguments);
+			}),
+			'get': (function () {
+				return JSON.stringify(value);
+			}),
+		});
+
+		deepEqual(item, [value]);
+	});
+
+	it('calls ParamWindow.fetch', async function () {
 		const ParamURL = Math.random().toString();
 		const ParamBody = {
+			OLSKPactAuthType: OLSKPact.OLSKPactAuthTypeEmail(),
+			OLSKPactAuthIdentity: 'alfa@bravo.charlie',
 			OLSKPactAuthProof: Math.random().toString(),
+			OLSKPactPayIdentity: 'alfa@bravo.charlie',
 			OLSKPactPayTransaction: Math.random().toString(),
+			OLSKPactPayProcessor: OLSKPact.OLSKPactPayProcessorStripe(),
 		};
 
-		deepEqual(__OLSKFundSetupGrant({
+		deepEqual((await __OLSKFundSetupGrant({
 			ParamURL,
 			ParamBody,
-		}).fetch, [ParamURL,{
+		})).fetch, [ParamURL, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({
-				OLSKPactAuthType: OLSKPact.OLSKPactAuthTypeEmail(),
-				OLSKPactAuthIdentity: 'alfa@bravo.charlie',
-				OLSKPactAuthProof: ParamBody.OLSKPactAuthProof,
-				OLSKPactPayIdentity: 'alfa@bravo.charlie',
-				OLSKPactPayTransaction: ParamBody.OLSKPactPayTransaction,
-				OLSKPactPayProcessor: OLSKPact.OLSKPactPayProcessorStripe(),
-			}),
+			body: JSON.stringify(ParamBody),
 		}]);
+	});
+
+	it('alerts if ParamWindow.fetch throws', async function () {
+		deepEqual((await __OLSKFundSetupGrant({
+			fetch: (function () {
+				throw new Error(Math.random().toString());
+			}),
+		})).alert, [uLocalized('OLSKFundGrantErrorConnection')]);
+	});
+
+	it('alerts if ParamWindow.fetch response not 200', async function () {
+		const RCSAPIError = Math.random().toString();
+		deepEqual((await __OLSKFundSetupGrant({
+			fetch: (function () {
+				return {
+					status: Date.now(),
+					json: (function () {
+						return {
+							RCSAPIError,
+						};
+					}),
+				};
+			}),
+		})).alert, [RCSAPIError]);
 	});
 
 });
