@@ -20,7 +20,7 @@ const mod = {
 
 	OLSKControllerSharedStaticAssetFolders () {
 		return [
-			'_shared/__external',
+			'node_modules',
 		];
 	},
 

@@ -1,23 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="/_shared/__external/normalize.css/normalize.css">
-	
-	<link rel="stylesheet" type="text/css" href="/_shared/__external/launchlet/__compiled/launchlet.css">
-	<script type="text/javascript" src="/_shared/__external/launchlet/__compiled/launchlet.js"></script>
+	<link rel="stylesheet" type="text/css" href="/node_modules/launchlet/__compiled/launchlet.css">
+	<script type="text/javascript" src="/node_modules/launchlet/__compiled/launchlet.js"></script>
 
+	<script type="text/javascript" src="/node_modules/OLSKInternational/main.js"></script>
 	<script type="text/javascript">
-		window.OLSKPublicConstants = function (inputData) {
-			return <%- JSON.stringify({
-				OLSKSharedPageCurrentLanguage,
-			}) %>[inputData];
-		};
-	</script>
-	
-	<script type="text/javascript" src="/_shared/__external/OLSKInternational/main.js"></script>
-	<script type="text/javascript" src="/_shared/__external/OLSKString/main.js"></script>
-	<script type="text/javascript">
-		window.OLSKFormatted = OLSKString.OLSKStringWithFormat;
 		window.OLSKLocalized = function(translationConstant) {
 			return OLSKInternational.OLSKInternationalLocalizedString(translationConstant, <%- JSON.stringify(OLSKLocalizedStringKeys().reduce(function(map, e) {
 					map[e] = OLSKLocalized(e);
