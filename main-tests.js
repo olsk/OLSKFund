@@ -133,6 +133,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 
 		mod._OLSKFundSetupGrant(Object.assign({
 			ParamWindow: uWindow({
+				indexedDB: {},
 				fetch: inputData.fetch || (function () {
 					item.fetch = Array.from(arguments);
 				}),
@@ -192,6 +193,12 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				},
 			});
 		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns if no ParamWindow.indexedDB', function () {
+		deepEqual(__OLSKFundSetupGrant({
+			ParamWindow: uWindow(),
+		}), {});
 	});
 
 	it('calls window.fetch', function () {

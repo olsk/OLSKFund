@@ -61,6 +61,10 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (!params.ParamWindow.indexedDB) {
+			return;
+		}
+
 		params.ParamWindow.fetch(params.ParamURL, {
 			method: 'POST',
 			headers: {
