@@ -870,46 +870,6 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamWindow not window', function () {
-		throws(function () {
-			_OLSKFundRecipes({
-				ParamWindow: {},
-			});
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if OLSKLocalized not function', function () {
-		throws(function () {
-			_OLSKFundRecipes({
-				OLSKLocalized: null,
-			});
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if ParamAuthorized not boolean', function () {
-		throws(function () {
-			_OLSKFundRecipes({
-				ParamAuthorized: null,
-			});
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if ParamDispatchGrant not function', function () {
-		throws(function () {
-			_OLSKFundRecipes({
-				ParamDispatchGrant: null,
-			});
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if ParamDispatchPersist not function', function () {
-		throws(function () {
-			_OLSKFundRecipes({
-				ParamDispatchPersist: null,
-			});
-		}, /OLSKErrorInputNotValid/);
-	});
-
 	it('throws if OLSK_TESTING_BEHAVIOUR not boolean', function () {
 		throws(function () {
 			_OLSKFundRecipes({

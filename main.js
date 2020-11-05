@@ -277,18 +277,6 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (!params.ParamWindow.location) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-		
-		if (typeof params.OLSKLocalized !== 'function') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (typeof params.ParamAuthorized !== 'boolean') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
 		if (typeof params.OLSK_TESTING_BEHAVIOUR !== 'boolean') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
