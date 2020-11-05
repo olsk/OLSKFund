@@ -12,6 +12,9 @@
   	"// MODEL": null,
   	"OLSKPact": "olsk/OLSKPact",
 
+    "// DECRYPTION": null,
+    "OLSKCrypto": "olsk/OLSKCrypto",
+
     "// PERSISTENCE": null,
     "idb-keyval": "latest",
   	

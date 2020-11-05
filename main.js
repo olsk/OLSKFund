@@ -2,6 +2,11 @@
 
 const _require = typeof require === 'undefined' ? (e) => exports : require;
 const OLSKPact = _require('OLSKPact');
+const OLSKCrypto = _require('OLSKCrypto');
+
+const uIsFilled = function (inputData) {
+	return typeof inputData === 'string' && inputData.trim() !== '';
+};
 
 const uPromise = function (inputData) {
 	if (inputData instanceof Promise) {
@@ -43,8 +48,20 @@ const mod = {
 		return params.ParamDispatchPersist(confirmation);
 	},
 
+	async __OLSKFundSetupGrantDispatchPayload (params, payload) {
+		return params.ParamDispatchGrant(JSON.parse(await OLSKCrypto.OLSKCryptoDecryptSigned(params.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE, params.OLSK_CRYPTO_PAIR_SENDER_PUBLIC, payload)));
+	},
+
 	async _OLSKFundSetupGrant (params) {
 		if (typeof params !== 'object' || params === null) {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
+		if (!uIsFilled(params.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE)) {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
+		if (!uIsFilled(params.OLSK_CRYPTO_PAIR_SENDER_PUBLIC)) {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
@@ -76,9 +93,9 @@ const mod = {
 			return;
 		}
 
-		const grant = params.OLSK_TESTING_BEHAVIOUR ? null : await this._DataFoilIDBKeyVal.get('OLSKFundGrant', new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
-		if (grant) {
-			return params.ParamDispatchGrant(JSON.parse(grant));
+		const payload = params.OLSK_TESTING_BEHAVIOUR ? null : await this._DataFoilIDBKeyVal.get('OLSKFundGrant', new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
+		if (payload) {
+			return mod.__OLSKFundSetupGrantDispatchPayload(params, payload);
 		}
 
 		let response;
@@ -103,7 +120,7 @@ const mod = {
 
 		await this._DataFoilIDBKeyVal.set('OLSKFundGrant', json.RCSAPIEncryptedPayload, new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
 
-		return params.ParamDispatchGrant(json);
+		return mod.__OLSKFundSetupGrantDispatchPayload(params, json.RCSAPIEncryptedPayload);
 	},
 
 	OLSKFundSetup (params) {

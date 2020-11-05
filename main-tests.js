@@ -3,6 +3,7 @@ const { throws, rejects, deepEqual } = require('assert');
 const mod = require('./main.js');
 
 const OLSKPact = require('OLSKPact');
+const OLSKCrypto = require('OLSKCrypto');
 
 const uWindow = function (inputData = {}) {
 	return Object.assign({
@@ -161,6 +162,8 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 			}),
 			ParamURL: inputData.ParamURL || Math.random().toString(),
 			ParamLocalize: uLocalized,
+			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE,
+			OLSK_CRYPTO_PAIR_SENDER_PUBLIC: process.env.OLSK_CRYPTO_PAIR_SENDER_PUBLIC,
 			ParamDispatchGrant: (function () {
 				item.ParamDispatchGrant = Array.from(arguments);
 			}),
@@ -180,6 +183,30 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 
 	it('rejects if not object', async function () {
 		await rejects(mod._OLSKFundSetupGrant(null), /OLSKErrorInputNotValid/);
+	});
+
+	it('rejects if OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE not string', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: null,
+		}), /OLSKErrorInputNotValid/);
+	});
+
+	it('rejects if OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE not filled', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: ' ',
+		}), /OLSKErrorInputNotValid/);
+	});
+
+	it('rejects if OLSK_CRYPTO_PAIR_SENDER_PUBLIC not string', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			OLSK_CRYPTO_PAIR_SENDER_PUBLIC: null,
+		}), /OLSKErrorInputNotValid/);
+	});
+
+	it('rejects if OLSK_CRYPTO_PAIR_SENDER_PUBLIC not filled', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			OLSK_CRYPTO_PAIR_SENDER_PUBLIC: ' ',
+		}), /OLSKErrorInputNotValid/);
 	});
 
 	it('rejects if ParamWindow not valid', async function () {
@@ -238,7 +265,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		};
 		deepEqual((await __OLSKFundSetupGrant({
 			'get': (function () {
-				return JSON.stringify(item);
+				return OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item));
 			}),
 		})), {
 			ParamDispatchGrant: [item],
@@ -293,7 +320,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 	});
 
 	it('calls _DataFoilIDBKeyVal.set', async function () {
-		const RCSAPIEncryptedPayload = Math.random().toString();
+		const RCSAPIEncryptedPayload = await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
 		
 		deepEqual((await __OLSKFundSetupGrant({
 			fetch: (function () {
@@ -319,8 +346,10 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 			fetch: (function () {
 				return {
 					status: 200,
-					json: (function () {
-						return item;
+					json: (async function () {
+						return {
+							RCSAPIEncryptedPayload: await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item)),
+						};
 					}),
 				};
 			}),
