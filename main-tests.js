@@ -54,7 +54,7 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 					} : {})).toString(),
 				}),
 			})),
-			ParamExistingCode: inputData.ParamExistingCode,
+			ParamExistingCode: inputData.ParamExistingCode || null,
 			OLSKFundDispatchPersist: inputData.OLSKFundDispatchPersist ? function () {
 				item.push(inputData.OLSKFundDispatchPersist());
 			} : function () {
@@ -79,11 +79,21 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
+	it('throws if ParamExistingCode not defined', function () {
+		throws(function () {
+			mod._OLSKFundSetupPostPay({
+				ParamWindow: uWindow(),
+				ParamExistingCode: undefined,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
 	it('throws if OLSKFundDispatchPersist not function', function () {
 		throws(function () {
 			mod._OLSKFundSetupPostPay({
 				ParamWindow: uWindow(),
-				OLSKFundDispatchPersist: null,
+				ParamExistingCode: Math.random().toString(),
+				OLSKFundDispatchPersist: Math.random().toString(),
 			});
 		}, /OLSKErrorInputNotValid/);
 	});

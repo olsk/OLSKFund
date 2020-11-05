@@ -28,6 +28,10 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
+		if (typeof params.ParamExistingCode === 'undefined') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		
 		if (typeof params.OLSKFundDispatchPersist !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
