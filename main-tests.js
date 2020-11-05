@@ -293,20 +293,20 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 	});
 
 	it('calls _DataFoilIDBKeyVal.set', async function () {
-		const item = {
-			alfa: Math.random().toString(),
-		};
-
+		const RCSAPIEncryptedPayload = Math.random().toString();
+		
 		deepEqual((await __OLSKFundSetupGrant({
 			fetch: (function () {
 				return {
 					status: 200,
 					json: (function () {
-						return item;
+						return {
+							RCSAPIEncryptedPayload,
+						};
 					}),
 				};
 			}),
-		})).set, ['OLSKFundGrant', JSON.stringify(item), ['OLSK', 'OLSK']]);
+		})).set, ['OLSKFundGrant', RCSAPIEncryptedPayload, ['OLSK', 'OLSK']]);
 	});
 
 	it('calls ParamDispatchGrant', async function () {

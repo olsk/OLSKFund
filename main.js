@@ -76,7 +76,6 @@ const mod = {
 			return;
 		}
 
-
 		const grant = params.OLSK_TESTING_BEHAVIOUR ? null : await this._DataFoilIDBKeyVal.get('OLSKFundGrant', new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
 		if (grant) {
 			return params.ParamDispatchGrant(JSON.parse(grant));
@@ -102,7 +101,7 @@ const mod = {
 			return params.ParamWindow.alert(json.RCSAPIError);
 		}
 
-		await this._DataFoilIDBKeyVal.set('OLSKFundGrant', JSON.stringify(json), new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
+		await this._DataFoilIDBKeyVal.set('OLSKFundGrant', json.RCSAPIEncryptedPayload, new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
 
 		return params.ParamDispatchGrant(json);
 	},
