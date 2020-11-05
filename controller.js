@@ -2,7 +2,7 @@ const mod = {
 
 	OLSKControllerRoutes  () {
 		return [{
-			OLSKRoutePath: '/stub/OLSKFund',
+			OLSKRoutePath: '/',
 			OLSKRouteMethod: 'get',
 			OLSKRouteSignature: 'OLSKFundStubRoute',
 			OLSKRouteFunction(req, res, next) {
