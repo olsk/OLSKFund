@@ -238,6 +238,16 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (typeof params.ParamDispatchGrant !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamDispatchPersist !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		const _this = this;
+
 		return {
 			LCHRecipeSignature: 'OLSKFundLauncherItemClearAuthorization',
 			LCHRecipeName: params.OLSKLocalized('OLSKFundLauncherItemClearAuthorizationText'),
@@ -245,6 +255,8 @@ const mod = {
 				if (!params.ParamWindow.confirm(params.OLSKLocalized('OLSKFundLauncherItemClearAuthorizationText'))) {
 					return;
 				}
+
+				return params.ParamDispatchPersist(params.ParamDispatchGrant(_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), null)));
 			},
 			LCHRecipeIsExcluded () {
 				return !params.ParamAuthorized;

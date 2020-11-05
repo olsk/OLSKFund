@@ -633,10 +633,16 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLauncherItemClearAuthorization() {
 
 	const _OLSKFundLauncherItemClearAuthorization = function (inputData = {}) {
-		return mod.OLSKFundLauncherItemClearAuthorization(Object.assign({
+		return Object.assign(Object.assign({}, mod), {
+			_DataFoilOLSKLocalStorage: {
+				OLKSLocalStorageSet: inputData.OLKSLocalStorageSet || (function() {}),
+			},
+		}).OLSKFundLauncherItemClearAuthorization(Object.assign({
 			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
 			ParamAuthorized: true,
+			ParamDispatchGrant: (function () {}),
+			ParamDispatchPersist: (function () {}),
 		}, inputData))
 	}
 
@@ -670,6 +676,22 @@ describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLaunche
 		}, /OLSKErrorInputNotValid/);
 	});
 
+	it('throws if ParamDispatchGrant not function', function () {
+		throws(function () {
+			_OLSKFundLauncherItemClearAuthorization({
+				ParamDispatchGrant: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamDispatchPersist not function', function () {
+		throws(function () {
+			_OLSKFundLauncherItemClearAuthorization({
+				ParamDispatchPersist: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
 	it('returns object', function () {
 		const item = _OLSKFundLauncherItemClearAuthorization();
 
@@ -687,7 +709,7 @@ describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLaunche
 			deepEqual(_OLSKFundLauncherItemClearAuthorization().LCHRecipeCallback(), undefined);
 		});
 
-		it('calls window.confirm', function () {
+		it('calls ParamWindow.confirm', function () {
 			const item = [];
 
 			_OLSKFundLauncherItemClearAuthorization({
@@ -699,6 +721,74 @@ describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLaunche
 			}).LCHRecipeCallback();
 
 			deepEqual(item, [uLocalized('OLSKFundLauncherItemClearAuthorizationText')]);
+		});
+
+		it('returns if ParamWindow.confirm false', function () {
+			const item = [];
+
+			_OLSKFundLauncherItemClearAuthorization({
+				ParamWindow: uWindow({
+					confirm () {
+						return false;
+					},
+				}),
+				OLKSLocalStorageSet: (function () {
+					item.push(...arguments);
+				}),
+			}).LCHRecipeCallback();
+
+			deepEqual(item, []);
+		});
+
+		it('clears _OLSKFundGrantData', function () {
+			const item = [];
+
+			_OLSKFundLauncherItemClearAuthorization({
+				ParamWindow: uWindow({
+					confirm () {
+						return true;
+					},
+				}),
+				OLKSLocalStorageSet: (function () {
+					item.push(...arguments);
+				}),
+			}).LCHRecipeCallback();
+
+			deepEqual(item.slice(1), [mod._OLSKFundGrantData(), null]);
+		});
+
+		it('calls ParamDispatchGrant', function () {
+			const item = [];
+
+			_OLSKFundLauncherItemClearAuthorization({
+				ParamWindow: uWindow({
+					confirm () {
+						return true;
+					},
+				}),
+				ParamDispatchGrant: (function () {
+					item.push(...arguments);
+				}),
+			}).LCHRecipeCallback();
+
+			deepEqual(item, [null]);
+		});
+
+		it('calls ParamDispatchPersist', function () {
+			const item = [];
+
+			_OLSKFundLauncherItemClearAuthorization({
+				ParamWindow: uWindow({
+					confirm () {
+						return true;
+					},
+				}),
+				ParamDispatchPersist: (function () {
+					item.push(...arguments);
+				}),
+			}).LCHRecipeCallback();
+
+			deepEqual(item, [null]);
 		});
 
 	});
@@ -729,6 +819,8 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 			OLSKLocalized: uLocalized,
 			ParamAuthorized: true,
 			OLSK_TESTING_BEHAVIOUR: false,
+			ParamDispatchGrant: (function () {}),
+			ParamDispatchPersist: (function () {}),
 		}, inputData))
 	};
 
@@ -758,6 +850,22 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 		throws(function () {
 			_OLSKFundRecipes({
 				ParamAuthorized: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamDispatchGrant not function', function () {
+		throws(function () {
+			_OLSKFundRecipes({
+				ParamDispatchGrant: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamDispatchPersist not function', function () {
+		throws(function () {
+			_OLSKFundRecipes({
+				ParamDispatchPersist: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
