@@ -292,24 +292,8 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		})).alert, [RCSAPIError]);
 	});
 
-	it('alerts if expired', async function () {
-		deepEqual((await __OLSKFundSetupGrant({
-			fetch: (function () {
-				return {
-					status: 200,
-					json: (function () {
-						return {
-							OLSKPactGrantEndDate: new Date(Date.now() - 1000),
-						};
-					}),
-				};
-			}),
-		})).alert, [uLocalized('OLSKFundGrantErrorExpiredText')]);
-	});
-
 	it('calls _DataFoilIDBKeyVal.set', async function () {
 		const item = {
-			OLSKPactGrantEndDate: new Date(Date.now() + 1000),
 			alfa: Math.random().toString(),
 		};
 
@@ -327,7 +311,6 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 
 	it('calls ParamDispatchGrant', async function () {
 		const item = {
-			OLSKPactGrantEndDate: new Date(Date.now() + 1000),
 			alfa: Math.random().toString(),
 		};
 		deepEqual((await __OLSKFundSetupGrant({
