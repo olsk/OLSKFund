@@ -131,6 +131,14 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 
 });
 
+describe('_OLSKFundGrantData', function test__OLSKFundGrantData() {
+
+	it('returns string', function () {
+		deepEqual(mod._OLSKFundGrantData(), 'kOLSKFundGrantData');
+	});
+
+});
+
 describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 
 	const __OLSKFundSetupGrant = async function (inputData = {}) {
@@ -255,7 +263,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 	});
 
 	it('calls _DataFoilOLSKLocalStorage.OLKSLocalStorageGet', async function () {
-		deepEqual((await __OLSKFundSetupGrant()).OLKSLocalStorageGet.slice(1), ['OLSKFundGrant']);
+		deepEqual((await __OLSKFundSetupGrant()).OLKSLocalStorageGet.slice(1), [mod._OLSKFundGrantData()]);
 	});
 
 	it('calls ParamDispatchGrant if cached', async function () {
@@ -332,7 +340,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 					}),
 				};
 			}),
-		})).OLKSLocalStorageSet.slice(1), ['OLSKFundGrant', RCSAPIEncryptedPayload]);
+		})).OLKSLocalStorageSet.slice(1), [mod._OLSKFundGrantData(), RCSAPIEncryptedPayload]);
 	});
 
 	it('calls ParamDispatchGrant', async function () {
