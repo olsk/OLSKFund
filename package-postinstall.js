@@ -4,7 +4,7 @@ const mod = {
 
 	SetupEverything() {
 		if (!require('fs').existsSync(require('path').join(__dirname, 'node_modules'))) {
-			return false;
+			return;
 		}
 		
 		(function OLSKHotfixLaunchletForSkipWait() {
