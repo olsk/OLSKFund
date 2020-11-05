@@ -44,7 +44,7 @@ const uPromise = function (inputData) {
 describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 
 	const __OLSKFundSetupPostPay = function (inputData = {}) {
-		const item = [];
+		const item = {};
 
 		mod._OLSKFundSetupPostPay({
 			ParamWindow: inputData.ParamWindow || uWindow(Object.assign({
@@ -55,11 +55,9 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 				}),
 			})),
 			ParamExistingCode: inputData.ParamExistingCode || null,
-			OLSKFundDispatchPersist: inputData.OLSKFundDispatchPersist ? function () {
-				item.push(inputData.OLSKFundDispatchPersist());
-			} : function () {
-				item.push(...arguments);
-			},
+			OLSKFundDispatchPersist: (function () {
+				item.OLSKFundDispatchPersist = inputData.OLSKFundDispatchPersist ? inputData.OLSKFundDispatchPersist() :  item.OLSKFundDispatchPersist = Array.from(arguments);
+			}),
 		});
 
 		return item;
@@ -99,7 +97,7 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 	});
 
 	it('breaks if no code', function () {
-		deepEqual(__OLSKFundSetupPostPay(), []);
+		deepEqual(__OLSKFundSetupPostPay(), {});
 	});
 
 	it('breaks if code matches ParamExistingCode', function () {
@@ -108,7 +106,7 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 		deepEqual(__OLSKFundSetupPostPay({
 			confirmation: ParamExistingCode,
 			ParamExistingCode,
-		}), []);
+		}), {});
 	});
 
 	it('breaks if ParamExistingCode different', function () {
@@ -117,7 +115,7 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 		deepEqual(__OLSKFundSetupPostPay({
 			confirmation: Math.random().toString(),
 			ParamExistingCode,
-		}), []);
+		}), {});
 	});
 
 	it('passes code to OLSKFundDispatchPersist', function () {
@@ -125,7 +123,9 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 
 		deepEqual(__OLSKFundSetupPostPay({
 			confirmation
-		}), [confirmation]);
+		}), {
+			OLSKFundDispatchPersist: [confirmation],
+		});
 	});
 
 	it('returns OLSKFundDispatchPersist', function () {
@@ -136,7 +136,9 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 			OLSKFundDispatchPersist: (function () {
 				return item;
 			}),
-		}), [item]);
+		}), {
+			OLSKFundDispatchPersist: item,
+		});
 	});
 
 });
