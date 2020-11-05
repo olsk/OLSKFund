@@ -11,6 +11,8 @@
 					ParamWindow: window,
 					OLSKLocalized: window.OLSKLocalized,
 					ParamAuthorized: mod._ValueFakeParamAuthorized,
+					ParamDispatchGrant: (function () {}),
+					ParamDispatchPersist: (function () {}),
 					OLSK_TESTING_BEHAVIOUR: true,
 				}),
 			});
@@ -54,8 +56,8 @@
 					OLSKPactPayProcessor: OLSKPact.OLSKPactPayProcessorStripe(),
 				},
 				OLSKLocalized: window.OLSKLocalized,
-				ParamDispatchGrant: (function () {
-				}),
+				ParamDispatchGrant: (function () {}),
+				ParamDispatchPersist: (function () {}),
 				OLSK_TESTING_BEHAVIOUR: true,
 			});
 		},
