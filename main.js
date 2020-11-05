@@ -50,7 +50,7 @@ const mod = {
 	},
 
 	async __OLSKFundSetupGrantDispatchPayload (params, payload) {
-		return params.ParamDispatchGrant(JSON.parse(await OLSKCrypto.OLSKCryptoDecryptSigned(params.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE, params.OLSK_CRYPTO_PAIR_SENDER_PUBLIC, payload)));
+		return params.OLSKFundDispatchGrant(JSON.parse(await OLSKCrypto.OLSKCryptoDecryptSigned(params.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE, params.OLSK_CRYPTO_PAIR_SENDER_PUBLIC, payload)));
 	},
 
 	async _OLSKFundSetupGrant (params) {
@@ -86,7 +86,7 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		if (typeof params.ParamDispatchGrant !== 'function') {
+		if (typeof params.OLSKFundDispatchGrant !== 'function') {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
@@ -249,7 +249,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof params.ParamDispatchGrant !== 'function') {
+		if (typeof params.OLSKFundDispatchGrant !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
@@ -267,7 +267,7 @@ const mod = {
 					return;
 				}
 
-				return params.ParamDispatchPersist(params.ParamDispatchGrant(_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), null)));
+				return params.ParamDispatchPersist(params.OLSKFundDispatchGrant(_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), null)));
 			},
 			LCHRecipeIsExcluded () {
 				return !params.ParamAuthorized;

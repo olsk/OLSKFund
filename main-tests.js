@@ -177,8 +177,8 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 			OLSKLocalized: uLocalized,
 			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE,
 			OLSK_CRYPTO_PAIR_SENDER_PUBLIC: process.env.OLSK_CRYPTO_PAIR_SENDER_PUBLIC,
-			ParamDispatchGrant: (function () {
-				item.ParamDispatchGrant = Array.from(arguments);
+			OLSKFundDispatchGrant: (function () {
+				item.OLSKFundDispatchGrant = Array.from(arguments);
 			}),
 		}, inputData, {
 			ParamBody: Object.assign({
@@ -250,9 +250,9 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		}), /OLSKErrorInputNotValid/);
 	});
 
-	it('rejects if ParamDispatchGrant not function', async function () {
+	it('rejects if OLSKFundDispatchGrant not function', async function () {
 		await rejects(__OLSKFundSetupGrant({
-			ParamDispatchGrant: null,
+			OLSKFundDispatchGrant: null,
 		}), /OLSKErrorInputNotValid/);
 	});
 
@@ -266,7 +266,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		deepEqual((await __OLSKFundSetupGrant()).OLKSLocalStorageGet.slice(1), [mod._OLSKFundGrantData()]);
 	});
 
-	it('calls ParamDispatchGrant if cached', async function () {
+	it('calls OLSKFundDispatchGrant if cached', async function () {
 		const item = {
 			alfa: Math.random().toString(),
 		};
@@ -275,7 +275,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				return OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item));
 			}),
 		})), {
-			ParamDispatchGrant: [item],
+			OLSKFundDispatchGrant: [item],
 		});
 	});
 
@@ -343,7 +343,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		})).OLKSLocalStorageSet.slice(1), [mod._OLSKFundGrantData(), RCSAPIEncryptedPayload]);
 	});
 
-	it('calls ParamDispatchGrant', async function () {
+	it('calls OLSKFundDispatchGrant', async function () {
 		const item = {
 			alfa: Math.random().toString(),
 		};
@@ -363,7 +363,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				};
 			}),
 		})), {
-			ParamDispatchGrant: [item],
+			OLSKFundDispatchGrant: [item],
 		});
 	});
 
@@ -576,7 +576,7 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
 			ParamAuthorized: true,
-			ParamDispatchGrant: (function () {}),
+			OLSKFundDispatchGrant: (function () {}),
 			ParamDispatchPersist: (function () {}),
 		}, inputData))
 	}
@@ -733,7 +733,7 @@ describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLaunche
 			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
 			ParamAuthorized: true,
-			ParamDispatchGrant: (function () {}),
+			OLSKFundDispatchGrant: (function () {}),
 			ParamDispatchPersist: (function () {}),
 		}, inputData))
 	}
@@ -768,10 +768,10 @@ describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLaunche
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamDispatchGrant not function', function () {
+	it('throws if OLSKFundDispatchGrant not function', function () {
 		throws(function () {
 			_OLSKFundLauncherItemClearAuthorization({
-				ParamDispatchGrant: null,
+				OLSKFundDispatchGrant: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -849,7 +849,7 @@ describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLaunche
 			deepEqual(item.slice(1), [mod._OLSKFundGrantData(), null]);
 		});
 
-		it('calls ParamDispatchGrant', function () {
+		it('calls OLSKFundDispatchGrant', function () {
 			const item = [];
 
 			_OLSKFundLauncherItemClearAuthorization({
@@ -858,7 +858,7 @@ describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLaunche
 						return true;
 					},
 				}),
-				ParamDispatchGrant: (function () {
+				OLSKFundDispatchGrant: (function () {
 					item.push(...arguments);
 				}),
 			}).LCHRecipeCallback();
@@ -911,7 +911,7 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 			OLSKLocalized: uLocalized,
 			ParamAuthorized: true,
 			OLSK_TESTING_BEHAVIOUR: false,
-			ParamDispatchGrant: (function () {}),
+			OLSKFundDispatchGrant: (function () {}),
 			ParamDispatchPersist: (function () {}),
 		}, inputData))
 	};
