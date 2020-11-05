@@ -1,7 +1,7 @@
 OLSKFundGrantErrorConnectionText: Connection error
 OLSKFundGrantErrorExpiredText: Access expired
 OLSKFundConfirmText: Are you sure?
-OLSKFundLauncherItemEnterConfirmationText: Open access link
-OLSKFundLauncherItemEnterConfirmationPromptText: Access link
-OLSKFundLauncherItemClearAuthorizationText: Copy private access link
+OLSKFundLauncherItemEnterConfirmationText: Enter confirmation code
+OLSKFundLauncherItemEnterConfirmationPromptText: Enter confirmation code
+OLSKFundLauncherItemClearAuthorizationText: Clear authorization
 OLSKFundLauncherItemClearAuthorizationConfirmText: Are you sure?

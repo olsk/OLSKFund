@@ -1,7 +1,7 @@
 OLSKFundGrantErrorConnectionText: Erreur de connexion
 OLSKFundGrantErrorExpiredText: Accès expiré
 OLSKFundConfirmText: Êtes-vous sûr.e?
-OLSKFundLauncherItemEnterConfirmationText: Ouvrir lien d'accès
-OLSKFundLauncherItemEnterConfirmationPromptText: Lien d'accès
-OLSKFundLauncherItemClearAuthorizationText: Copier lien d'accès privé
+OLSKFundLauncherItemEnterConfirmationText: Entrer code de confirmation
+OLSKFundLauncherItemEnterConfirmationPromptText: Entrer code de confirmation
+OLSKFundLauncherItemClearAuthorizationText: Enlever autorisation
 OLSKFundLauncherItemClearAuthorizationConfirmText: Êtes-vous sûr.e?
