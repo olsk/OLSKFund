@@ -85,7 +85,7 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		if (typeof params.ParamLocalize !== 'function') {
+		if (typeof params.OLSKLocalized !== 'function') {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
@@ -109,7 +109,7 @@ const mod = {
 				body: JSON.stringify(params.ParamBody),
 			});
 		} catch (error) {
-			return params.ParamWindow.alert(params.ParamLocalize('OLSKFundGrantErrorConnectionText'));
+			return params.ParamWindow.alert(params.OLSKLocalized('OLSKFundGrantErrorConnectionText'));
 		}
 
 		const json = await response.json();
@@ -253,7 +253,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (!params.WindowObject.location) {
+		if (!params.ParamWindow.location) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
@@ -261,7 +261,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof params.GrantAuthorized !== 'boolean') {
+		if (typeof params.ParamAuthorized !== 'boolean') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
@@ -271,8 +271,8 @@ const mod = {
 
 		return [
 			mod.OLSKFundLauncherFakeItemProxy(),
-			mod.OLSKFundLauncherItemEnterConfirmation(params.WindowObject, params.OLSKLocalized, params.GrantAuthorized),
-			mod.OLSKFundLauncherItemClearAuthorization(params.WindowObject, params.OLSKLocalized, params.GrantAuthorized),
+			mod.OLSKFundLauncherItemEnterConfirmation(params.ParamWindow, params.OLSKLocalized, params.ParamAuthorized),
+			mod.OLSKFundLauncherItemClearAuthorization(params.ParamWindow, params.OLSKLocalized, params.ParamAuthorized),
 		].filter(function (e) {
 			if (params.OLSK_TESTING_BEHAVIOUR) {
 				return true;

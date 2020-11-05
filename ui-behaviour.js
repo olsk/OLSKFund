@@ -1,16 +1,16 @@
 (function() {
 	const mod = {
 
-		_ValueFakeGrantAuthorized: false,
+		_ValueFakeParamAuthorized: false,
 
 		// INTERFACE
 
 		InterfaceLauncherButtonDidClick () {
 			window.Launchlet.LCHSingletonCreate({
 				LCHOptionRecipes: exports.OLSKFundRecipes({
-					WindowObject: window,
+					ParamWindow: window,
 					OLSKLocalized: window.OLSKLocalized,
-					GrantAuthorized: mod._ValueFakeGrantAuthorized,
+					ParamAuthorized: mod._ValueFakeParamAuthorized,
 					OLSK_TESTING_BEHAVIOUR: true,
 				}),
 			});
@@ -32,8 +32,8 @@
 			exports.OLSKFundConfirm(window, window.OLSKLocalized);
 		},
 
-		InterfaceFakeGrantAuthorizedButtonDidClick () {
-			mod._ValueFakeGrantAuthorized = true;
+		InterfaceFakeParamAuthorizedButtonDidClick () {
+			mod._ValueFakeParamAuthorized = true;
 		},
 
 		// CONTROL
@@ -53,7 +53,7 @@
 					OLSKPactPayTransaction: Math.random().toString(),
 					OLSKPactPayProcessor: OLSKPact.OLSKPactPayProcessorStripe(),
 				},
-				ParamLocalize: window.OLSKLocalized,
+				OLSKLocalized: window.OLSKLocalized,
 				ParamDispatchGrant: (function () {
 				}),
 				OLSK_TESTING_BEHAVIOUR: true,

@@ -174,7 +174,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				}),
 			}),
 			ParamURL: inputData.ParamURL || Math.random().toString(),
-			ParamLocalize: uLocalized,
+			OLSKLocalized: uLocalized,
 			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE,
 			OLSK_CRYPTO_PAIR_SENDER_PUBLIC: process.env.OLSK_CRYPTO_PAIR_SENDER_PUBLIC,
 			ParamDispatchGrant: (function () {
@@ -256,9 +256,9 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		}), /OLSKErrorInputNotValid/);
 	});
 
-	it('rejects if ParamLocalize not function', async function () {
+	it('rejects if OLSKLocalized not function', async function () {
 		await rejects(__OLSKFundSetupGrant({
-			ParamLocalize: null,
+			OLSKLocalized: null,
 		}), /OLSKErrorInputNotValid/);
 	});
 
@@ -699,9 +699,9 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 
 	const _OLSKFundRecipes = function (inputData = {}) {
 		return mod.OLSKFundRecipes(Object.assign({
-			WindowObject: uWindow(),
+			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
-			GrantAuthorized: true,
+			ParamAuthorized: true,
 			OLSK_TESTING_BEHAVIOUR: false,
 		}, inputData))
 	}
@@ -712,10 +712,10 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if WindowObject not window', function () {
+	it('throws if ParamWindow not window', function () {
 		throws(function () {
 			_OLSKFundRecipes({
-				WindowObject: {},
+				ParamWindow: {},
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -728,10 +728,10 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if GrantAuthorized not boolean', function () {
+	it('throws if ParamAuthorized not boolean', function () {
 		throws(function () {
 			_OLSKFundRecipes({
-				GrantAuthorized: null,
+				ParamAuthorized: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});

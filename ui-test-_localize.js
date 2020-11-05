@@ -36,10 +36,10 @@ kDefaultRoute.OLSKRouteLanguages.forEach(function (languageCode) {
 		
 		});
 
-		context('GrantAuthorized', function () {
+		context('ParamAuthorized', function () {
 
 			before(function () {
-				return browser.pressButton('#TestFakeGrantAuthorized');
+				return browser.pressButton('#TestFakeParamAuthorized');
 			});
 
 			it('localizes OLSKFundLauncherItemClearAuthorization', function () {

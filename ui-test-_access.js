@@ -18,10 +18,10 @@ describe('OLSKFund_Access', function () {
 		return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemClearAuthorization', 0);
 	});
 
-	context('GrantAuthorized', function () {
+	context('ParamAuthorized', function () {
 
 		before(function () {
-			return browser.pressButton('#TestFakeGrantAuthorized');
+			return browser.pressButton('#TestFakeParamAuthorized');
 		});
 
 		it('hides OLSKFundLauncherItemEnterConfirmation', function () {
