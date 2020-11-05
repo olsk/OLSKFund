@@ -1,6 +1,4 @@
 (function() {
-	const OLSKPact = exports;
-
 	const mod = {
 
 		_ValueFakeGrantAuthorized: false,
@@ -42,6 +40,8 @@
 
 		ControlGrant (inputData) {
 			exports._OLSKFundSetupGrant({
+				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE'),
+				OLSK_CRYPTO_PAIR_SENDER_PUBLIC: window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_SENDER_PUBLIC'),
 				ParamWindow: window,
 				ParamURL: inputData.ParamURL || '/OLSKFundStubGrantRoute',
 				ParamBody: {

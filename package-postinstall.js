@@ -6,3 +6,18 @@
 		',1',
 	));
 })();
+
+(function OLSKHotfixModulesForWindow() {
+	[
+		'OLSKPact',
+		'OLSKCrypto',
+	].map(function (e) {
+		const filePath = `./node_modules/${ e }/main.js`;
+		require('fs').writeFileSync(filePath, require('fs').readFileSync(filePath, 'utf8').replace(/\bmod\b/g, e));
+	})
+})();
+
+(function OLSKHotfixOLSKCryptoForRequire() {
+	const filePath = './node_modules/OLSKCrypto/main.js';
+	require('fs').writeFileSync(filePath, require('fs').readFileSync(filePath, 'utf8').replace("const openpgp = require('openpgp');", "const openpgp = (function() { return typeof require === 'undefined' ? window.openpgp : require('openpgp'); })();"));
+})();

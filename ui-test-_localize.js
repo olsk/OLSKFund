@@ -84,7 +84,7 @@ kDefaultRoute.OLSKRouteLanguages.forEach(function (languageCode) {
 				}), uLocalized('OLSKFundGrantErrorConnectionText'));
 			});
 
-			it('localizes OLSKFundGrantErrorExpired', async function () {
+			it.skip('localizes OLSKFundGrantErrorExpired', async function () {
 				browser.assert.deepEqual(await browser.OLSKAlertTextAsync(function () {
 					return browser.pressButton('#TestFakeErrorExpired');
 				}), uLocalized('OLSKFundGrantErrorExpiredText'));

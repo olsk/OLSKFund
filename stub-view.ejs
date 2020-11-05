@@ -9,13 +9,19 @@
 	<script type="text/javascript" src="/node_modules/launchlet/__compiled/launchlet.js"></script>
 	
 	<script type="text/javascript" src="/node_modules/OLSKPact/main.js"></script>
+	<script type="text/javascript" src="/node_modules/OLSKLocalStorage/main.js"></script>
+	<script type="text/javascript" src="/node_modules/OLSKCrypto/main.js"></script>
 	
-	<script type="text/javascript" src="/node_modules/idb-keyval/dist/idb-keyval-iife.js"></script>
 	<script type="text/javascript">
-		Object.assign(window.exports, idbKeyval);
+		window.OLSKPublicConstants = function (inputData) {
+			return <%- JSON.stringify({
+				OLSKSharedPageCurrentLanguage,
+				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE,
+				OLSK_CRYPTO_PAIR_SENDER_PUBLIC: process.env.OLSK_CRYPTO_PAIR_SENDER_PUBLIC,
+			}) %>[inputData];
+		};
 	</script>
-	
-	
+
 	<script type="text/javascript" src="/node_modules/OLSKInternational/main.js"></script>
 	<script type="text/javascript">
 		window.OLSKLocalized = function(translationConstant) {
