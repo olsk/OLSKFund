@@ -192,31 +192,39 @@ const mod = {
 		};
 	},
 
-	OLSKFundLauncherItemEnterConfirmation (param1, OLSKLocalized, param3) {
-		if (!param1.location) {
+	OLSKFundLauncherItemEnterConfirmation (params) {
+		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof OLSKLocalized !== 'function') {
+		if (!params.ParamWindow.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		
+		if (typeof params.OLSKLocalized !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof param3 !== 'boolean') {
+		if (typeof params.ParamAuthorized !== 'boolean') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamDispatchPersist !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
 			LCHRecipeSignature: 'OLSKFundLauncherItemEnterConfirmation',
-			LCHRecipeName: OLSKLocalized('OLSKFundLauncherItemEnterConfirmationText'),
+			LCHRecipeName: params.OLSKLocalized('OLSKFundLauncherItemEnterConfirmationText'),
 			LCHRecipeCallback () {
-				const item = param1.prompt(OLSKLocalized('OLSKFundLauncherItemEnterConfirmationPromptText'));
+				const item = params.ParamWindow.prompt(params.OLSKLocalized('OLSKFundLauncherItemEnterConfirmationPromptText'));
 
 				if (!item) {
 					return;
 				}
 			},
 			LCHRecipeIsExcluded () {
-				return !!param3;
+				return !!params.ParamAuthorized;
 			},
 		};
 	},
@@ -287,7 +295,7 @@ const mod = {
 
 		return [
 			mod.OLSKFundLauncherFakeItemProxy(),
-			mod.OLSKFundLauncherItemEnterConfirmation(params.ParamWindow, params.OLSKLocalized, params.ParamAuthorized),
+			mod.OLSKFundLauncherItemEnterConfirmation(params),
 			mod.OLSKFundLauncherItemClearAuthorization(params),
 		].filter(function (e) {
 			if (params.OLSK_TESTING_BEHAVIOUR) {
