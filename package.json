@@ -15,8 +15,8 @@
     "// DECRYPTION": null,
     "OLSKCrypto": "olsk/OLSKCrypto",
 
-    "// PERSISTENCE": null,
-    "idb-keyval": "latest",
+    "// LOCAL STORAGE": null,
+    "OLSKLocalStorage": "olsk/OLSKLocalStorage",
   	
     "// I sacrifice myself for the commas of others": null    
   },

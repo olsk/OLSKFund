@@ -89,11 +89,7 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		if (!params.ParamWindow.indexedDB && !params.OLSK_TESTING_BEHAVIOUR) {
-			return;
-		}
-
-		const payload = params.OLSK_TESTING_BEHAVIOUR ? null : await this._DataFoilIDBKeyVal.get('OLSKFundGrant', new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
+		const payload = params.OLSK_TESTING_BEHAVIOUR ? null : await this._DataFoilOLSKLocalStorage.OLKSLocalStorageGet(params.ParamWindow.localStorage, 'OLSKFundGrant');
 		if (payload) {
 			return mod.__OLSKFundSetupGrantDispatchPayload(params, payload);
 		}
@@ -118,9 +114,7 @@ const mod = {
 			return params.ParamWindow.alert(json.RCSAPIError);
 		}
 
-		await this._DataFoilIDBKeyVal.set('OLSKFundGrant', json.RCSAPIEncryptedPayload, new this._DataFoilIDBKeyVal.Store('OLSK', 'OLSK'));
-
-		return mod.__OLSKFundSetupGrantDispatchPayload(params, json.RCSAPIEncryptedPayload);
+		return mod.__OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, 'OLSKFundGrant', json.RCSAPIEncryptedPayload));
 	},
 
 	OLSKFundSetup (params) {
@@ -286,7 +280,7 @@ const mod = {
 
 	// DATA
 
-	_DataFoilIDBKeyVal: _require('idb-keyval'),
+	_DataFoilOLSKLocalStorage: _require('OLSKLocalStorage'),
 
 };
 

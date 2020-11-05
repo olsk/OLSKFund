@@ -12,6 +12,10 @@ const uWindow = function (inputData = {}) {
 		location: {
 			reload () {},
 		},
+		localStorage: {
+			setItem: (function () {}),
+			getItem: (function () {}),
+		},
 	}, inputData);
 };
 
@@ -133,12 +137,14 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		const item = {};
 
 		await Object.assign(Object.assign({}, mod), {
-			_DataFoilIDBKeyVal: {
-				'get': inputData.get || (function () {
-					item.get = Array.from(arguments);
+			_DataFoilOLSKLocalStorage: {
+				OLKSLocalStorageGet: inputData.OLKSLocalStorageGet || (function () {
+					item.OLKSLocalStorageGet = Array.from(arguments);
 				}),
-				'set': inputData.set || (function () {
-					item.set = Array.from(arguments);
+				OLKSLocalStorageSet: inputData.OLKSLocalStorageSet || (function () {
+					item.OLKSLocalStorageSet = Array.from(arguments);
+					
+					return Array.from(arguments).pop();
 				}),
 				Store: inputData.Store || (function () {
 					return Array.from(arguments);
@@ -146,7 +152,6 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 			},
 		})._OLSKFundSetupGrant(Object.assign({
 			ParamWindow: uWindow({
-				indexedDB: {},
 				fetch: inputData.fetch || (function () {
 					item.fetch = Array.from(arguments);
 					return {
@@ -249,14 +254,8 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		}), /OLSKErrorInputNotValid/);
 	});
 
-	it('returns if no ParamWindow.indexedDB', async function () {
-		deepEqual(await __OLSKFundSetupGrant({
-			ParamWindow: uWindow(),
-		}), {});
-	});
-
-	it('calls _DataFoilIDBKeyVal.get', async function () {
-		deepEqual((await __OLSKFundSetupGrant()).get, ['OLSKFundGrant', ['OLSK', 'OLSK']]);
+	it('calls _DataFoilOLSKLocalStorage.OLKSLocalStorageGet', async function () {
+		deepEqual((await __OLSKFundSetupGrant()).OLKSLocalStorageGet.slice(1), ['OLSKFundGrant']);
 	});
 
 	it('calls ParamDispatchGrant if cached', async function () {
@@ -264,7 +263,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 			alfa: Math.random().toString(),
 		};
 		deepEqual((await __OLSKFundSetupGrant({
-			'get': (function () {
+			OLKSLocalStorageGet: (function () {
 				return OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item));
 			}),
 		})), {
@@ -319,7 +318,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		})).alert, [RCSAPIError]);
 	});
 
-	it('calls _DataFoilIDBKeyVal.set', async function () {
+	it('calls _DataFoilOLSKLocalStorage.OLKSLocalStorageSet', async function () {
 		const RCSAPIEncryptedPayload = await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
 		
 		deepEqual((await __OLSKFundSetupGrant({
@@ -333,7 +332,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 					}),
 				};
 			}),
-		})).set, ['OLSKFundGrant', RCSAPIEncryptedPayload, ['OLSK', 'OLSK']]);
+		})).OLKSLocalStorageSet.slice(1), ['OLSKFundGrant', RCSAPIEncryptedPayload]);
 	});
 
 	it('calls ParamDispatchGrant', async function () {
@@ -341,8 +340,10 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 			alfa: Math.random().toString(),
 		};
 		deepEqual((await __OLSKFundSetupGrant({
-			'get': (function () {}),
-			'set': (function () {}),
+			OLKSLocalStorageGet: (function () {}),
+			OLKSLocalStorageSet: (function () {
+				return Array.from(arguments).pop();
+			}),
 			fetch: (function () {
 				return {
 					status: 200,
