@@ -12,7 +12,7 @@
 					OLSKLocalized: window.OLSKLocalized,
 					ParamAuthorized: mod._ValueFakeParamAuthorized,
 					OLSKFundDispatchGrant: (function () {}),
-					ParamDispatchPersist: (function () {}),
+					OLSKFundDispatchPersist: (function () {}),
 					OLSK_TESTING_BEHAVIOUR: true,
 				}),
 			});
@@ -57,7 +57,7 @@
 				},
 				OLSKLocalized: window.OLSKLocalized,
 				OLSKFundDispatchGrant: (function () {}),
-				ParamDispatchPersist: (function () {}),
+				OLSKFundDispatchPersist: (function () {}),
 				OLSK_TESTING_BEHAVIOUR: true,
 			});
 		},

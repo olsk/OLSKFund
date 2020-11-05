@@ -55,8 +55,8 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 				}),
 			})),
 			ParamExistingCode: inputData.ParamExistingCode,
-			ParamDispatchPersist: inputData.ParamDispatchPersist ? function () {
-				item.push(inputData.ParamDispatchPersist());
+			OLSKFundDispatchPersist: inputData.OLSKFundDispatchPersist ? function () {
+				item.push(inputData.OLSKFundDispatchPersist());
 			} : function () {
 				item.push(...arguments);
 			},
@@ -79,11 +79,11 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamDispatchPersist not function', function () {
+	it('throws if OLSKFundDispatchPersist not function', function () {
 		throws(function () {
 			mod._OLSKFundSetupPostPay({
 				ParamWindow: uWindow(),
-				ParamDispatchPersist: null,
+				OLSKFundDispatchPersist: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -110,7 +110,7 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 		}), []);
 	});
 
-	it('passes code to ParamDispatchPersist', function () {
+	it('passes code to OLSKFundDispatchPersist', function () {
 		const confirmation = Math.random().toString();
 
 		deepEqual(__OLSKFundSetupPostPay({
@@ -118,12 +118,12 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 		}), [confirmation]);
 	});
 
-	it('returns ParamDispatchPersist', function () {
+	it('returns OLSKFundDispatchPersist', function () {
 		const item = Math.random().toString();
 
 		deepEqual(__OLSKFundSetupPostPay({
 			confirmation: Math.random().toString(),
-			ParamDispatchPersist: (function () {
+			OLSKFundDispatchPersist: (function () {
 				return item;
 			}),
 		}), [item]);
@@ -577,7 +577,7 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 			OLSKLocalized: uLocalized,
 			ParamAuthorized: true,
 			OLSKFundDispatchGrant: (function () {}),
-			ParamDispatchPersist: (function () {}),
+			OLSKFundDispatchPersist: (function () {}),
 		}, inputData))
 	}
 
@@ -611,10 +611,10 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamDispatchPersist not function', function () {
+	it('throws if OLSKFundDispatchPersist not function', function () {
 		throws(function () {
 			_OLSKFundLauncherItemEnterConfirmation({
-				ParamDispatchPersist: null,
+				OLSKFundDispatchPersist: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -684,7 +684,7 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 			deepEqual(item.slice(1), [mod._OLSKFundGrantData(), null]);
 		});
 
-		it('calls ParamDispatchPersist', function () {
+		it('calls OLSKFundDispatchPersist', function () {
 			const prompt = Math.random().toString();
 			const item = [];
 
@@ -694,7 +694,7 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 						return prompt;
 					},
 				}),
-				ParamDispatchPersist: (function () {
+				OLSKFundDispatchPersist: (function () {
 					item.push(...arguments);
 				}),
 			}).LCHRecipeCallback();
@@ -734,7 +734,7 @@ describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLaunche
 			OLSKLocalized: uLocalized,
 			ParamAuthorized: true,
 			OLSKFundDispatchGrant: (function () {}),
-			ParamDispatchPersist: (function () {}),
+			OLSKFundDispatchPersist: (function () {}),
 		}, inputData))
 	}
 
@@ -776,10 +776,10 @@ describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLaunche
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamDispatchPersist not function', function () {
+	it('throws if OLSKFundDispatchPersist not function', function () {
 		throws(function () {
 			_OLSKFundLauncherItemClearAuthorization({
-				ParamDispatchPersist: null,
+				OLSKFundDispatchPersist: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -866,7 +866,7 @@ describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLaunche
 			deepEqual(item, [null]);
 		});
 
-		it('calls ParamDispatchPersist', function () {
+		it('calls OLSKFundDispatchPersist', function () {
 			const item = [];
 
 			_OLSKFundLauncherItemClearAuthorization({
@@ -875,7 +875,7 @@ describe('OLSKFundLauncherItemClearAuthorization', function test_OLSKFundLaunche
 						return true;
 					},
 				}),
-				ParamDispatchPersist: (function () {
+				OLSKFundDispatchPersist: (function () {
 					item.push(...arguments);
 				}),
 			}).LCHRecipeCallback();
@@ -912,7 +912,7 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 			ParamAuthorized: true,
 			OLSK_TESTING_BEHAVIOUR: false,
 			OLSKFundDispatchGrant: (function () {}),
-			ParamDispatchPersist: (function () {}),
+			OLSKFundDispatchPersist: (function () {}),
 		}, inputData))
 	};
 

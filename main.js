@@ -28,7 +28,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
-		if (typeof params.ParamDispatchPersist !== 'function') {
+		if (typeof params.OLSKFundDispatchPersist !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
@@ -42,7 +42,7 @@ const mod = {
 			return;
 		}
 
-		return params.ParamDispatchPersist(confirmation);
+		return params.OLSKFundDispatchPersist(confirmation);
 	},
 
 	_OLSKFundGrantData () {
@@ -206,7 +206,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof params.ParamDispatchPersist !== 'function') {
+		if (typeof params.OLSKFundDispatchPersist !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
@@ -224,7 +224,7 @@ const mod = {
 
 				_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), null);
 
-				return params.ParamDispatchPersist(item);
+				return params.OLSKFundDispatchPersist(item);
 			},
 			LCHRecipeIsExcluded () {
 				return !!params.ParamAuthorized;
@@ -253,7 +253,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof params.ParamDispatchPersist !== 'function') {
+		if (typeof params.OLSKFundDispatchPersist !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
@@ -267,7 +267,7 @@ const mod = {
 					return;
 				}
 
-				return params.ParamDispatchPersist(params.OLSKFundDispatchGrant(_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), null)));
+				return params.OLSKFundDispatchPersist(params.OLSKFundDispatchGrant(_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), null)));
 			},
 			LCHRecipeIsExcluded () {
 				return !params.ParamAuthorized;
