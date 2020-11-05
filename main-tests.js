@@ -636,7 +636,7 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 			deepEqual(_OLSKFundLauncherItemEnterConfirmation().LCHRecipeCallback(), undefined);
 		});
 
-		it('calls window.prompt', function () {
+		it('calls ParamWindow.prompt', function () {
 			const item = [];
 
 			_OLSKFundLauncherItemEnterConfirmation({
@@ -648,6 +648,58 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 			}).LCHRecipeCallback();
 
 			deepEqual(item, [uLocalized('OLSKFundLauncherItemEnterConfirmationPromptText')]);
+		});
+
+		it('returns if ParamWindow.prompt blank', function () {
+			const item = [];
+
+			_OLSKFundLauncherItemEnterConfirmation({
+				ParamWindow: uWindow({
+					prompt () {
+						return ' ';
+					},
+				}),
+				OLKSLocalStorageSet: (function () {
+					item.push(...arguments);
+				}),
+			}).LCHRecipeCallback();
+
+			deepEqual(item, []);
+		});
+
+		it('clears _OLSKFundGrantData', function () {
+			const item = [];
+
+			_OLSKFundLauncherItemEnterConfirmation({
+				ParamWindow: uWindow({
+					prompt () {
+						return Math.random().toString();
+					},
+				}),
+				OLKSLocalStorageSet: (function () {
+					item.push(...arguments);
+				}),
+			}).LCHRecipeCallback();
+
+			deepEqual(item.slice(1), [mod._OLSKFundGrantData(), null]);
+		});
+
+		it('calls ParamDispatchPersist', function () {
+			const prompt = Math.random().toString();
+			const item = [];
+
+			_OLSKFundLauncherItemEnterConfirmation({
+				ParamWindow: uWindow({
+					prompt () {
+						return prompt;
+					},
+				}),
+				ParamDispatchPersist: (function () {
+					item.push(...arguments);
+				}),
+			}).LCHRecipeCallback();
+
+			deepEqual(item, [prompt]);
 		});
 
 	});

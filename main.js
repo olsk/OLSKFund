@@ -213,15 +213,21 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		const _this = this;
+
 		return {
 			LCHRecipeSignature: 'OLSKFundLauncherItemEnterConfirmation',
 			LCHRecipeName: params.OLSKLocalized('OLSKFundLauncherItemEnterConfirmationText'),
 			LCHRecipeCallback () {
-				const item = params.ParamWindow.prompt(params.OLSKLocalized('OLSKFundLauncherItemEnterConfirmationPromptText'));
+				const item = (params.ParamWindow.prompt(params.OLSKLocalized('OLSKFundLauncherItemEnterConfirmationPromptText')) || '').trim();
 
 				if (!item) {
 					return;
 				}
+
+				_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), null);
+
+				return params.ParamDispatchPersist(item);
 			},
 			LCHRecipeIsExcluded () {
 				return !!params.ParamAuthorized;
