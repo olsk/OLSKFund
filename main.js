@@ -1,8 +1,5 @@
-(function() {
-
-const _require = typeof require === 'undefined' ? (e) => exports : require;
-const OLSKPact = _require('OLSKPact');
-const OLSKCrypto = _require('OLSKCrypto');
+const OLSKPact = require('OLSKPact');
+const OLSKCrypto = require('OLSKCrypto');
 
 const uIsFilled = function (inputData) {
 	return typeof inputData === 'string' && inputData.trim() !== '';
@@ -302,10 +299,8 @@ const mod = {
 
 	// DATA
 
-	_DataFoilOLSKLocalStorage: _require('OLSKLocalStorage'),
+	_DataFoilOLSKLocalStorage: require('OLSKLocalStorage'),
 
 };
 
 Object.assign(exports, mod);
-
-})();
