@@ -588,7 +588,6 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
 			ParamAuthorized: true,
-			OLSKFundDispatchGrant: (function () {}),
 			OLSKFundDispatchPersist: (function () {}),
 		}, inputData))
 	}
