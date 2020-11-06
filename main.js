@@ -38,9 +38,12 @@ const mod = {
 
 		const confirmation = Object.fromEntries((new URLSearchParams(params.ParamWindow.location.hash.slice(1))).entries()).confirmation;
 
+
 		if (!confirmation) {
 			return
 		}
+
+		params.ParamWindow.location.hash = '';
 
 		if (params.ParamExistingCode) {
 			return;

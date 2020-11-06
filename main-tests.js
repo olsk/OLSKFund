@@ -118,6 +118,22 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 		}), {});
 	});
 
+	it('clears hash', function () {
+		const location = Object.assign(new URL('https://example.com/form'), {
+			hash: (new URLSearchParams({
+				confirmation: Math.random().toString(),
+			})).toString(),
+		});
+
+		__OLSKFundSetupPostPay({
+			ParamWindow: uWindow(Object.assign({
+				location,
+			})),
+		});
+
+		deepEqual(location.hash, '');
+	});
+
 	it('passes code to OLSKFundDispatchPersist', function () {
 		const confirmation = Math.random().toString();
 
