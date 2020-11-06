@@ -355,7 +355,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 	});
 
 	it('calls _DataFoilOLSKLocalStorage.OLKSLocalStorageSet', async function () {
-		const RCSAPIEncryptedPayload = await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+		const OLSK_CRYPTO_ENCRYPTED_SIGNED = await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
 		
 		deepEqual((await __OLSKFundSetupGrant({
 			fetch: (function () {
@@ -363,12 +363,12 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 					status: 200,
 					json: (function () {
 						return {
-							RCSAPIEncryptedPayload,
+							OLSK_CRYPTO_ENCRYPTED_SIGNED,
 						};
 					}),
 				};
 			}),
-		})).OLKSLocalStorageSet.slice(1), [mod._OLSKFundGrantData(), RCSAPIEncryptedPayload]);
+		})).OLKSLocalStorageSet.slice(1), [mod._OLSKFundGrantData(), OLSK_CRYPTO_ENCRYPTED_SIGNED]);
 	});
 
 	it('calls OLSKFundDispatchGrant', async function () {
@@ -385,7 +385,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 					status: 200,
 					json: (async function () {
 						return {
-							RCSAPIEncryptedPayload: await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item)),
+							OLSK_CRYPTO_ENCRYPTED_SIGNED: await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item)),
 						};
 					}),
 				};

@@ -122,7 +122,7 @@ const mod = {
 			return params.ParamWindow.alert(json.RCSAPIError);
 		}
 
-		return mod.__OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), json.RCSAPIEncryptedPayload));
+		return mod.__OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), json.OLSK_CRYPTO_ENCRYPTED_SIGNED));
 	},
 
 	OLSKFundSetup (params) {
