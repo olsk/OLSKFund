@@ -53,7 +53,6 @@
 					OLSKPactAuthProof: Math.random().toString(),
 					OLSKPactPayIdentity: 'alfa@bravo.charlie',
 					OLSKPactPayTransaction: Math.random().toString(),
-					OLSKPactPayProcessor: OLSKPact.OLSKPactPayProcessorStripe(),
 				},
 				OLSKLocalized: window.OLSKLocalized,
 				OLSKFundDispatchGrant: (function () {}),

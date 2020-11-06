@@ -215,7 +215,6 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				OLSKPactAuthProof: Math.random().toString(),
 				OLSKPactPayIdentity: 'alfa@bravo.charlie',
 				OLSKPactPayTransaction: Math.random().toString(),
-				OLSKPactPayProcessor: OLSKPact.OLSKPactPayProcessorStripe(),
 			}, inputData.ParamBody || {}),
 		}));
 		
@@ -315,7 +314,6 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 			OLSKPactAuthProof: Math.random().toString(),
 			OLSKPactPayIdentity: 'alfa@bravo.charlie',
 			OLSKPactPayTransaction: Math.random().toString(),
-			OLSKPactPayProcessor: OLSKPact.OLSKPactPayProcessorStripe(),
 		};
 
 		deepEqual((await __OLSKFundSetupGrant({
