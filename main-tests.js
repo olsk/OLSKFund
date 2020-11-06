@@ -201,7 +201,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 					item.alert = Array.from(arguments);
 				}),
 			}),
-			ParamURL: inputData.ParamURL || Math.random().toString(),
+			OLSK_FUND_API_URL: inputData.OLSK_FUND_API_URL || Math.random().toString(),
 			OLSKLocalized: uLocalized,
 			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE,
 			OLSK_CRYPTO_PAIR_SENDER_PUBLIC: process.env.OLSK_CRYPTO_PAIR_SENDER_PUBLIC,
@@ -256,9 +256,9 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		}), /OLSKErrorInputNotValid/);
 	});
 
-	it('rejects if ParamURL not string', async function () {
+	it('rejects if OLSK_FUND_API_URL not string', async function () {
 		await rejects(__OLSKFundSetupGrant({
-			ParamURL: null,
+			OLSK_FUND_API_URL: null,
 		}), /OLSKErrorInputNotValid/);
 	});
 
@@ -308,7 +308,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 	});
 
 	it('calls ParamWindow.fetch', async function () {
-		const ParamURL = Math.random().toString();
+		const OLSK_FUND_API_URL = Math.random().toString();
 		const ParamBody = {
 			OLSKPactAuthType: OLSKPact.OLSKPactAuthTypeEmail(),
 			OLSKPactAuthIdentity: 'alfa@bravo.charlie',
@@ -319,9 +319,9 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		};
 
 		deepEqual((await __OLSKFundSetupGrant({
-			ParamURL,
+			OLSK_FUND_API_URL,
 			ParamBody,
-		})).fetch, [ParamURL, {
+		})).fetch, [OLSK_FUND_API_URL, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

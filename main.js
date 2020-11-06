@@ -77,7 +77,7 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 		
-		if (typeof params.ParamURL !== 'string') {
+		if (typeof params.OLSK_FUND_API_URL !== 'string') {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
@@ -105,7 +105,7 @@ const mod = {
 		let response;
 
 		try {
-			response = await params.ParamWindow.fetch(params.ParamURL, {
+			response = await params.ParamWindow.fetch(params.OLSK_FUND_API_URL, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

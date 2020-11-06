@@ -20,7 +20,7 @@
 
 		InterfaceFakeErrorConnectionButtonDidClick () {
 			mod.ControlGrant({
-				ParamURL: 'http://localhost:' + Date.now().toString().slice(0, 5),
+				OLSK_FUND_API_URL: 'http://localhost:' + Date.now().toString().slice(0, 5),
 			});
 		},
 
@@ -45,7 +45,7 @@
 				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE'),
 				OLSK_CRYPTO_PAIR_SENDER_PUBLIC: window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_SENDER_PUBLIC'),
 				ParamWindow: window,
-				ParamURL: inputData.ParamURL || '/OLSKFundStubGrantRoute',
+				OLSK_FUND_API_URL: inputData.OLSK_FUND_API_URL || '/OLSKFundStubGrantRoute',
 				ParamBody: {
 					OLSKFundStubGrantRoute: inputData.OLSKFundStubGrantRoute,
 					OLSKPactAuthType: OLSKPact.OLSKPactAuthTypeEmail(),
