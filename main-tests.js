@@ -205,6 +205,9 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 			OLSKLocalized: uLocalized,
 			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE,
 			OLSK_CRYPTO_PAIR_SENDER_PUBLIC: process.env.OLSK_CRYPTO_PAIR_SENDER_PUBLIC,
+			OLSKFundDispatchFail: (function () {
+				item.OLSKFundDispatchFail = Array.from(arguments);
+			}),
 			OLSKFundDispatchGrant: (function () {
 				item.OLSKFundDispatchGrant = Array.from(arguments);
 			}),
@@ -283,6 +286,12 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		}), /OLSKErrorInputNotValid/);
 	});
 
+	it('rejects if OLSKFundDispatchFail not function', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			OLSKFundDispatchFail: null,
+		}), /OLSKErrorInputNotValid/);
+	});
+
 	it('rejects if OLSKLocalized not function', async function () {
 		await rejects(__OLSKFundSetupGrant({
 			OLSKLocalized: null,
@@ -336,9 +345,10 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		})).alert, [uLocalized('OLSKFundGrantErrorConnectionText')]);
 	});
 
-	it('alerts if ParamWindow.fetch response not 200', async function () {
+	context('ParamWindow.fetch response not 200', function () {
+
 		const RCSAPIError = Math.random().toString();
-		deepEqual((await __OLSKFundSetupGrant({
+		const result = __OLSKFundSetupGrant({
 			fetch: (function () {
 				return {
 					status: Date.now(),
@@ -349,7 +359,16 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 					}),
 				};
 			}),
-		})).alert, [RCSAPIError]);
+		});
+		
+		it('alerts with error', async function () {
+			deepEqual((await result).alert, [RCSAPIError]);
+		});
+		
+		it('calls OLSKFundDispatchFail', async function () {
+			deepEqual((await result).OLSKFundDispatchFail, [undefined]);
+		});
+	
 	});
 
 	it('calls _DataFoilOLSKLocalStorage.OLKSLocalStorageSet', async function () {

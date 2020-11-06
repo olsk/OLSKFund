@@ -93,6 +93,10 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
+		if (typeof params.OLSKFundDispatchFail !== 'function') {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
 		if (typeof params.OLSKFundDispatchGrant !== 'function') {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
@@ -119,7 +123,7 @@ const mod = {
 		const json = await response.json();
 
 		if (response.status !== 200) {
-			return params.ParamWindow.alert(json.RCSAPIError);
+			return params.OLSKFundDispatchFail(params.ParamWindow.alert(json.RCSAPIError));
 		}
 
 		return mod.__OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), json.OLSK_FUND_ENCRYPTED_SIGNED));
