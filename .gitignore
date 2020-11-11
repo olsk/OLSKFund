@@ -11,4 +11,4 @@ os-workspace-testing
 .static
 
 # LOCAL
-.env
+.env*
