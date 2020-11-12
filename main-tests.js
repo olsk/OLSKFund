@@ -395,90 +395,102 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 	
 	});
 
-	context('ParamWindow.fetch response not 200', function () {
+	context('response', function test_response () {
+		
+		context('not 200', function () {
 
-		const RCSAPIError = Math.random().toString();
-		const result = __OLSKFundSetupGrant({
-			fetch: (function () {
-				return {
-					status: Date.now(),
-					json: (function () {
+			const RCSAPIError = Math.random().toString();
+			const result = __OLSKFundSetupGrant({
+				fetch: (function () {
+					return {
+						status: Date.now(),
+						json: (function () {
+							return {
+								RCSAPIError,
+							};
+						}),
+					};
+				}),
+			});
+			
+			it('alerts with error', async function () {
+				deepEqual((await result).alert, [RCSAPIError]);
+			});
+			
+			it('calls OLSKFundDispatchFail', async function () {
+				deepEqual((await result).OLSKFundDispatchFail, [undefined]);
+			});
+		
+		});
+
+		context('200', function () {
+			
+			it('calls _DataFoilOLSKLocalStorage.OLKSLocalStorageSet', async function () {
+				const OLSK_FUND_ENCRYPTED_SIGNED = await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+				
+				deepEqual((await __OLSKFundSetupGrant({
+					fetch: (function () {
 						return {
-							RCSAPIError,
+							status: 200,
+							json: (function () {
+								return {
+									OLSK_FUND_ENCRYPTED_SIGNED,
+								};
+							}),
 						};
 					}),
+				})).OLKSLocalStorageSet.slice(1), [mod._OLSKFundGrantData(), OLSK_FUND_ENCRYPTED_SIGNED]);
+			});
+
+			it('calls OLSKFundDispatchGrant', async function () {
+				const item = {
+					alfa: Math.random().toString(),
 				};
-			}),
-		});
+				deepEqual((await __OLSKFundSetupGrant({
+					OLKSLocalStorageGet: (function () {}),
+					OLKSLocalStorageSet: (function () {
+						return Array.from(arguments).pop();
+					}),
+					fetch: (function () {
+						return {
+							status: 200,
+							json: (async function () {
+								return {
+									OLSK_FUND_ENCRYPTED_SIGNED: await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item)),
+								};
+							}),
+						};
+					}),
+				})), {
+					OLSKFundDispatchProgress: [],
+					OLSKFundDispatchGrant: [item],
+				});
+			});
 		
-		it('alerts with error', async function () {
-			deepEqual((await result).alert, [RCSAPIError]);
-		});
-		
-		it('calls OLSKFundDispatchFail', async function () {
-			deepEqual((await result).OLSKFundDispatchFail, [undefined]);
 		});
 	
 	});
 
-	it('calls _DataFoilOLSKLocalStorage.OLKSLocalStorageSet', async function () {
-		const OLSK_FUND_ENCRYPTED_SIGNED = await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+	context('decryption', function test_decryption () {
 		
-		deepEqual((await __OLSKFundSetupGrant({
-			fetch: (function () {
-				return {
-					status: 200,
-					json: (function () {
-						return {
-							OLSK_FUND_ENCRYPTED_SIGNED,
-						};
-					}),
-				};
-			}),
-		})).OLKSLocalStorageSet.slice(1), [mod._OLSKFundGrantData(), OLSK_FUND_ENCRYPTED_SIGNED]);
-	});
-
-	it('calls OLSKFundDispatchGrant', async function () {
-		const item = {
-			alfa: Math.random().toString(),
-		};
-		deepEqual((await __OLSKFundSetupGrant({
-			OLKSLocalStorageGet: (function () {}),
-			OLKSLocalStorageSet: (function () {
-				return Array.from(arguments).pop();
-			}),
-			fetch: (function () {
-				return {
-					status: 200,
-					json: (async function () {
-						return {
-							OLSK_FUND_ENCRYPTED_SIGNED: await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item)),
-						};
-					}),
-				};
-			}),
-		})), {
-			OLSKFundDispatchProgress: [],
-			OLSKFundDispatchGrant: [item],
+		it('alerts if not decrypted', async function () {
+			deepEqual((await __OLSKFundSetupGrant({
+				OLKSLocalStorageGet: (async function () {
+					return await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+				}),
+				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: Math.random().toString(),
+			})).alert, [uLocalized('OLSKFundGrantErrorDecryptionText')]);
 		});
-	});
 
-	it('alerts if not decrypted', async function () {
-		deepEqual((await __OLSKFundSetupGrant({
-			OLKSLocalStorageGet: (async function () {
-				return await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
-			}),
-			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: Math.random().toString(),
-		})).alert, [uLocalized('OLSKFundGrantErrorDecryptionText')]);
-	});
-
-	it('alerts if not signed', async function () {
-		deepEqual((await __OLSKFundSetupGrant({
-			OLKSLocalStorageGet: (async function () {
-				return await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
-			}),
-			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE,
-		})).alert, [uLocalized('OLSKFundGrantErrorSigningText')]);
+		it('alerts if not signed', async function () {
+			deepEqual((await __OLSKFundSetupGrant({
+				OLKSLocalStorageGet: (async function () {
+					return await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+				}),
+				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE,
+			})).alert, [uLocalized('OLSKFundGrantErrorSigningText')]);
+		});
+	
 	});
 
 });
