@@ -309,15 +309,15 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		}), /OLSKErrorInputNotValid/);
 	});
 
-	it('rejects if OLSKFundDispatchGrant not function', async function () {
-		await rejects(__OLSKFundSetupGrant({
-			OLSKFundDispatchGrant: null,
-		}), /OLSKErrorInputNotValid/);
-	});
-
 	it('rejects if OLSKFundDispatchFail not function', async function () {
 		await rejects(__OLSKFundSetupGrant({
 			OLSKFundDispatchFail: null,
+		}), /OLSKErrorInputNotValid/);
+	});
+
+	it('rejects if OLSKFundDispatchGrant not function', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			OLSKFundDispatchGrant: null,
 		}), /OLSKErrorInputNotValid/);
 	});
 
