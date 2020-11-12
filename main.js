@@ -221,19 +221,14 @@ const mod = {
 		return mod._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(window.localStorage, mod._OLSKFundGrantData(), await OLSKCrypto.OLSKCryptoEncryptSigned(param1, param2, JSON.stringify(param3)));
 	},
 
+	_OLSKFundFakeGrantResponseRandom () {
+		return mod._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(localStorage, mod._OLSKFundGrantData(), Math.random().toString());
+	},
+
 	OLSKFundLauncherFakeItemProxy () {
 		return {
 			LCHRecipeName: 'OLSKFundLauncherFakeItemProxy',
 			LCHRecipeCallback () {},
-		};
-	},
-
-	OLSKFundLauncherFakeItemSetResponse () {
-		return {
-			LCHRecipeName: 'OLSKFundLauncherFakeItemSetResponse',
-			LCHRecipeCallback () {
-				return mod._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(localStorage, mod._OLSKFundGrantData(), Math.random().toString());
-			},
 		};
 	},
 
@@ -334,7 +329,6 @@ const mod = {
 
 		return [
 			mod.OLSKFundLauncherFakeItemProxy(),
-			mod.OLSKFundLauncherFakeItemSetResponse(),
 			mod.OLSKFundLauncherItemEnterConfirmation(params),
 			mod.OLSKFundLauncherItemClearAuthorization(params),
 		].filter(function (e) {
