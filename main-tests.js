@@ -234,6 +234,9 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 			OLSKLocalized: uLocalized,
 			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE,
 			OLSK_CRYPTO_PAIR_SENDER_PUBLIC: process.env.OLSK_CRYPTO_PAIR_SENDER_PUBLIC,
+			OLSKFundDispatchProgress: (function () {
+				item.OLSKFundDispatchProgress = Array.from(arguments);
+			}),
 			OLSKFundDispatchFail: (function () {
 				item.OLSKFundDispatchFail = Array.from(arguments);
 			}),
@@ -309,6 +312,12 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		}), /OLSKErrorInputNotValid/);
 	});
 
+	it('rejects if OLSKFundDispatchProgress not function', async function () {
+		await rejects(__OLSKFundSetupGrant({
+			OLSKFundDispatchProgress: null,
+		}), /OLSKErrorInputNotValid/);
+	});
+
 	it('rejects if OLSKFundDispatchFail not function', async function () {
 		await rejects(__OLSKFundSetupGrant({
 			OLSKFundDispatchFail: null,
@@ -331,47 +340,59 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		deepEqual((await __OLSKFundSetupGrant()).OLKSLocalStorageGet.slice(1), [mod._OLSKFundGrantData()]);
 	});
 
-	it('calls OLSKFundDispatchGrant if cached', async function () {
-		const item = {
-			alfa: Math.random().toString(),
-		};
-		deepEqual((await __OLSKFundSetupGrant({
-			OLKSLocalStorageGet: (function () {
-				return OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item));
-			}),
-		})), {
-			OLSKFundDispatchGrant: [item],
+	context('cached', function test_cached () {
+		
+		it('calls OLSKFundDispatchGrant', async function () {
+			const item = {
+				alfa: Math.random().toString(),
+			};
+			deepEqual((await __OLSKFundSetupGrant({
+				OLKSLocalStorageGet: (function () {
+					return OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item));
+				}),
+			})), {
+				OLSKFundDispatchGrant: [item],
+			});
 		});
+	
 	});
 
-	it('calls ParamWindow.fetch', async function () {
-		const OLSK_FUND_API_URL = Math.random().toString();
-		const ParamBody = {
-			OLSKPactAuthType: OLSKPact.OLSKPactAuthTypeEmail(),
-			OLSKPactAuthIdentity: 'alfa@bravo.charlie',
-			OLSKPactAuthProof: Math.random().toString(),
-			OLSKPactPayIdentity: 'alfa@bravo.charlie',
-			OLSKPactPayTransaction: Math.random().toString(),
-		};
+	context('request', function test_request () {
+		
+		it('calls ParamWindow.fetch', async function () {
+			const OLSK_FUND_API_URL = Math.random().toString();
+			const ParamBody = {
+				OLSKPactAuthType: OLSKPact.OLSKPactAuthTypeEmail(),
+				OLSKPactAuthIdentity: 'alfa@bravo.charlie',
+				OLSKPactAuthProof: Math.random().toString(),
+				OLSKPactPayIdentity: 'alfa@bravo.charlie',
+				OLSKPactPayTransaction: Math.random().toString(),
+			};
 
-		deepEqual((await __OLSKFundSetupGrant({
-			OLSK_FUND_API_URL,
-			ParamBody,
-		})).fetch, [OLSK_FUND_API_URL, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(ParamBody),
-		}]);
-	});
+			deepEqual((await __OLSKFundSetupGrant({
+				OLSK_FUND_API_URL,
+				ParamBody,
+			})).fetch, [OLSK_FUND_API_URL, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(ParamBody),
+			}]);
+		});
 
-	it('alerts if ParamWindow.fetch throws', async function () {
-		deepEqual((await __OLSKFundSetupGrant({
-			fetch: (function () {
-				throw new Error(Math.random().toString());
-			}),
-		})).alert, [uLocalized('OLSKFundGrantErrorConnectionText')]);
+		it('calls OLSKFundDispatchProgress', async function () {
+			deepEqual((await __OLSKFundSetupGrant()).OLSKFundDispatchProgress, []);
+		});
+
+		it('alerts if ParamWindow.fetch throws', async function () {
+			deepEqual((await __OLSKFundSetupGrant({
+				fetch: (function () {
+					throw new Error(Math.random().toString());
+				}),
+			})).alert, [uLocalized('OLSKFundGrantErrorConnectionText')]);
+		});
+	
 	});
 
 	context('ParamWindow.fetch response not 200', function () {
@@ -437,6 +458,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				};
 			}),
 		})), {
+			OLSKFundDispatchProgress: [],
 			OLSKFundDispatchGrant: [item],
 		});
 	});

@@ -109,6 +109,10 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
+		if (typeof params.OLSKFundDispatchProgress !== 'function') {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
 		if (typeof params.OLSKFundDispatchFail !== 'function') {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
@@ -125,6 +129,7 @@ const mod = {
 		let response;
 
 		try {
+			params.OLSKFundDispatchProgress();
 			response = await params.ParamWindow.fetch(params.OLSK_FUND_API_URL, {
 				method: 'POST',
 				headers: {

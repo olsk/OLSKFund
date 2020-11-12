@@ -68,9 +68,10 @@
 					OLSKPactPayTransaction: Math.random().toString(),
 				},
 				OLSKLocalized: window.OLSKLocalized,
-				OLSKFundDispatchGrant: (function () {}),
 				OLSKFundDispatchPersist: (function () {}),
+				OLSKFundDispatchProgress: (function () {}),
 				OLSKFundDispatchFail: (function () {}),
+				OLSKFundDispatchGrant: (function () {}),
 				OLSK_TESTING_BEHAVIOUR: true,
 			});
 		},
