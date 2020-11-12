@@ -2,10 +2,6 @@
 node_modules
 package-lock.json
 
-# OLDSKOOL
-os-cache
-os-workspace-testing
-
 # BUILD
 **/__*/*
 .static
