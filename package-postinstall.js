@@ -31,20 +31,26 @@ const mod = {
 			const filePath = './node_modules/OLSKCrypto/main.js';
 			require('fs').writeFileSync(filePath, require('OLSKString').OLSKStringPatch(
 				require('fs').readFileSync(filePath, 'utf8'),
-				require('fs').readFileSync(filePath, 'utf8'),
-				`(function() { ${ require('fs').readFileSync(filePath, 'utf8') } })();`,
+				'const cryptico',
+				'(function() { const  cryptico',
 			));
 
 			require('fs').writeFileSync(filePath, require('OLSKString').OLSKStringPatch(
 				require('fs').readFileSync(filePath, 'utf8'),
-				"const cryptico = require('cryptico');",
-				"const cryptico = (function() { return typeof require === 'undefined' ? window.cryptico : require('cryptico'); })();",
+				'Object.assign(exports, OLSKCrypto);',
+				'Object.assign(exports, OLSKCrypto) ; })();',
 			));
 
 			require('fs').writeFileSync(filePath, require('OLSKString').OLSKStringPatch(
 				require('fs').readFileSync(filePath, 'utf8'),
-				'cryptico.RSAKey',
-				'RSAKey',
+				"= require('cryptico');",
+				"=  (function() { return typeof require === 'undefined' ? window.cryptico : require('cryptico'); })();",
+			));
+
+			require('fs').writeFileSync(filePath, require('OLSKString').OLSKStringPatch(
+				require('fs').readFileSync(filePath, 'utf8'),
+				', cryptico.RSAKey',
+				", (typeof require === 'undefined' ? RSAKey : cryptico.RSAKey)",
 			));
 		})();
 	},
