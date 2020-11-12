@@ -27,9 +27,25 @@ const mod = {
 			})
 		})();
 
-		(function OLSKHotfixOLSKCryptoForRequire() {
+		(function OLSKHotfixOLSKCryptoForTesting() {
 			const filePath = './node_modules/OLSKCrypto/main.js';
-			require('fs').writeFileSync(filePath, require('fs').readFileSync(filePath, 'utf8').replace("const cryptico = require('cryptico');", "const cryptico = (function() { return typeof require === 'undefined' ? window.cryptico : require('cryptico'); })();"));
+			require('fs').writeFileSync(filePath, require('OLSKString').OLSKStringPatch(
+				require('fs').readFileSync(filePath, 'utf8'),
+				require('fs').readFileSync(filePath, 'utf8'),
+				`(function() { ${ require('fs').readFileSync(filePath, 'utf8') } })();`,
+			));
+
+			require('fs').writeFileSync(filePath, require('OLSKString').OLSKStringPatch(
+				require('fs').readFileSync(filePath, 'utf8'),
+				"const cryptico = require('cryptico');",
+				"const cryptico = (function() { return typeof require === 'undefined' ? window.cryptico : require('cryptico'); })();",
+			));
+
+			require('fs').writeFileSync(filePath, require('OLSKString').OLSKStringPatch(
+				require('fs').readFileSync(filePath, 'utf8'),
+				'cryptico.RSAKey',
+				'RSAKey',
+			));
 		})();
 	},
 
