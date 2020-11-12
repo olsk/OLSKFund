@@ -20,6 +20,7 @@ const mod = {
 			[
 				'OLSKPact',
 				'OLSKCrypto',
+				'OLSKLocalStorage',
 			].map(function (e) {
 				const filePath = `./node_modules/${ e }/main.js`;
 				require('fs').writeFileSync(filePath, require('fs').readFileSync(filePath, 'utf8').replace(/\bmod\b/g, e));
