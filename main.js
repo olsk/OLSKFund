@@ -57,7 +57,19 @@ const mod = {
 	},
 
 	async __OLSKFundSetupGrantDispatchPayload (params, payload) {
-		return params.OLSKFundDispatchGrant(JSON.parse(await OLSKCrypto.OLSKCryptoDecryptSigned(params.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE, params.OLSK_CRYPTO_PAIR_SENDER_PUBLIC, payload)));
+		try {
+			return params.OLSKFundDispatchGrant(JSON.parse(await OLSKCrypto.OLSKCryptoDecryptSigned(params.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE, params.OLSK_CRYPTO_PAIR_SENDER_PUBLIC, payload)));
+		} catch (e) {
+			if (e.message.match('Invalid RSA private key')) {
+				return params.ParamWindow.alert(params.OLSKLocalized('OLSKFundGrantErrorDecryptionText'));
+			}
+
+			if (e.message.match('OLSKErrorNotSigned')) {
+				return params.ParamWindow.alert(params.OLSKLocalized('OLSKFundGrantErrorSigningText'));
+			}
+			
+			throw e;
+		}
 	},
 
 	async _OLSKFundSetupGrant (params) {

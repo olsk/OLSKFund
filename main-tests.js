@@ -412,6 +412,24 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		});
 	});
 
+	it('alerts if not decrypted', async function () {
+		deepEqual((await __OLSKFundSetupGrant({
+			OLKSLocalStorageGet: (async function () {
+				return await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+			}),
+			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: Math.random().toString(),
+		})).alert, [uLocalized('OLSKFundGrantErrorDecryptionText')]);
+	});
+
+	it('alerts if not signed', async function () {
+		deepEqual((await __OLSKFundSetupGrant({
+			OLKSLocalStorageGet: (async function () {
+				return await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+			}),
+			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE,
+		})).alert, [uLocalized('OLSKFundGrantErrorSigningText')]);
+	});
+
 });
 
 describe('OLSKFundSetup', function test_OLSKFundSetup() {
