@@ -382,7 +382,11 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 		});
 
 		it('calls OLSKFundDispatchProgress', async function () {
-			deepEqual((await __OLSKFundSetupGrant()).OLSKFundDispatchProgress, []);
+			deepEqual((await __OLSKFundSetupGrant({
+				fetch: (function () {
+					throw new Error(Math.random().toString());
+				}),
+			})).OLSKFundDispatchProgress, [true]);
 		});
 
 		it('alerts if ParamWindow.fetch throws', async function () {
@@ -417,6 +421,10 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				deepEqual((await result).alert, [RCSAPIError]);
 			});
 			
+			it('calls OLSKFundDispatchProgress', async function () {
+				deepEqual((await __OLSKFundSetupGrant()).OLSKFundDispatchProgress, [false]);
+			});
+
 			it('calls OLSKFundDispatchFail', async function () {
 				deepEqual((await result).OLSKFundDispatchFail, [undefined]);
 			});
@@ -442,6 +450,10 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 				})).OLKSLocalStorageSet.slice(1), [mod._OLSKFundGrantData(), OLSK_FUND_ENCRYPTED_SIGNED]);
 			});
 
+			it('calls OLSKFundDispatchProgress', async function () {
+				deepEqual((await __OLSKFundSetupGrant()).OLSKFundDispatchProgress, [false]);
+			});
+
 			it('calls OLSKFundDispatchGrant', async function () {
 				const item = {
 					alfa: Math.random().toString(),
@@ -461,10 +473,7 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 							}),
 						};
 					}),
-				})), {
-					OLSKFundDispatchProgress: [],
-					OLSKFundDispatchGrant: [item],
-				});
+				})).OLSKFundDispatchGrant, [item]);
 			});
 		
 		});

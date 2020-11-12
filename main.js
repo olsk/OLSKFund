@@ -129,7 +129,8 @@ const mod = {
 		let response;
 
 		try {
-			params.OLSKFundDispatchProgress();
+			params.OLSKFundDispatchProgress(true);
+			
 			response = await params.ParamWindow.fetch(params.OLSK_FUND_API_URL, {
 				method: 'POST',
 				headers: {
@@ -142,6 +143,8 @@ const mod = {
 		}
 
 		const json = await response.json();
+
+		params.OLSKFundDispatchProgress(false);
 
 		if (response.status !== 200) {
 			return params.OLSKFundDispatchFail(params.ParamWindow.alert(json.RCSAPIError));
