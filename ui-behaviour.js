@@ -37,9 +37,9 @@
 		},
 
 		async InterfaceFakeErrorExpiredButtonDidClick () {
-			OLSKLocalStorage.OLKSLocalStorageSet(localStorage, exports._OLSKFundGrantData(), await exports.OLSKCryptoEncryptSigned(window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC'), window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_SENDER_PRIVATE'), JSON.stringify({
+			await exports._OLSKFundFakeGrantResponse(window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC'), window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_SENDER_PRIVATE'), {
 				OLSKPactGrantEndDate: new Date(Date.now() - 1000),
-			})));
+			});
 			mod.ControlGrant();
 		},
 
