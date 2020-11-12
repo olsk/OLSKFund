@@ -84,6 +84,18 @@ kDefaultRoute.OLSKRouteLanguages.forEach(function (languageCode) {
 				}), uLocalized('OLSKFundGrantErrorConnectionText'));
 			});
 
+			it('localizes OLSKFundGrantErrorDecryption', async function () {
+				browser.assert.deepEqual(await browser.OLSKAlertTextAsync(function () {
+					return browser.pressButton('#TestFakeErrorDecryption');
+				}), uLocalized('OLSKFundGrantErrorDecryptionText'));
+			});
+
+			it('localizes OLSKFundGrantErrorSigning', async function () {
+				browser.assert.deepEqual(await browser.OLSKAlertTextAsync(function () {
+					return browser.pressButton('#TestFakeErrorSigning');
+				}), uLocalized('OLSKFundGrantErrorSigningText'));
+			});
+
 			it.skip('localizes OLSKFundGrantErrorExpired', async function () {
 				browser.assert.deepEqual(await browser.OLSKAlertTextAsync(function () {
 					return browser.pressButton('#TestFakeErrorExpired');

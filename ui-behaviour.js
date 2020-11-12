@@ -24,9 +24,15 @@
 			});
 		},
 
-		InterfaceFakeErrorExpiredButtonDidClick () {
+		InterfaceFakeErrorDecryptionButtonDidClick () {
 			mod.ControlGrant({
-				OLSKFundStubGrantRoute: 'OLSKFundStubGrantRouteExpired',
+				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: Math.random().toString(),
+			});
+		},
+
+		InterfaceFakeErrorSigningButtonDidClick () {
+			mod.ControlGrant({
+				OLSK_CRYPTO_PAIR_SENDER_PUBLIC: Math.random().toString(),
 			});
 		},
 
@@ -42,8 +48,8 @@
 
 		ControlGrant (inputData) {
 			exports._OLSKFundSetupGrant({
-				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE'),
-				OLSK_CRYPTO_PAIR_SENDER_PUBLIC: window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_SENDER_PUBLIC'),
+				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: inputData.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE || window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE'),
+				OLSK_CRYPTO_PAIR_SENDER_PUBLIC: inputData.OLSK_CRYPTO_PAIR_SENDER_PUBLIC || window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_SENDER_PUBLIC'),
 				ParamWindow: window,
 				OLSK_FUND_API_URL: inputData.OLSK_FUND_API_URL || '/OLSKFundStubGrantRoute',
 				ParamBody: {

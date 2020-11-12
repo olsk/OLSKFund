@@ -1,4 +1,6 @@
 OLSKFundGrantErrorConnectionText: Error de conexión
+OLSKFundGrantErrorDecryptionText: Error de deciframiento
+OLSKFundGrantErrorSigningText: Error de signatura
 OLSKFundGrantErrorExpiredText: Acceso vencido
 OLSKFundConfirmText: ¿Est@s segur@?
 OLSKFundLauncherItemEnterConfirmationText: Entrar código de confirmación
