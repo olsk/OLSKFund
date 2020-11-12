@@ -57,6 +57,7 @@
 				OLSKLocalized: window.OLSKLocalized,
 				OLSKFundDispatchGrant: (function () {}),
 				OLSKFundDispatchPersist: (function () {}),
+				OLSKFundDispatchFail: (function () {}),
 				OLSK_TESTING_BEHAVIOUR: true,
 			});
 		},
