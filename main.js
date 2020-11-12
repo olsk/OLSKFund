@@ -216,6 +216,15 @@ const mod = {
 		};
 	},
 
+	OLSKFundLauncherFakeItemSetResponse () {
+		return {
+			LCHRecipeName: 'OLSKFundLauncherFakeItemSetResponse',
+			LCHRecipeCallback () {
+				return mod._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(localStorage, mod._OLSKFundGrantData(), Math.random().toString());
+			},
+		};
+	},
+
 	OLSKFundLauncherItemEnterConfirmation (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -313,6 +322,7 @@ const mod = {
 
 		return [
 			mod.OLSKFundLauncherFakeItemProxy(),
+			mod.OLSKFundLauncherFakeItemSetResponse(),
 			mod.OLSKFundLauncherItemEnterConfirmation(params),
 			mod.OLSKFundLauncherItemClearAuthorization(params),
 		].filter(function (e) {
