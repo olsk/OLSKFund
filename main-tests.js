@@ -41,6 +41,38 @@ const uPromise = function (inputData) {
 	};
 };
 
+describe('OLSKFundResponseIsPresent', function test_OLSKFundResponseIsPresent() {
+
+	const _OLSKFundResponseIsPresent = function (inputData) {
+		return Object.assign(Object.assign({}, mod), {
+			_DataFoilOLSKLocalStorage: {
+				OLKSLocalStorageGet: inputData || (function () {}),
+			},
+		}).OLSKFundResponseIsPresent();
+	};
+
+	it('calls OLKSLocalStorageGet', function () {
+		const item = [];
+
+		_OLSKFundResponseIsPresent(function () {
+			item.push(...arguments);
+		});
+
+		deepEqual(item, [undefined, mod._OLSKFundGrantData()]);
+	});
+
+	it('returns true if truthy', function () {
+		deepEqual(_OLSKFundResponseIsPresent(function () {
+			return Math.random().toString();
+		}), true);
+	});
+
+	it('returns false if falsy', function () {
+		deepEqual(_OLSKFundResponseIsPresent(), false);
+	});
+
+});
+
 describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 
 	const __OLSKFundSetupPostPay = function (inputData = {}) {

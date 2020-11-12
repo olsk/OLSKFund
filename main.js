@@ -19,6 +19,10 @@ const uPromise = function (inputData) {
 
 const mod = {
 
+	OLSKFundResponseIsPresent () {
+		return !!this._DataFoilOLSKLocalStorage.OLKSLocalStorageGet(typeof window === 'undefined' ? null : window.localStorage, mod._OLSKFundGrantData())
+	},
+
 	_OLSKFundSetupPostPay (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
