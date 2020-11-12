@@ -37,7 +37,7 @@
 		},
 
 		async InterfaceFakeErrorExpiredButtonDidClick () {
-			await exports._OLSKFundFakeGrantResponse(window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC'), window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_SENDER_PRIVATE'), {
+			await exports._OLSKFundFakeGrantResponseEncrypted(window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC'), window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_SENDER_PRIVATE'), {
 				OLSKPactGrantEndDate: new Date(Date.now() - 1000),
 			});
 			mod.ControlGrant();

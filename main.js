@@ -217,7 +217,7 @@ const mod = {
 		}).href;
 	},
 
-	async _OLSKFundFakeGrantResponse (param1, param2, param3) {
+	async _OLSKFundFakeGrantResponseEncrypted (param1, param2, param3) {
 		return mod._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(window.localStorage, mod._OLSKFundGrantData(), await OLSKCrypto.OLSKCryptoEncryptSigned(param1, param2, JSON.stringify(param3)));
 	},
 
