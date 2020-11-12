@@ -182,9 +182,6 @@ describe('_OLSKFundSetupGrant', function test__OLSKFundSetupGrant() {
 					
 					return Array.from(arguments).pop();
 				}),
-				Store: inputData.Store || (function () {
-					return Array.from(arguments);
-				}),
 			},
 		})._OLSKFundSetupGrant(Object.assign({
 			ParamWindow: uWindow({
