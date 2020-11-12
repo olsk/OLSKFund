@@ -16,12 +16,6 @@ const mod = {
 			OLSKRouteMethod: 'post',
 			OLSKRouteSignature: 'OLSKFundStubGrantRoute',
 			OLSKRouteFunction: async function OLSKFundStubGrantRoute (req, res, next) {
-				if (req.body.OLSKFundStubGrantRoute === 'OLSKFundStubGrantRouteExpired') {
-					return res.json({
-						OLSKPactGrantEndDate: new Date(Date.now() - 1000),
-					});
-				}
-
 				return res.json({
 					OLSK_FUND_ENCRYPTED_SIGNED: await require('OLSKCrypto').OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify({})),
 				});

@@ -36,6 +36,13 @@
 			});
 		},
 
+		async InterfaceFakeErrorExpiredButtonDidClick () {
+			OLSKLocalStorage.OLKSLocalStorageSet(localStorage, exports._OLSKFundGrantData(), await exports.OLSKCryptoEncryptSigned(window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC'), window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_SENDER_PRIVATE'), JSON.stringify({
+				OLSKPactGrantEndDate: new Date(Date.now() - 1000),
+			})));
+			mod.ControlGrant();
+		},
+
 		InterfaceFakeConfirmButtonDidClick () {
 			exports.OLSKFundConfirm(window, window.OLSKLocalized);
 		},
@@ -46,7 +53,7 @@
 
 		// CONTROL
 
-		ControlGrant (inputData) {
+		ControlGrant (inputData = {}) {
 			exports._OLSKFundSetupGrant({
 				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: inputData.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE || window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE'),
 				OLSK_CRYPTO_PAIR_SENDER_PUBLIC: inputData.OLSK_CRYPTO_PAIR_SENDER_PUBLIC || window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_SENDER_PUBLIC'),
