@@ -29,7 +29,7 @@ const mod = {
 
 		(function OLSKHotfixOLSKCryptoForRequire() {
 			const filePath = './node_modules/OLSKCrypto/main.js';
-			require('fs').writeFileSync(filePath, require('fs').readFileSync(filePath, 'utf8').replace("const openpgp = require('openpgp');", "const openpgp = (function() { return typeof require === 'undefined' ? window.openpgp : require('openpgp'); })();"));
+			require('fs').writeFileSync(filePath, require('fs').readFileSync(filePath, 'utf8').replace("const cryptico = require('cryptico');", "const cryptico = (function() { return typeof require === 'undefined' ? window.cryptico : require('cryptico'); })();"));
 		})();
 	},
 
