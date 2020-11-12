@@ -23,7 +23,7 @@ const mod = {
 				}
 
 				return res.json({
-					alfa: 'bravo',
+					OLSK_FUND_ENCRYPTED_SIGNED: 'bravo',
 				});
 			},
 		}];
