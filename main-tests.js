@@ -720,6 +720,28 @@ describe('_OLSKFundPricingStringRowErrors', function test__OLSKFundPricingString
 
 });
 
+describe('OLSKFundPricingStringIsValid', function test_OLSKFundPricingStringIsValid() {
+
+	it('throws if not string', function() {
+		throws(function() {
+			mod.OLSKFundPricingStringIsValid(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns false if no rows', function() {
+		deepEqual(mod.OLSKFundPricingStringIsValid(Date.now().toString()), false);
+	});
+
+	it('returns false if row not valid', function() {
+		deepEqual(mod.OLSKFundPricingStringIsValid('alfa:1;'), false);
+	});
+
+	it('returns true', function() {
+		deepEqual(mod.OLSKFundPricingStringIsValid(`${ (new Date()).toJSON() }:10 10,100 50,500 250;`), true);
+	});
+
+});
+
 describe('OLSKFundLauncherFakeItemProxy', function test_OLSKFundLauncherFakeItemProxy() {
 
 	it('returns object', function () {
