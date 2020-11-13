@@ -268,6 +268,37 @@ const mod = {
 		return true;
 	},
 
+	OLSKFundTier (pricingHistory) {
+		if (!mod.OLSKFundPricingStringIsValid(pricingHistory)) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		const pricing = pricingHistory.split(';').filter(function (e) {
+			return e;
+		}).map(function (e) {
+			return {
+				OLKSFundPricingDate: mod._OLSKFundPricingDate(e),
+				OLKSFundPricingTiers: e.split(':').pop().split(' ').map(function (e) {
+					return e.split(',').map(function (e) {
+						return parseInt(e) * 100;
+					});
+				}),
+			};
+		});
+
+		return function(inputData) {
+			if (OLSKPact.OLSKPactGrantModelErrors(inputData)) {
+				throw new Error('OLSKErrorInputNotValid');
+			}
+
+			return pricing.filter(function (e) {
+				return inputData.OLSKPactGrantStartDate <= e.OLKSFundPricingDate;
+			}).concat(pricing.slice(-1)).shift().OLKSFundPricingTiers.filter(function (e) {
+				return inputData.OLSKPactGrantContribution >= e[0];
+			}).length;
+		};
+	},
+
 	async _OLSKFundFakeGrantResponseEncrypted (param1, param2, param3) {
 		return mod._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(window.localStorage, mod._OLSKFundGrantData(), await OLSKCrypto.OLSKCryptoEncryptSigned(param1, param2, JSON.stringify(param3)));
 	},

@@ -742,6 +742,243 @@ describe('OLSKFundPricingStringIsValid', function test_OLSKFundPricingStringIsVa
 
 });
 
+describe('OLSKFundTier', function test_OLSKFundTier() {
+
+	const _OLSKFundTier = function (inputData = {}) {
+		return mod.OLSKFundTier((inputData._OLSKFundPricingRows ? inputData._OLSKFundPricingRows.map(function (e) {
+			return e + ';';
+		}).join('') : (inputData._OLSKFundPricingNumbers ? `0:${ inputData._OLSKFundPricingNumbers.join(' ')};` : '0:1 2 3 4;')))(Object.assign({
+			OLSKPactGrantPublicNumbers: [Math.random().toString()],
+			OLSKPactGrantIdentity: Math.random().toString(),
+			OLSKPactGrantProject: Math.random().toString(),
+			OLSKPactGrantStartDate: new Date(),
+			OLSKPactGrantEndDate: new Date(),
+			OLSKPactGrantContribution: 400,
+			OLSKPactGrantFrequencyOption: OLSKPact.OLSKPactGrantFrequencyOptions()[Date.now() % OLSKPact.OLSKPactGrantFrequencyOptions().length],
+			OLSKPactGrantProcessor: OLSKPact.OLSKPactPayProcessors()[Date.now() % OLSKPact.OLSKPactPayProcessors().length],
+			OLSKPactGrantProcessorReference: Math.random().toString(),
+			OLSKPactGrantActive: true,
+		}, inputData));
+	};
+
+	it('throws if param1 not valid', function () {
+		throws(function () {
+			_OLSKFundTier({
+				_OLSKFundPricingNumbers: [],
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not valid', function () {
+		throws(function () {
+			_OLSKFundTier({
+				OLSKPactGrantIdentity: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns integer', function () {
+		deepEqual(_OLSKFundTier({
+			OLSKPactGrantContribution: 0,
+		}), 0);
+	});
+
+	context('date', function () {
+		
+		it('uses first if under first', function () {
+			const item = Date.now();
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantStartDate: new Date(item),
+				_OLSKFundPricingRows: [
+					`${ item + 1 }:1 2 3 5`,
+					`${ item + 2 }:1 2 3 4`,
+				],
+			}), 3);
+		});
+		
+		it('uses first if first', function () {
+			const item = Date.now();
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantStartDate: new Date(item),
+				_OLSKFundPricingRows: [
+					`${ item }:1 2 3 5`,
+					`${ item }:1 2 3 4`,
+				],
+			}), 3);
+		});
+		
+		it('uses first if under second', function () {
+			const item = Date.now();
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantStartDate: new Date(item),
+				_OLSKFundPricingRows: [
+					`${ item }:1 2 3 5`,
+					`${ item + 1 }:1 2 3 4`,
+				],
+			}), 3);
+		});
+		
+		it('uses second if second', function () {
+			const item = Date.now();
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantStartDate: new Date(item),
+				_OLSKFundPricingRows: [
+					`${ item - 1 }:1 2 3 4`,
+					`${ item }:1 2 3 5`,
+				],
+			}), 3);
+		});
+		
+		it('uses second if over second', function () {
+			const item = Date.now();
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantStartDate: new Date(item),
+				_OLSKFundPricingRows: [
+					`${ item - 1 }:1 2 3 4`,
+					`${ item - 2 }:1 2 3 5`,
+				],
+			}), 3);
+		});
+	
+	});
+
+	context('price', function () {
+		
+		it('returns 0 if under tier 1', function () {
+			const item = Date.now() % 1000;
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantContribution: item * 100,
+				_OLSKFundPricingNumbers: [
+					item + 1,
+					item + 2,
+					item + 3,
+					item + 4,
+				]
+			}), 0);	
+		});
+		
+		it('returns 1 if tier 1', function () {
+			const item = Date.now() % 1000;
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantContribution: item * 100,
+				_OLSKFundPricingNumbers: [
+					item,
+					item + 2,
+					item + 3,
+					item + 4,
+				]
+			}), 1);	
+		});
+		
+		it('returns 1 if under tier 2', function () {
+			const item = Date.now() % 1000;
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantContribution: item * 100,
+				_OLSKFundPricingNumbers: [
+					item - 1,
+					item + 2,
+					item + 3,
+					item + 4,
+				]
+			}), 1);	
+		});
+		
+		it('returns 2 if tier 2', function () {
+			const item = Date.now() % 1000;
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantContribution: item * 100,
+				_OLSKFundPricingNumbers: [
+					item - 1,
+					item,
+					item + 3,
+					item + 4,
+				]
+			}), 2);	
+		});
+		
+		it('returns 2 if under tier 3', function () {
+			const item = Date.now() % 1000;
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantContribution: item * 100,
+				_OLSKFundPricingNumbers: [
+					item - 1,
+					item - 2,
+					item + 3,
+					item + 4,
+				]
+			}), 2);	
+		});
+		
+		it('returns 3 if tier 3', function () {
+			const item = Date.now() % 1000;
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantContribution: item * 100,
+				_OLSKFundPricingNumbers: [
+					item - 1,
+					item - 2,
+					item,
+					item + 4,
+				]
+			}), 3);	
+		});
+		
+		it('returns 3 if under tier 4', function () {
+			const item = Date.now() % 1000;
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantContribution: item * 100,
+				_OLSKFundPricingNumbers: [
+					item - 1,
+					item - 2,
+					item - 3,
+					item + 4,
+				]
+			}), 3);	
+		});
+		
+		it('returns 4 if tier 4', function () {
+			const item = Date.now() % 1000;
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantContribution: item * 100,
+				_OLSKFundPricingNumbers: [
+					item - 1,
+					item - 2,
+					item - 3,
+					item,
+				]
+			}), 4);	
+		});
+		
+		it('returns 4 if above tier 4', function () {
+			const item = Date.now() % 1000;
+
+			deepEqual(_OLSKFundTier({
+				OLSKPactGrantContribution: item * 100,
+				_OLSKFundPricingNumbers: [
+					item - 1,
+					item - 2,
+					item - 3,
+					item - 4,
+				]
+			}), 4);	
+		});
+	
+	});
+
+});
+
 describe('OLSKFundLauncherFakeItemProxy', function test_OLSKFundLauncherFakeItemProxy() {
 
 	it('returns object', function () {
