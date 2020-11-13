@@ -666,7 +666,7 @@ describe('OLSKFundURL', function test_OLSKFundURL() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('returns producton recipes', function () {
+	it('returns string', function () {
 		deepEqual(_OLSKFundURL(), Object.assign(new URL('https://example.com/form'), {
 			hash: (new URLSearchParams({
 				seed: JSON.stringify({
