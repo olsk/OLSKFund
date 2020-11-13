@@ -271,8 +271,12 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (OLSKPact.OLSKPactGrantModelErrors(param2)) {
+		if (param2 && OLSKPact.OLSKPactGrantModelErrors(param2)) {
 			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!param2) {
+			return 0;
 		}
 
 		const pricing = param1.split(';').filter(function (e) {

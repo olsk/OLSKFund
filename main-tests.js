@@ -765,18 +765,16 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
+	it('returns integer', function () {
+		deepEqual(mod.OLSKFundTier('0:1 2 3 4'), 0);
+	});
+
 	it('throws if param2 not valid', function () {
 		throws(function () {
 			_OLSKFundTier({
 				OLSKPactGrantIdentity: null,
 			});
 		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('returns integer', function () {
-		deepEqual(_OLSKFundTier({
-			OLSKPactGrantContribution: 0,
-		}), 0);
 	});
 
 	context('date', function () {
