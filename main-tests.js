@@ -847,7 +847,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 
 	context('price', function () {
 		
-		it('returns 0 if under tier 1', function () {
+		it('returns 0 if under Tier1', function () {
 			const item = Date.now() % 1000;
 
 			deepEqual(_OLSKFundTier({
@@ -861,7 +861,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			}), 0);	
 		});
 		
-		it('returns 1 if tier 1', function () {
+		it('returns 1 if Tier1', function () {
 			const item = Date.now() % 1000;
 
 			deepEqual(_OLSKFundTier({
@@ -875,7 +875,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			}), 1);	
 		});
 		
-		it('returns 1 if under tier 2', function () {
+		it('returns 1 if under Tier2', function () {
 			const item = Date.now() % 1000;
 
 			deepEqual(_OLSKFundTier({
@@ -889,7 +889,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			}), 1);	
 		});
 		
-		it('returns 2 if tier 2', function () {
+		it('returns 2 if Tier2', function () {
 			const item = Date.now() % 1000;
 
 			deepEqual(_OLSKFundTier({
@@ -903,7 +903,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			}), 2);	
 		});
 		
-		it('returns 2 if under tier 3', function () {
+		it('returns 2 if under Tier3', function () {
 			const item = Date.now() % 1000;
 
 			deepEqual(_OLSKFundTier({
@@ -917,7 +917,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			}), 2);	
 		});
 		
-		it('returns 3 if tier 3', function () {
+		it('returns 3 if Tier3', function () {
 			const item = Date.now() % 1000;
 
 			deepEqual(_OLSKFundTier({
@@ -931,7 +931,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			}), 3);	
 		});
 		
-		it('returns 3 if under tier 4', function () {
+		it('returns 3 if under Tier4', function () {
 			const item = Date.now() % 1000;
 
 			deepEqual(_OLSKFundTier({
@@ -945,7 +945,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			}), 3);	
 		});
 		
-		it('returns 4 if tier 4', function () {
+		it('returns 4 if Tier4', function () {
 			const item = Date.now() % 1000;
 
 			deepEqual(_OLSKFundTier({
@@ -959,7 +959,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			}), 4);	
 		});
 		
-		it('returns 4 if above tier 4', function () {
+		it('returns 4 if above Tier4', function () {
 			const item = Date.now() % 1000;
 
 			deepEqual(_OLSKFundTier({
@@ -1074,7 +1074,7 @@ describe('OLSKFundIsEligible', function test_OLSKFundIsEligible() {
 	
 	});
 
-	context('tier 2', function () {
+	context('Tier2', function () {
 
 		it('returns true if ParamCurrentProject in ParamBundleProjects', function () {
 			const item = Math.random().toString();
@@ -1096,7 +1096,7 @@ describe('OLSKFundIsEligible', function test_OLSKFundIsEligible() {
 	
 	});
 
-	context('above tier 2', function () {
+	context('above Tier2', function () {
 
 		it('returns true', function () {
 			deepEqual(_OLSKFundIsEligible({
