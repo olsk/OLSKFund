@@ -761,9 +761,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 
 	it('throws if param1 not valid', function () {
 		throws(function () {
-			_OLSKFundTier({
-				_OLSKFundPricingNumbers: [],
-			});
+			mod.OLSKFundTier('alfa:1')
 		}, /OLSKErrorInputNotValid/);
 	});
 
