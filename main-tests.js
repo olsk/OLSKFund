@@ -979,6 +979,139 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 
 });
 
+describe('OLSKFundIsEligible', function test_OLSKFundIsEligible() {
+
+	const _OLSKFundIsEligible = function (inputData = {}) {
+		const project = Math.random().toString();
+		const tier = Date.now() % 1000;
+
+		return mod.OLSKFundIsEligible(Object.assign({
+			ParamMinimumTier: inputData._MatchTier || tier,
+			ParamCurrentProject: project,
+			ParamBundleProjects: [project],
+			ParamGrantTier: inputData._MatchTier || tier - 1,
+			ParamGrantProject: project,
+		}, inputData))
+	}
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.OLSKFundIsEligible(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamMinimumTier not number', function () {
+		throws(function () {
+			_OLSKFundIsEligible({
+				ParamMinimumTier: '1',
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamCurrentProject not string', function () {
+		throws(function () {
+			_OLSKFundIsEligible({
+				ParamCurrentProject: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamBundleProjects not array', function () {
+		throws(function () {
+			_OLSKFundIsEligible({
+				ParamBundleProjects: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamGrantTier not number', function () {
+		throws(function () {
+			_OLSKFundIsEligible({
+				ParamGrantTier: '1',
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamGrantProject not string', function () {
+		throws(function () {
+			_OLSKFundIsEligible({
+				ParamGrantProject: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns boolean', function () {
+		deepEqual(_OLSKFundIsEligible(), false);
+	});
+
+	it('returns false if under ParamMinimumTier', function () {
+		const item = Date.now() % 100;
+
+		deepEqual(_OLSKFundIsEligible({
+			ParamMinimumTier: item,
+			ParamGrantTier: item - 1,
+		}), false);
+	});
+
+	it('returns true if over ParamMinimumTier', function () {
+		const item = Date.now() % 100;
+
+		deepEqual(_OLSKFundIsEligible({
+			ParamMinimumTier: item - 1,
+			ParamGrantTier: item,
+		}), true);
+	});
+
+	context('_MatchTier', function () {
+		
+		it('returns true if ParamCurrentProject matches ParamGrantProject', function () {
+			const item = Math.random().toString();
+
+			deepEqual(_OLSKFundIsEligible({
+				_MatchTier: Math.random(),
+				ParamCurrentProject: item,
+				ParamGrantProject: item,
+			}), true);
+		});
+	
+	});
+
+	context('tier 2', function () {
+
+		it('returns true if ParamCurrentProject in ParamBundleProjects', function () {
+			const item = Math.random().toString();
+
+			deepEqual(_OLSKFundIsEligible({
+				_MatchTier: 2,
+				ParamCurrentProject: item,
+				ParamBundleProjects: [item],
+			}), true);
+		});
+
+		it('returns false', function () {
+			deepEqual(_OLSKFundIsEligible({
+				_MatchTier: 2,
+				ParamCurrentProject: Math.random().toString(),
+				ParamBundleProjects: [Math.random().toString()],
+			}), false);
+		});
+	
+	});
+
+	context('above tier 2', function () {
+
+		it('returns true', function () {
+			deepEqual(_OLSKFundIsEligible({
+				_MatchTier: 2 + Date.now() % 100,
+				ParamCurrentProject: Math.random().toString(),
+				ParamBundleProjects: [Math.random().toString()],
+			}), true);
+		});
+	
+	});
+
+});
+
 describe('OLSKFundLauncherFakeItemProxy', function test_OLSKFundLauncherFakeItemProxy() {
 
 	it('returns object', function () {

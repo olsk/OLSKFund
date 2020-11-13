@@ -299,6 +299,54 @@ const mod = {
 		};
 	},
 
+	OLSKFundIsEligible (params) {
+		if (typeof params !== 'object' || params === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamMinimumTier !== 'number') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamCurrentProject !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!Array.isArray(params.ParamBundleProjects)) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamGrantTier !== 'number') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamGrantProject !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (params.ParamGrantTier < params.ParamMinimumTier) {
+			return false;
+		}
+
+		if (params.ParamGrantTier > params.ParamMinimumTier) {
+			return true;
+		}
+
+		if (params.ParamGrantProject === params.ParamCurrentProject) {
+			return params.ParamGrantTier === params.ParamMinimumTier;
+		}
+
+		if (params.ParamGrantTier === 2) {
+			return params.ParamBundleProjects.includes(params.ParamCurrentProject);
+		}
+
+		if (params.ParamGrantTier > 2) {
+			return true;
+		}
+
+		return false;
+	},
+
 	async _OLSKFundFakeGrantResponseEncrypted (param1, param2, param3) {
 		return mod._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(window.localStorage, mod._OLSKFundGrantData(), await OLSKCrypto.OLSKCryptoEncryptSigned(param1, param2, JSON.stringify(param3)));
 	},
