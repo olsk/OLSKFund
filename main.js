@@ -217,6 +217,30 @@ const mod = {
 		}).href;
 	},
 
+	_OLSKFundPricingStringRowErrors (inputData) {
+		if (typeof inputData !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (inputData.slice(-1) === ';') {
+			return true;
+		}
+
+		if (inputData.split(':').length < 2) {
+			return true;
+		}
+
+		if (Number.isNaN((new Date(inputData.split(':').slice(0, -1).join(':'))).getTime()) && Number.isNaN((new Date(parseInt(inputData.split(':').slice(0, -1).join(':')))).getTime())) {
+			return true;
+		}
+
+		if (inputData.split(':').pop().split(' ').length !== 4) {
+			return true;
+		}
+
+		return false;
+	},
+
 	async _OLSKFundFakeGrantResponseEncrypted (param1, param2, param3) {
 		return mod._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(window.localStorage, mod._OLSKFundGrantData(), await OLSKCrypto.OLSKCryptoEncryptSigned(param1, param2, JSON.stringify(param3)));
 	},

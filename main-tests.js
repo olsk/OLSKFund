@@ -680,6 +680,46 @@ describe('OLSKFundURL', function test_OLSKFundURL() {
 
 });
 
+describe('_OLSKFundPricingStringRowErrors', function test__OLSKFundPricingStringRowErrors() {
+
+	const item = `${ (new Date()).toJSON() }:${ Date.now() % 1000 } ${ Date.now() % 1000 },${ Date.now() % 1000 } ${ Date.now() % 1000 },${ Date.now() % 1000 } ${ Date.now() % 1000 }`;
+
+	it('throws if not string', function() {
+		throws(function() {
+			mod._OLSKFundPricingStringRowErrors(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns true if terminator', function() {
+		deepEqual(mod._OLSKFundPricingStringRowErrors(item + ';'), true);
+	});
+
+	it('returns true if no seperator', function() {
+		deepEqual(mod._OLSKFundPricingStringRowErrors(`${ Date.now() }${ item.split(':').pop() }`), true);
+	});
+
+	it('returns true if key not date', function() {
+		deepEqual(mod._OLSKFundPricingStringRowErrors(`alfa:${ item.split(':').pop() }`), true);
+	});
+
+	it('returns true if value empty', function() {
+		deepEqual(mod._OLSKFundPricingStringRowErrors(`${ Date.now() }:`), true);
+	});
+
+	it('returns true if value count under four', function() {
+		deepEqual(mod._OLSKFundPricingStringRowErrors(`${ Date.now() }:1 2 3`), true);
+	});
+
+	it('returns true if value count over four', function() {
+		deepEqual(mod._OLSKFundPricingStringRowErrors(`${ Date.now() }:1 2 3 4 5`), true);
+	});
+
+	it('returns false', function() {
+		deepEqual(mod._OLSKFundPricingStringRowErrors(item), false);
+	});
+
+});
+
 describe('OLSKFundLauncherFakeItemProxy', function test_OLSKFundLauncherFakeItemProxy() {
 
 	it('returns object', function () {
