@@ -733,11 +733,11 @@ describe('OLSKFundPricingStringIsValid', function test_OLSKFundPricingStringIsVa
 	});
 
 	it('returns false if row not valid', function() {
-		deepEqual(mod.OLSKFundPricingStringIsValid('alfa:1;'), false);
+		deepEqual(mod.OLSKFundPricingStringIsValid('alfa:1'), false);
 	});
 
 	it('returns true', function() {
-		deepEqual(mod.OLSKFundPricingStringIsValid(`${ (new Date()).toJSON() }:10 10,100 50,500 250;`), true);
+		deepEqual(mod.OLSKFundPricingStringIsValid(`${ (new Date()).toJSON() }:10 10,100 50,500 250`), true);
 	});
 
 });
@@ -745,9 +745,7 @@ describe('OLSKFundPricingStringIsValid', function test_OLSKFundPricingStringIsVa
 describe('OLSKFundTier', function test_OLSKFundTier() {
 
 	const _OLSKFundTier = function (inputData = {}) {
-		return mod.OLSKFundTier(inputData._OLSKFundPricingRows ? inputData._OLSKFundPricingRows.map(function (e) {
-			return e + ';';
-		}).join('') : (inputData._OLSKFundPricingNumbers ? `0:${ inputData._OLSKFundPricingNumbers.join(' ')};` : '0:1 2 3 4;'), Object.assign({
+		return mod.OLSKFundTier(inputData._OLSKFundPricingRows ? inputData._OLSKFundPricingRows.join(';') : (inputData._OLSKFundPricingNumbers ? `0:${ inputData._OLSKFundPricingNumbers.join(' ') }` : '0:1 2 3 4'), Object.assign({
 			OLSKPactGrantPublicNumbers: [Math.random().toString()],
 			OLSKPactGrantIdentity: Math.random().toString(),
 			OLSKPactGrantProject: Math.random().toString(),
@@ -1102,7 +1100,7 @@ describe('OLSKFundIsEligible', function test_OLSKFundIsEligible() {
 
 		it('returns true', function () {
 			deepEqual(_OLSKFundIsEligible({
-				_MatchTier: 2 + Date.now() % 100,
+				_MatchTier: 2 + Math.random(),
 				ParamCurrentProject: Math.random().toString(),
 				ParamBundleProjects: [Math.random().toString()],
 			}), true);

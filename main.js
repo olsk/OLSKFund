@@ -253,9 +253,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		const rows = inputData.split(';').filter(function (e) {
-			return e;
-		});
+		const rows = inputData.split(';');
 
 		if (!rows.length) {
 			return false;
