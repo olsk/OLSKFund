@@ -217,6 +217,13 @@ const mod = {
 		}).href;
 	},
 
+	_OLSKFundPricingDate (inputData) {
+		const string = inputData.split(':').slice(0, -1).join(':');
+
+		const outputData = new Date(string);
+		return Number.isNaN(outputData.getTime()) ? new Date(parseInt(string)) : outputData;
+	},
+
 	_OLSKFundPricingStringRowErrors (inputData) {
 		if (typeof inputData !== 'string') {
 			throw new Error('OLSKErrorInputNotValid');
@@ -230,7 +237,7 @@ const mod = {
 			return true;
 		}
 
-		if (Number.isNaN((new Date(inputData.split(':').slice(0, -1).join(':'))).getTime()) && Number.isNaN((new Date(parseInt(inputData.split(':').slice(0, -1).join(':')))).getTime())) {
+		if (Number.isNaN(mod._OLSKFundPricingDate(inputData).getTime())) {
 			return true;
 		}
 
