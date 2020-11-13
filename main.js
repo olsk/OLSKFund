@@ -296,7 +296,7 @@ const mod = {
 			return param2.OLSKPactGrantStartDate <= e.OLKSFundPricingDate;
 		}).concat(pricing.slice(-1)).shift().OLKSFundPricingTiers.filter(function (e) {
 			return param2.OLSKPactGrantContribution >= e[0];
-		}).length;
+		}).length + 1;
 	},
 
 	OLSKFundIsEligible (params) {
