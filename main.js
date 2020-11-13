@@ -268,12 +268,16 @@ const mod = {
 		return true;
 	},
 
-	OLSKFundTier (pricingHistory) {
-		if (!mod.OLSKFundPricingStringIsValid(pricingHistory)) {
+	OLSKFundTier (param1, param2) {
+		if (!mod.OLSKFundPricingStringIsValid(param1)) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		const pricing = pricingHistory.split(';').filter(function (e) {
+		if (OLSKPact.OLSKPactGrantModelErrors(param2)) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		const pricing = param1.split(';').filter(function (e) {
 			return e;
 		}).map(function (e) {
 			return {
@@ -286,17 +290,11 @@ const mod = {
 			};
 		});
 
-		return function(inputData) {
-			if (OLSKPact.OLSKPactGrantModelErrors(inputData)) {
-				throw new Error('OLSKErrorInputNotValid');
-			}
-
-			return pricing.filter(function (e) {
-				return inputData.OLSKPactGrantStartDate <= e.OLKSFundPricingDate;
-			}).concat(pricing.slice(-1)).shift().OLKSFundPricingTiers.filter(function (e) {
-				return inputData.OLSKPactGrantContribution >= e[0];
-			}).length;
-		};
+		return pricing.filter(function (e) {
+			return param2.OLSKPactGrantStartDate <= e.OLKSFundPricingDate;
+		}).concat(pricing.slice(-1)).shift().OLKSFundPricingTiers.filter(function (e) {
+			return param2.OLSKPactGrantContribution >= e[0];
+		}).length;
 	},
 
 	OLSKFundIsEligible (params) {

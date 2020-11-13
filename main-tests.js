@@ -745,9 +745,9 @@ describe('OLSKFundPricingStringIsValid', function test_OLSKFundPricingStringIsVa
 describe('OLSKFundTier', function test_OLSKFundTier() {
 
 	const _OLSKFundTier = function (inputData = {}) {
-		return mod.OLSKFundTier((inputData._OLSKFundPricingRows ? inputData._OLSKFundPricingRows.map(function (e) {
+		return mod.OLSKFundTier(inputData._OLSKFundPricingRows ? inputData._OLSKFundPricingRows.map(function (e) {
 			return e + ';';
-		}).join('') : (inputData._OLSKFundPricingNumbers ? `0:${ inputData._OLSKFundPricingNumbers.join(' ')};` : '0:1 2 3 4;')))(Object.assign({
+		}).join('') : (inputData._OLSKFundPricingNumbers ? `0:${ inputData._OLSKFundPricingNumbers.join(' ')};` : '0:1 2 3 4;'), Object.assign({
 			OLSKPactGrantPublicNumbers: [Math.random().toString()],
 			OLSKPactGrantIdentity: Math.random().toString(),
 			OLSKPactGrantProject: Math.random().toString(),
