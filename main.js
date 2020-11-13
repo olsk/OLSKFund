@@ -337,7 +337,7 @@ const mod = {
 		}
 
 		if (params.ParamGrantTier === 2) {
-			return params.ParamBundleProjects.includes(params.ParamCurrentProject);
+			return params.ParamBundleProjects.includes(params.ParamGrantProject);
 		}
 
 		if (params.ParamGrantTier > 2) {

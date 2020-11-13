@@ -1072,12 +1072,12 @@ describe('OLSKFundIsEligible', function test_OLSKFundIsEligible() {
 
 	context('Tier2', function () {
 
-		it('returns true if ParamCurrentProject in ParamBundleProjects', function () {
+		it('returns true if ParamGrantProject in ParamBundleProjects', function () {
 			const item = Math.random().toString();
 
 			deepEqual(_OLSKFundIsEligible({
 				_MatchTier: 2,
-				ParamCurrentProject: item,
+				ParamGrantProject: item,
 				ParamBundleProjects: [item],
 			}), true);
 		});
@@ -1085,7 +1085,7 @@ describe('OLSKFundIsEligible', function test_OLSKFundIsEligible() {
 		it('returns false', function () {
 			deepEqual(_OLSKFundIsEligible({
 				_MatchTier: 2,
-				ParamCurrentProject: Math.random().toString(),
+				ParamGrantProject: Math.random().toString(),
 				ParamBundleProjects: [Math.random().toString()],
 			}), false);
 		});
