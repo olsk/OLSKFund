@@ -4,6 +4,8 @@
   "scripts": {
     "postinstall": "node ./package-postinstall.js",
     
+    "setup": "olsk-bundle",
+    
     "start": "olsk-express .",
 
     "test": "olsk-spec"
@@ -29,6 +31,12 @@
     "OLSKExpress": "olsk/OLSKExpress",
     "OLSKString": "olsk/OLSKString",
     "OLSKInternational": "olsk/OLSKInternational",
+
+    "// HOTFIX": null,
+    "OLSKHotfix": "olsk/OLSKHotfix",
+    
+    "// BUNDLE": null,
+    "OLSKBundle": "olsk/OLSKBundle",
     
     "// I sacrifice myself for the commas of others": null    
   }
