@@ -1106,6 +1106,45 @@ describe('OLSKFundIsEligible', function test_OLSKFundIsEligible() {
 
 });
 
+describe('OLSKFundRemainder', function test_OLSKFundRemainder() {
+
+	it('throws if param1 not number', function () {
+		throws(function () {
+			mod.OLSKFundRemainder(Date.now().toString(), Date.now());
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not number', function () {
+		throws(function () {
+			mod.OLSKFundRemainder(Date.now(), Date.now().toString());
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 0', function () {
+		throws(function () {
+			mod.OLSKFundRemainder(Date.now(), 0);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 negative', function () {
+		throws(function () {
+			mod.OLSKFundRemainder(Date.now(), -1);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns integer', function () {
+		const param1 = Date.now() % 1000;
+		const param2 = param1 + Date.now() % 1000;
+		deepEqual(mod.OLSKFundRemainder(param1, param2), param2 - param1);
+	});
+
+	it('caps at zero', function () {
+		const item = Date.now() % 1000;
+		deepEqual(mod.OLSKFundRemainder(item + 1, item), 0);
+	});
+
+});
+
 describe('OLSKFundLauncherFakeItemProxy', function test_OLSKFundLauncherFakeItemProxy() {
 
 	it('returns object', function () {

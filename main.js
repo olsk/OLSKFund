@@ -347,6 +347,22 @@ const mod = {
 		return false;
 	},
 
+	OLSKFundRemainder (param1, param2) {
+		if (typeof param1 !== 'number') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'number') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (param2 < 1) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return Math.max(0, param2 - param1);
+	},
+
 	async _OLSKFundFakeGrantResponseEncrypted (param1, param2, param3) {
 		return mod._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(window.localStorage, mod._OLSKFundGrantData(), await OLSKCrypto.OLSKCryptoEncryptSigned(param1, param2, JSON.stringify(param3)));
 	},
