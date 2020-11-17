@@ -745,14 +745,16 @@ describe('OLSKFundPricingStringIsValid', function test_OLSKFundPricingStringIsVa
 describe('OLSKFundTier', function test_OLSKFundTier() {
 
 	const _OLSKFundTier = function (inputData = {}) {
-		return mod.OLSKFundTier(inputData._OLSKFundPricingRows ? inputData._OLSKFundPricingRows.join(';') : (inputData._OLSKFundPricingNumbers ? `0:${ inputData._OLSKFundPricingNumbers.join(' ') }` : '0:1 2 3 4'), Object.assign({
+		return mod.OLSKFundTier(inputData._OLSKFundPricingRows ? inputData._OLSKFundPricingRows.join(';') : (inputData._OLSKFundPricingNumbers ? `0:${ inputData._OLSKFundPricingNumbers.map(function (e, i) {
+			return i ? [e, e * 10].join(',') : e;
+		}).join(' ') }` : '0:1 2 3 4'), Object.assign({
 			OLSKPactGrantPublicNumbers: [Math.random().toString()],
 			OLSKPactGrantIdentity: Math.random().toString(),
 			OLSKPactGrantProject: Math.random().toString(),
 			OLSKPactGrantStartDate: new Date(),
 			OLSKPactGrantEndDate: new Date(),
 			OLSKPactGrantContribution: 400,
-			OLSKPactGrantFrequencyOption: OLSKPact.OLSKPactGrantFrequencyOptions()[Date.now() % OLSKPact.OLSKPactGrantFrequencyOptions().length],
+			OLSKPactGrantFrequencyOption: OLSKPact.OLSKPactGrantFrequencyOptionMonthly(),
 			OLSKPactGrantProcessor: OLSKPact.OLSKPactPayProcessors()[Date.now() % OLSKPact.OLSKPactPayProcessors().length],
 			OLSKPactGrantProcessorReference: Math.random().toString(),
 			OLSKPactGrantActive: true,
@@ -785,8 +787,8 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			deepEqual(_OLSKFundTier({
 				OLSKPactGrantStartDate: new Date(item),
 				_OLSKFundPricingRows: [
-					`${ item + 1 }:1 2 3 5`,
-					`${ item + 2 }:1 2 3 4`,
+					`${ item + 1 }:1 2,10 3,30 5`,
+					`${ item + 2 }:1 2,10 3,30 4`,
 				],
 			}), 4);
 		});
@@ -797,8 +799,8 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			deepEqual(_OLSKFundTier({
 				OLSKPactGrantStartDate: new Date(item),
 				_OLSKFundPricingRows: [
-					`${ item }:1 2 3 5`,
-					`${ item }:1 2 3 4`,
+					`${ item }:1 2,10 3,30 5`,
+					`${ item }:1 2,10 3,30 4`,
 				],
 			}), 4);
 		});
@@ -809,8 +811,8 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			deepEqual(_OLSKFundTier({
 				OLSKPactGrantStartDate: new Date(item),
 				_OLSKFundPricingRows: [
-					`${ item }:1 2 3 5`,
-					`${ item + 1 }:1 2 3 4`,
+					`${ item }:1 2,10 3,30 5`,
+					`${ item + 1 }:1 2,10 3,30 4`,
 				],
 			}), 4);
 		});
@@ -821,8 +823,8 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			deepEqual(_OLSKFundTier({
 				OLSKPactGrantStartDate: new Date(item),
 				_OLSKFundPricingRows: [
-					`${ item - 1 }:1 2 3 4`,
-					`${ item }:1 2 3 5`,
+					`${ item - 1 }:1 2,10 3,30 4`,
+					`${ item }:1 2,10 3,30 5`,
 				],
 			}), 4);
 		});
@@ -833,140 +835,176 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			deepEqual(_OLSKFundTier({
 				OLSKPactGrantStartDate: new Date(item),
 				_OLSKFundPricingRows: [
-					`${ item - 1 }:1 2 3 4`,
-					`${ item - 2 }:1 2 3 5`,
+					`${ item - 1 }:1 2,10 3,30 4`,
+					`${ item - 2 }:1 2,10 3,30 5`,
 				],
 			}), 4);
 		});
 	
 	});
 
-	context('price', function () {
-		
-		it('returns 1 if under Tier2', function () {
-			const item = Date.now() % 1000;
+	context('annual_sum', function () {
 
-			deepEqual(_OLSKFundTier({
-				OLSKPactGrantContribution: item * 100,
-				_OLSKFundPricingNumbers: [
-					item + 1,
-					item + 2,
-					item + 3,
-					item + 4,
-				]
-			}), 1);	
+		context('once / yearly', function () {
+
+			const OLSKPactGrantFrequencyOption = Math.random() > 0.5 ? OLSKPact.OLSKPactGrantFrequencyOptionOnce() : OLSKPact.OLSKPactGrantFrequencyOptionYearly();
+			
+			it('returns 1 if under Tier2', function () {
+				const item = Date.now() % 1000;
+
+				deepEqual(_OLSKFundTier({
+					OLSKPactGrantContribution: item * 100,
+					OLSKPactGrantFrequencyOption,
+					_OLSKFundPricingNumbers: [
+						item + 1,
+						item + 2,
+						item + 3,
+						item + 4,
+					],
+				}), 1);	
+			});
+			
+			it('returns 2 if under Tier3', function () {
+				const item = Date.now() % 1000;
+
+				deepEqual(_OLSKFundTier({
+					OLSKPactGrantContribution: item * 100,
+					OLSKPactGrantFrequencyOption,
+					_OLSKFundPricingNumbers: [
+						item,
+						item + 2,
+						item + 3,
+						item + 4,
+					]
+				}), 2);	
+			});
+			
+			it('returns 3 if under Tier4', function () {
+				const item = Date.now() % 1000;
+
+				deepEqual(_OLSKFundTier({
+					OLSKPactGrantContribution: item * 10 * 100,
+					OLSKPactGrantFrequencyOption,
+					_OLSKFundPricingNumbers: [
+						item - 1,
+						item,
+						item + 3,
+						item + 4,
+					]
+				}), 3);	
+			});
+			
+			it('returns 4 if under Tier5', function () {
+				const item = Date.now() % 1000;
+
+				deepEqual(_OLSKFundTier({
+					OLSKPactGrantContribution: item * 10 * 100,
+					OLSKPactGrantFrequencyOption,
+					_OLSKFundPricingNumbers: [
+						item - 1,
+						item - 2,
+						item,
+						item + 4,
+					]
+				}), 4);	
+			});
+			
+			it('returns 5 if above Tier4', function () {
+				const item = Date.now() % 1000;
+
+				deepEqual(_OLSKFundTier({
+					OLSKPactGrantContribution: item * 10 * 100,
+					OLSKPactGrantFrequencyOption,
+					_OLSKFundPricingNumbers: [
+						item - 1,
+						item - 2,
+						item - 3,
+						item,
+					]
+				}), 5);	
+			});
+		
 		});
-		
-		it('returns 2 if Tier2', function () {
-			const item = Date.now() % 1000;
 
-			deepEqual(_OLSKFundTier({
-				OLSKPactGrantContribution: item * 100,
-				_OLSKFundPricingNumbers: [
-					item,
-					item + 2,
-					item + 3,
-					item + 4,
-				]
-			}), 2);	
-		});
-		
-		it('returns 2 if under Tier3', function () {
-			const item = Date.now() % 1000;
+		context('monthly', function () {
 
-			deepEqual(_OLSKFundTier({
-				OLSKPactGrantContribution: item * 100,
-				_OLSKFundPricingNumbers: [
-					item - 1,
-					item + 2,
-					item + 3,
-					item + 4,
-				]
-			}), 2);	
-		});
-		
-		it('returns 3 if Tier3', function () {
-			const item = Date.now() % 1000;
+			const OLSKPactGrantFrequencyOption = OLSKPact.OLSKPactGrantFrequencyOptionMonthly();
+			
+			it('returns 1 if under Tier2', function () {
+				const item = Date.now() % 1000;
 
-			deepEqual(_OLSKFundTier({
-				OLSKPactGrantContribution: item * 100,
-				_OLSKFundPricingNumbers: [
-					item - 1,
-					item,
-					item + 3,
-					item + 4,
-				]
-			}), 3);	
-		});
-		
-		it('returns 3 if under Tier4', function () {
-			const item = Date.now() % 1000;
+				deepEqual(_OLSKFundTier({
+					OLSKPactGrantContribution: (item + 1) / 13 * 100,
+					OLSKPactGrantFrequencyOption,
+					_OLSKFundPricingNumbers: [
+						item + 1,
+						item + 2,
+						item + 3,
+						item + 4,
+					],
+				}), 1);	
+			});
+			
+			it('returns 2 if under Tier3', function () {
+				const item = Date.now() % 1000;
 
-			deepEqual(_OLSKFundTier({
-				OLSKPactGrantContribution: item * 100,
-				_OLSKFundPricingNumbers: [
-					item - 1,
-					item - 2,
-					item + 3,
-					item + 4,
-				]
-			}), 3);	
-		});
-		
-		it('returns 4 if Tier4', function () {
-			const item = Date.now() % 1000;
+				deepEqual(_OLSKFundTier({
+					OLSKPactGrantContribution: (item + 1) / 12 * 100,
+					OLSKPactGrantFrequencyOption,
+					_OLSKFundPricingNumbers: [
+						item + 1,
+						item + 2,
+						item + 3,
+						item + 4,
+					]
+				}), 2);	
+			});
+			
+			it('returns 3 if under Tier4', function () {
+				const item = Date.now() % 1000;
 
-			deepEqual(_OLSKFundTier({
-				OLSKPactGrantContribution: item * 100,
-				_OLSKFundPricingNumbers: [
-					item - 1,
-					item - 2,
-					item,
-					item + 4,
-				]
-			}), 4);	
-		});
-		
-		it('returns 4 if under Tier5', function () {
-			const item = Date.now() % 1000;
+				deepEqual(_OLSKFundTier({
+					OLSKPactGrantContribution: (item + 2) * 10 / 12 * 100,
+					OLSKPactGrantFrequencyOption,
+					_OLSKFundPricingNumbers: [
+						item + 1,
+						item + 2,
+						item + 3,
+						item + 4,
+					]
+				}), 3);	
+			});
+			
+			it('returns 4 if under Tier5', function () {
+				const item = Date.now() % 1000;
 
-			deepEqual(_OLSKFundTier({
-				OLSKPactGrantContribution: item * 100,
-				_OLSKFundPricingNumbers: [
-					item - 1,
-					item - 2,
-					item - 3,
-					item + 4,
-				]
-			}), 4);	
-		});
-		
-		it('returns 5 if Tier5', function () {
-			const item = Date.now() % 1000;
+				deepEqual(_OLSKFundTier({
+					OLSKPactGrantContribution: (item + 3) * 10 / 12 * 100,
+					OLSKPactGrantFrequencyOption,
+					_OLSKFundPricingNumbers: [
+						item + 1,
+						item + 2,
+						item + 3,
+						item + 4,
+					]
+				}), 4);	
+			});
+			
+			it('returns 5 if above Tier4', function () {
+				const item = Date.now() % 1000;
 
-			deepEqual(_OLSKFundTier({
-				OLSKPactGrantContribution: item * 100,
-				_OLSKFundPricingNumbers: [
-					item - 1,
-					item - 2,
-					item - 3,
-					item,
-				]
-			}), 5);	
-		});
+				deepEqual(_OLSKFundTier({
+					OLSKPactGrantContribution: (item + 4) * 10 / 12 * 100,
+					OLSKPactGrantFrequencyOption,
+					_OLSKFundPricingNumbers: [
+						item + 1,
+						item + 2,
+						item + 3,
+						item + 4,
+					]
+				}), 5);	
+			});
 		
-		it('returns 5 if above Tier5', function () {
-			const item = Date.now() % 1000;
-
-			deepEqual(_OLSKFundTier({
-				OLSKPactGrantContribution: item * 100,
-				_OLSKFundPricingNumbers: [
-					item - 1,
-					item - 2,
-					item - 3,
-					item - 4,
-				]
-			}), 5);	
 		});
 	
 	});

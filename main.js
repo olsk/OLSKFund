@@ -284,18 +284,18 @@ const mod = {
 		}).map(function (e) {
 			return {
 				OLKSFundPricingDate: mod._OLSKFundPricingDate(e),
-				OLKSFundPricingTiers: e.split(':').pop().split(' ').map(function (e) {
-					return e.split(',').map(function (e) {
-						return parseInt(e) * 100;
-					});
+				OLKSFundPricingYearlySums: e.split(':').pop().split(' ').map(function (e, i) {
+					return e.split(',').map(function (e, index, original) {
+						return parseInt(e) * 100 * (i && original.length == 1 ? 12 : 1);
+					}).pop();
 				}),
 			};
 		});
 
 		return pricing.filter(function (e) {
 			return param2.OLSKPactGrantStartDate <= e.OLKSFundPricingDate;
-		}).concat(pricing.slice(-1)).shift().OLKSFundPricingTiers.filter(function (e) {
-			return param2.OLSKPactGrantContribution >= e[0];
+		}).concat(pricing.slice(-1)).shift().OLKSFundPricingYearlySums.filter(function (e) {
+			return (param2.OLSKPactGrantContribution * (param2.OLSKPactGrantFrequencyOption === OLSKPact.OLSKPactGrantFrequencyOptionMonthly() ? 12 : 1)) >= e;
 		}).length + 1;
 	},
 
