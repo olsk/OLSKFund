@@ -2,7 +2,7 @@ OLSKFundGrantErrorConnectionText: Connection error
 OLSKFundGrantErrorDecryptionText: Decryption error
 OLSKFundGrantErrorSigningText: Signing error
 OLSKFundGrantErrorExpiredText: Access expired
-OLSKFundConfirmText: Are you sure?
+OLSKFundGateText: Are you sure?
 OLSKFundLauncherItemEnterConfirmationText: Enter confirmation code
 OLSKFundLauncherItemEnterConfirmationPromptText: Enter confirmation code
 OLSKFundLauncherItemClearAuthorizationText: Clear authorization

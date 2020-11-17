@@ -66,12 +66,12 @@ kDefaultRoute.OLSKRouteLanguages.forEach(function (languageCode) {
 
 		});
 
-		context('OLSKFundConfirm', function () {
+		context('OLSKFundGate', function () {
 
-			it('localizes OLSKFundConfirm', function () {
+			it('localizes OLSKFundGate', function () {
 				browser.assert.OLSKConfirmQuestion(function () {
 					return browser.pressButton('#TestFakeConfirm');
-				}, uLocalized('OLSKFundConfirmText'));
+				}, uLocalized('OLSKFundGateText'));
 			});
 			
 		});

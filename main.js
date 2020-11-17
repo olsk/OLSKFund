@@ -173,7 +173,7 @@ const mod = {
 		});
 	},
 
-	OLSKFundConfirm (param1, OLSKLocalized) {
+	OLSKFundGate (param1, OLSKLocalized) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -182,7 +182,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		return param1.confirm(OLSKLocalized('OLSKFundConfirmText'));
+		return param1.confirm(OLSKLocalized('OLSKFundGateText'));
 	},
 
 	OLSKFundURL (params) {

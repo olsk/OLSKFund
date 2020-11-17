@@ -579,36 +579,36 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 
 });
 
-describe('OLSKFundConfirm', function test_OLSKFundConfirm() {
+describe('OLSKFundGate', function test_OLSKFundGate() {
 
 	it('throws if param1 not window', function () {
 		throws(function () {
-			mod.OLSKFundConfirm({}, uLocalized, true);
+			mod.OLSKFundGate({}, uLocalized, true);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param2 not OLSKLocalized', function () {
 		throws(function () {
-			mod.OLSKFundConfirm(uWindow(), null, true);
+			mod.OLSKFundGate(uWindow(), null, true);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('calls window.confirm', function () {
 		const item = [];
 
-		mod.OLSKFundConfirm(uWindow({
+		mod.OLSKFundGate(uWindow({
 			confirm () {
 				item.push(...arguments);
 			},
 		}), uLocalized);
 
-		deepEqual(item, [uLocalized('OLSKFundConfirmText')]);
+		deepEqual(item, [uLocalized('OLSKFundGateText')]);
 	});
 
 	it('returns window.confirm', function () {
 		const item = Math.random().toString();
 
-		deepEqual(mod.OLSKFundConfirm(uWindow({
+		deepEqual(mod.OLSKFundGate(uWindow({
 			confirm () {
 				return item;
 			},
