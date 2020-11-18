@@ -153,26 +153,6 @@ const mod = {
 		return mod.__OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), json.OLSK_FUND_ENCRYPTED_SIGNED));
 	},
 
-	OLSKFundSetup (params) {
-		if (typeof params !== 'object' || params === null) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (typeof params.ParamNavigator.platform !== 'string') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (!params.ParamNavigator.serviceWorker) {
-			return;
-		}
-
-		const _this = this;
-
-		return uPromise(_this._OLSKFundSetupPostPay()).then(function () {
-			_this._OLSKFundSetupGrant();
-		});
-	},
-
 	OLSKFundGate (param1, OLSKLocalized) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
