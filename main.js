@@ -60,7 +60,7 @@ const mod = {
 		return 'kOLSKFundGrantData';
 	},
 
-	async __OLSKFundSetupGrantDispatchPayload (params, payload) {
+	async _OLSKFundSetupGrantDispatchPayload (params, payload) {
 		try {
 			return params.OLSKFundDispatchGrant(JSON.parse(await OLSKCrypto.OLSKCryptoDecryptSigned(params.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE, params.OLSK_CRYPTO_PAIR_SENDER_PUBLIC, payload)));
 		} catch (e) {
@@ -76,7 +76,7 @@ const mod = {
 		}
 	},
 
-	async _OLSKFundSetupGrant (params) {
+	async OLSKFundSetupGrant (params) {
 		if (typeof params !== 'object' || params === null) {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
@@ -123,7 +123,7 @@ const mod = {
 
 		const payload = params.OLSK_TESTING_BEHAVIOUR ? null : await this._DataFoilOLSKLocalStorage.OLKSLocalStorageGet(params.ParamWindow.localStorage, mod._OLSKFundGrantData());
 		if (payload) {
-			return mod.__OLSKFundSetupGrantDispatchPayload(params, payload);
+			return mod._OLSKFundSetupGrantDispatchPayload(params, payload);
 		}
 
 		let response;
@@ -150,7 +150,7 @@ const mod = {
 			return params.OLSKFundDispatchFail(params.ParamWindow.alert(json.RCSAPIError));
 		}
 
-		return mod.__OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), json.OLSK_FUND_ENCRYPTED_SIGNED));
+		return mod._OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), json.OLSK_FUND_ENCRYPTED_SIGNED));
 	},
 
 	OLSKFundGate (param1, OLSKLocalized) {

@@ -76,7 +76,7 @@ kDefaultRoute.OLSKRouteLanguages.forEach(function (languageCode) {
 			
 		});
 
-		context('_OLSKFundSetupGrant', function () {
+		context('OLSKFundSetupGrant', function () {
 
 			it('localizes OLSKFundGrantErrorConnection', async function () {
 				browser.assert.deepEqual(await browser.OLSKAlertTextAsync(function () {

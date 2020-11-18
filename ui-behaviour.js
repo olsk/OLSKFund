@@ -54,7 +54,7 @@
 		// CONTROL
 
 		ControlGrant (inputData = {}) {
-			exports._OLSKFundSetupGrant({
+			exports.OLSKFundSetupGrant({
 				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: inputData.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE || window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE'),
 				OLSK_CRYPTO_PAIR_SENDER_PUBLIC: inputData.OLSK_CRYPTO_PAIR_SENDER_PUBLIC || window.OLSKPublicConstants('OLSK_CRYPTO_PAIR_SENDER_PUBLIC'),
 				ParamWindow: window,
