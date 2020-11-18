@@ -73,12 +73,12 @@ describe('OLSKFundResponseIsPresent', function test_OLSKFundResponseIsPresent() 
 
 });
 
-describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
+describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 
-	const __OLSKFundSetupPostPay = function (inputData = {}) {
+	const _OLSKFundSetupPostPay = function (inputData = {}) {
 		const item = {};
 
-		mod._OLSKFundSetupPostPay({
+		mod.OLSKFundSetupPostPay({
 			ParamWindow: inputData.ParamWindow || uWindow(Object.assign({
 				location: Object.assign(new URL('https://example.com/form'), {
 					hash: (new URLSearchParams(inputData.confirmation ? {
@@ -97,13 +97,13 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 
 	it('throws if not object', function () {
 		throws(function () {
-			mod._OLSKFundSetupPostPay(null);
+			mod.OLSKFundSetupPostPay(null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if ParamWindow not valid', function () {
 		throws(function () {
-			__OLSKFundSetupPostPay({
+			_OLSKFundSetupPostPay({
 				ParamWindow: {},
 			});
 		}, /OLSKErrorInputNotValid/);
@@ -111,7 +111,7 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 
 	it('throws if ParamExistingCode not defined', function () {
 		throws(function () {
-			mod._OLSKFundSetupPostPay({
+			mod.OLSKFundSetupPostPay({
 				ParamWindow: uWindow(),
 				ParamExistingCode: undefined,
 			});
@@ -120,7 +120,7 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 
 	it('throws if OLSKFundDispatchPersist not function', function () {
 		throws(function () {
-			mod._OLSKFundSetupPostPay({
+			mod.OLSKFundSetupPostPay({
 				ParamWindow: uWindow(),
 				ParamExistingCode: Math.random().toString(),
 				OLSKFundDispatchPersist: Math.random().toString(),
@@ -129,13 +129,13 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 	});
 
 	it('breaks if no code', function () {
-		deepEqual(__OLSKFundSetupPostPay(), {});
+		deepEqual(_OLSKFundSetupPostPay(), {});
 	});
 
 	it('breaks if code matches ParamExistingCode', function () {
 		const ParamExistingCode = Math.random().toString();
 
-		deepEqual(__OLSKFundSetupPostPay({
+		deepEqual(_OLSKFundSetupPostPay({
 			confirmation: ParamExistingCode,
 			ParamExistingCode,
 		}), {});
@@ -144,7 +144,7 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 	it('breaks if ParamExistingCode different', function () {
 		const ParamExistingCode = Math.random().toString();
 
-		deepEqual(__OLSKFundSetupPostPay({
+		deepEqual(_OLSKFundSetupPostPay({
 			confirmation: Math.random().toString(),
 			ParamExistingCode,
 		}), {});
@@ -157,7 +157,7 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 			})).toString(),
 		});
 
-		__OLSKFundSetupPostPay({
+		_OLSKFundSetupPostPay({
 			ParamWindow: uWindow(Object.assign({
 				location,
 			})),
@@ -169,7 +169,7 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 	it('passes code to OLSKFundDispatchPersist', function () {
 		const confirmation = Math.random().toString();
 
-		deepEqual(__OLSKFundSetupPostPay({
+		deepEqual(_OLSKFundSetupPostPay({
 			confirmation
 		}), {
 			OLSKFundDispatchPersist: [confirmation],
@@ -179,7 +179,7 @@ describe('_OLSKFundSetupPostPay', function test__OLSKFundSetupPostPay() {
 	it('returns OLSKFundDispatchPersist', function () {
 		const item = Math.random().toString();
 
-		deepEqual(__OLSKFundSetupPostPay({
+		deepEqual(_OLSKFundSetupPostPay({
 			confirmation: Math.random().toString(),
 			OLSKFundDispatchPersist: (function () {
 				return item;
