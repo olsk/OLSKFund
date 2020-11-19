@@ -40,7 +40,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		const confirmation = Object.fromEntries((new URLSearchParams(params.ParamWindow.location.hash.slice(1))).entries()).confirmation;
+		const confirmation = Object.fromEntries((new URLSearchParams(params.ParamWindow.location.hash.replace(/^#+/, ''))).entries()).confirmation;
 
 
 		if (!confirmation) {
