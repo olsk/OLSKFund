@@ -618,8 +618,8 @@ describe.only('OLSKFundListen', function test_OLSKFundListen() {
 					b(inputData);
 				}),
 			}),
-			OLSKFundDispatchConfirm: (function () {
-				item.OLSKFundDispatchConfirm = inputData.OLSKFundDispatchConfirm ? inputData.OLSKFundDispatchConfirm() :  item.OLSKFundDispatchConfirm = Array.from(arguments);
+			OLSKFundDispatchReceive: (function () {
+				item.OLSKFundDispatchReceive = inputData.OLSKFundDispatchReceive ? inputData.OLSKFundDispatchReceive() :  item.OLSKFundDispatchReceive = Array.from(arguments);
 			}),
 		});
 
@@ -640,16 +640,16 @@ describe.only('OLSKFundListen', function test_OLSKFundListen() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if OLSKFundDispatchConfirm not function', function () {
+	it('throws if OLSKFundDispatchReceive not function', function () {
 		throws(function () {
 			mod.OLSKFundListen({
 				ParamWindow: uWindow(),
-				OLSKFundDispatchConfirm: Math.random().toString(),
+				OLSKFundDispatchReceive: Math.random().toString(),
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	context('OLSKFundDispatchConfirm', function () {
+	context('OLSKFundDispatchReceive', function () {
 		
 		it('skips if not object', function () {
 			deepEqual(_OLSKFundListen({
@@ -672,7 +672,7 @@ describe.only('OLSKFundListen', function test_OLSKFundListen() {
 			deepEqual(_OLSKFundListen({
 				data,
 			}), {
-				OLSKFundDispatchConfirm: [data.OLSK_FUND_CONFIRMATION_CODE],
+				OLSKFundDispatchReceive: [data.OLSK_FUND_CONFIRMATION_CODE],
 			});
 		});
 	

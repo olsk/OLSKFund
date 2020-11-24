@@ -15,8 +15,8 @@ describe('OLSKFund_Misc', function () {
 		});
 		
 		before(function () {
-			browser.assert.text('#TestOLSKFundDispatchConfirm', '0');
-			browser.assert.text('#TestOLSKFundDispatchConfirmData', 'undefined');
+			browser.assert.text('#TestOLSKFundDispatchReceive', '0');
+			browser.assert.text('#TestOLSKFundDispatchReceiveData', 'undefined');
 		});
 		
 		before(function () {
@@ -25,9 +25,9 @@ describe('OLSKFund_Misc', function () {
 			}, window.location.href)`);
 		});
 
-		it('sends OLSKFundDispatchConfirm', function () {
-			browser.assert.text('#TestOLSKFundDispatchConfirm', '1');
-			browser.assert.text('#TestOLSKFundDispatchConfirmData', item);
+		it('sends OLSKFundDispatchReceive', function () {
+			browser.assert.text('#TestOLSKFundDispatchReceive', '1');
+			browser.assert.text('#TestOLSKFundDispatchReceiveData', item);
 		});
 	
 	});

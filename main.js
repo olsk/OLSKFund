@@ -206,7 +206,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof params.OLSKFundDispatchConfirm !== 'function') {
+		if (typeof params.OLSKFundDispatchReceive !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
@@ -219,7 +219,7 @@ const mod = {
 				return;
 			}
 
-			return params.OLSKFundDispatchConfirm(event.data.OLSK_FUND_CONFIRMATION_CODE);
+			return params.OLSKFundDispatchReceive(event.data.OLSK_FUND_CONFIRMATION_CODE);
 		}, false);
 	},
 

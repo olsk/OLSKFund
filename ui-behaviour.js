@@ -48,9 +48,9 @@
 
 			exports.OLSKFundListen({
 				ParamWindow: window,
-				OLSKFundDispatchConfirm: (function (inputData) {
-					window.TestOLSKFundDispatchConfirm.innerHTML = parseInt(window.TestOLSKFundDispatchConfirm.innerHTML) + 1;
-					window.TestOLSKFundDispatchConfirmData.innerHTML = inputData;
+				OLSKFundDispatchReceive: (function (inputData) {
+					window.TestOLSKFundDispatchReceive.innerHTML = parseInt(window.TestOLSKFundDispatchReceive.innerHTML) + 1;
+					window.TestOLSKFundDispatchReceiveData.innerHTML = inputData;
 				}),
 			});
 		},
