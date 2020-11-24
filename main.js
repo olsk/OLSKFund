@@ -215,11 +215,11 @@ const mod = {
 				return;
 			}
 
-			if (!event.data.OLSK_FUND_CONFIRMATION_CODE) {
+			if (!event.data.OLSK_FUND_CLUE) {
 				return;
 			}
 
-			return params.OLSKFundDispatchReceive(event.data.OLSK_FUND_CONFIRMATION_CODE);
+			return params.OLSKFundDispatchReceive(event.data.OLSK_FUND_CLUE);
 		}, false);
 	},
 

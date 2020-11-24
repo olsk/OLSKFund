@@ -657,7 +657,7 @@ describe.only('OLSKFundListen', function test_OLSKFundListen() {
 			}), {});
 		});
 		
-		it('skips if no OLSK_FUND_CONFIRMATION_CODE', function () {
+		it('skips if no OLSK_FUND_CLUE', function () {
 			deepEqual(_OLSKFundListen({
 				data: {
 					alfa: Math.random().toString(),
@@ -665,14 +665,14 @@ describe.only('OLSKFundListen', function test_OLSKFundListen() {
 			}), {});
 		});
 		
-		it('calls with OLSK_FUND_CONFIRMATION_CODE', function () {
+		it('calls with OLSK_FUND_CLUE', function () {
 			const data = {
-				OLSK_FUND_CONFIRMATION_CODE: Math.random().toString(),
+				OLSK_FUND_CLUE: Math.random().toString(),
 			};
 			deepEqual(_OLSKFundListen({
 				data,
 			}), {
-				OLSKFundDispatchReceive: [data.OLSK_FUND_CONFIRMATION_CODE],
+				OLSKFundDispatchReceive: [data.OLSK_FUND_CLUE],
 			});
 		});
 	

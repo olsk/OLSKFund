@@ -21,7 +21,7 @@ describe('OLSKFund_Misc', function () {
 		
 		before(function () {
 			browser.evaluate(`window.postMessage({
-				OLSK_FUND_CONFIRMATION_CODE: ${ item },
+				OLSK_FUND_CLUE: ${ item },
 			}, window.location.href)`);
 		});
 
