@@ -45,6 +45,14 @@
 
 		InterfaceFakeConfirmButtonDidClick () {
 			exports.OLSKFundGate(window, window.OLSKLocalized);
+
+			exports.OLSKFundListen({
+				ParamWindow: window,
+				OLSKFundDispatchConfirm: (function (inputData) {
+					window.TestOLSKFundDispatchConfirm.innerHTML = parseInt(window.TestOLSKFundDispatchConfirm.innerHTML) + 1;
+					window.TestOLSKFundDispatchConfirmData.innerHTML = inputData;
+				}),
+			});
 		},
 
 		InterfaceFakeParamAuthorizedButtonDidClick () {

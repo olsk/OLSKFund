@@ -605,6 +605,81 @@ describe('OLSKFundURL', function test_OLSKFundURL() {
 
 });
 
+
+
+describe.only('OLSKFundListen', function test_OLSKFundListen() {
+
+	const _OLSKFundListen = function (inputData = {}) {
+		const item = {};
+
+		mod.OLSKFundListen({
+			ParamWindow: inputData.ParamWindow || uWindow({
+				addEventListener: (function (a, b, c) {
+					b(inputData);
+				}),
+			}),
+			OLSKFundDispatchConfirm: (function () {
+				item.OLSKFundDispatchConfirm = inputData.OLSKFundDispatchConfirm ? inputData.OLSKFundDispatchConfirm() :  item.OLSKFundDispatchConfirm = Array.from(arguments);
+			}),
+		});
+
+		return item;
+	};
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.OLSKFundListen(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamWindow not valid', function () {
+		throws(function () {
+			_OLSKFundListen({
+				ParamWindow: {},
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if OLSKFundDispatchConfirm not function', function () {
+		throws(function () {
+			mod.OLSKFundListen({
+				ParamWindow: uWindow(),
+				OLSKFundDispatchConfirm: Math.random().toString(),
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	context('OLSKFundDispatchConfirm', function () {
+		
+		it('skips if not object', function () {
+			deepEqual(_OLSKFundListen({
+				data: Math.random().toString(),
+			}), {});
+		});
+		
+		it('skips if no OLSK_FUND_CONFIRMATION_CODE', function () {
+			deepEqual(_OLSKFundListen({
+				data: {
+					alfa: Math.random().toString(),
+				},
+			}), {});
+		});
+		
+		it('calls with OLSK_FUND_CONFIRMATION_CODE', function () {
+			const data = {
+				OLSK_FUND_CONFIRMATION_CODE: Math.random().toString(),
+			};
+			deepEqual(_OLSKFundListen({
+				data,
+			}), {
+				OLSKFundDispatchConfirm: [data.OLSK_FUND_CONFIRMATION_CODE],
+			});
+		});
+	
+	});
+
+});
+
 describe('_OLSKFundPricingStringRowErrors', function test__OLSKFundPricingStringRowErrors() {
 
 	const item = `${ (new Date()).toJSON() }:${ Date.now() % 1000 } ${ Date.now() % 1000 },${ Date.now() % 1000 } ${ Date.now() % 1000 },${ Date.now() % 1000 } ${ Date.now() % 1000 }`;

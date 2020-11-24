@@ -197,6 +197,32 @@ const mod = {
 		}).href;
 	},
 
+	OLSKFundListen (params) {
+		if (typeof params !== 'object' || params === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!params.ParamWindow.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.OLSKFundDispatchConfirm !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return params.ParamWindow.addEventListener('message', function (event) {
+			if (typeof event.data !== 'object' || event.data === null) {
+				return;
+			}
+
+			if (!event.data.OLSK_FUND_CONFIRMATION_CODE) {
+				return;
+			}
+
+			return params.OLSKFundDispatchConfirm(event.data.OLSK_FUND_CONFIRMATION_CODE);
+		}, false);
+	},
+
 	_OLSKFundPricingDate (inputData) {
 		const string = inputData.split(':').slice(0, -1).join(':');
 
