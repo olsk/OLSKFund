@@ -43,7 +43,7 @@
 			mod.ControlGrant();
 		},
 
-		InterfaceFakeConfirmButtonDidClick () {
+		InterfaceFakeGateButtonDidClick () {
 			exports.OLSKFundGate(window, window.OLSKLocalized);
 
 			exports.OLSKFundListen({

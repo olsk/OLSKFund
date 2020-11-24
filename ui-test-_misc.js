@@ -11,7 +11,7 @@ describe('OLSKFund_Misc', function () {
 		const item = Math.random().toString();
 
 		before(function () {
-			return browser.pressButton('#TestFakeConfirm');
+			return browser.pressButton('#TestFakeGate');
 		});
 		
 		before(function () {

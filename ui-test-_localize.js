@@ -70,7 +70,7 @@ kDefaultRoute.OLSKRouteLanguages.forEach(function (languageCode) {
 
 			it('localizes OLSKFundGate', function () {
 				browser.assert.OLSKConfirmQuestion(function () {
-					return browser.pressButton('#TestFakeConfirm');
+					return browser.pressButton('#TestFakeGate');
 				}, uLocalized('OLSKFundGateText'));
 			});
 			
