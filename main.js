@@ -384,7 +384,7 @@ const mod = {
 		};
 	},
 
-	OLSKFundLauncherItemEnterConfirmation (params) {
+	OLSKFundLauncherItemEnterClue (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -408,10 +408,10 @@ const mod = {
 		const _this = this;
 
 		return {
-			LCHRecipeSignature: 'OLSKFundLauncherItemEnterConfirmation',
-			LCHRecipeName: params.OLSKLocalized('OLSKFundLauncherItemEnterConfirmationText'),
+			LCHRecipeSignature: 'OLSKFundLauncherItemEnterClue',
+			LCHRecipeName: params.OLSKLocalized('OLSKFundLauncherItemEnterClueText'),
 			LCHRecipeCallback () {
-				const item = (params.ParamWindow.prompt(params.OLSKLocalized('OLSKFundLauncherItemEnterConfirmationPromptText')) || '').trim();
+				const item = (params.ParamWindow.prompt(params.OLSKLocalized('OLSKFundLauncherItemEnterCluePromptText')) || '').trim();
 
 				if (!item) {
 					return;
@@ -481,7 +481,7 @@ const mod = {
 
 		return [
 			mod.OLSKFundLauncherFakeItemProxy(),
-			mod.OLSKFundLauncherItemEnterConfirmation(params),
+			mod.OLSKFundLauncherItemEnterClue(params),
 			mod.OLSKFundLauncherItemClearAuthorization(params),
 		].filter(function (e) {
 			if (params.OLSK_TESTING_BEHAVIOUR) {

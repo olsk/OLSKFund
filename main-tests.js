@@ -1203,14 +1203,14 @@ describe('OLSKFundLauncherFakeItemProxy', function test_OLSKFundLauncherFakeItem
 
 });
 
-describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncherItemEnterConfirmation() {
+describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnterClue() {
 
-	const _OLSKFundLauncherItemEnterConfirmation = function (inputData = {}) {
+	const _OLSKFundLauncherItemEnterClue = function (inputData = {}) {
 		return Object.assign(Object.assign({}, mod), {
 			_DataFoilOLSKLocalStorage: {
 				OLKSLocalStorageSet: inputData.OLKSLocalStorageSet || (function() {}),
 			},
-		}).OLSKFundLauncherItemEnterConfirmation(Object.assign({
+		}).OLSKFundLauncherItemEnterClue(Object.assign({
 			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
 			ParamAuthorized: true,
@@ -1220,13 +1220,13 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 
 	it('throws if not object', function () {
 		throws(function () {
-			mod.OLSKFundLauncherItemEnterConfirmation(null);
+			mod.OLSKFundLauncherItemEnterClue(null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if ParamWindow not window', function () {
 		throws(function () {
-			_OLSKFundLauncherItemEnterConfirmation({
+			_OLSKFundLauncherItemEnterClue({
 				ParamWindow: {},
 			});
 		}, /OLSKErrorInputNotValid/);
@@ -1234,7 +1234,7 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 
 	it('throws if OLSKLocalized not function', function () {
 		throws(function () {
-			_OLSKFundLauncherItemEnterConfirmation({
+			_OLSKFundLauncherItemEnterClue({
 				OLSKLocalized: null,
 			});
 		}, /OLSKErrorInputNotValid/);
@@ -1242,7 +1242,7 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 
 	it('throws if ParamAuthorized not boolean', function () {
 		throws(function () {
-			_OLSKFundLauncherItemEnterConfirmation({
+			_OLSKFundLauncherItemEnterClue({
 				ParamAuthorized: null,
 			});
 		}, /OLSKErrorInputNotValid/);
@@ -1250,18 +1250,18 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 
 	it('throws if OLSKFundDispatchPersist not function', function () {
 		throws(function () {
-			_OLSKFundLauncherItemEnterConfirmation({
+			_OLSKFundLauncherItemEnterClue({
 				OLSKFundDispatchPersist: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns object', function () {
-		const item = _OLSKFundLauncherItemEnterConfirmation();
+		const item = _OLSKFundLauncherItemEnterClue();
 
 		deepEqual(item, {
-			LCHRecipeSignature: 'OLSKFundLauncherItemEnterConfirmation',
-			LCHRecipeName: uLocalized('OLSKFundLauncherItemEnterConfirmationText'),
+			LCHRecipeSignature: 'OLSKFundLauncherItemEnterClue',
+			LCHRecipeName: uLocalized('OLSKFundLauncherItemEnterClueText'),
 			LCHRecipeCallback: item.LCHRecipeCallback,
 			LCHRecipeIsExcluded: item.LCHRecipeIsExcluded,
 		});
@@ -1270,13 +1270,13 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 	context('LCHRecipeCallback', function () {
 
 		it('returns undefined', function () {
-			deepEqual(_OLSKFundLauncherItemEnterConfirmation().LCHRecipeCallback(), undefined);
+			deepEqual(_OLSKFundLauncherItemEnterClue().LCHRecipeCallback(), undefined);
 		});
 
 		it('calls ParamWindow.prompt', function () {
 			const item = [];
 
-			_OLSKFundLauncherItemEnterConfirmation({
+			_OLSKFundLauncherItemEnterClue({
 				ParamWindow: uWindow({
 					prompt () {
 						item.push(...arguments);
@@ -1284,13 +1284,13 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 				}),
 			}).LCHRecipeCallback();
 
-			deepEqual(item, [uLocalized('OLSKFundLauncherItemEnterConfirmationPromptText')]);
+			deepEqual(item, [uLocalized('OLSKFundLauncherItemEnterCluePromptText')]);
 		});
 
 		it('returns if ParamWindow.prompt blank', function () {
 			const item = [];
 
-			_OLSKFundLauncherItemEnterConfirmation({
+			_OLSKFundLauncherItemEnterClue({
 				ParamWindow: uWindow({
 					prompt () {
 						return ' ';
@@ -1307,7 +1307,7 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 		it('clears _OLSKFundGrantData', function () {
 			const item = [];
 
-			_OLSKFundLauncherItemEnterConfirmation({
+			_OLSKFundLauncherItemEnterClue({
 				ParamWindow: uWindow({
 					prompt () {
 						return Math.random().toString();
@@ -1325,7 +1325,7 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 			const prompt = Math.random().toString();
 			const item = [];
 
-			_OLSKFundLauncherItemEnterConfirmation({
+			_OLSKFundLauncherItemEnterClue({
 				ParamWindow: uWindow({
 					prompt () {
 						return prompt;
@@ -1344,13 +1344,13 @@ describe('OLSKFundLauncherItemEnterConfirmation', function test_OLSKFundLauncher
 	context('LCHRecipeIsExcluded', function () {
 
 		it('returns true if ParamAuthorized true', function () {
-			deepEqual(_OLSKFundLauncherItemEnterConfirmation({
+			deepEqual(_OLSKFundLauncherItemEnterClue({
 				ParamAuthorized: true,
 			}).LCHRecipeIsExcluded(), true);
 		});
 
 		it('returns false', function () {
-			deepEqual(_OLSKFundLauncherItemEnterConfirmation({
+			deepEqual(_OLSKFundLauncherItemEnterClue({
 				ParamAuthorized: false,
 			}).LCHRecipeIsExcluded(), false);
 		});

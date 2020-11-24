@@ -3,7 +3,7 @@ OLSKFundGrantErrorDecryptionText: Error de deciframiento
 OLSKFundGrantErrorSigningText: Error de signatura
 OLSKFundGrantErrorExpiredText: Acceso vencido
 OLSKFundGateText: Desbloquear documentos ilimitados por contribuir al proyecto. ¿Te gustaría hacer eso ahora?
-OLSKFundLauncherItemEnterConfirmationText: Entrar código de confirmación
-OLSKFundLauncherItemEnterConfirmationPromptText: Entrar código de confirmación
+OLSKFundLauncherItemEnterClueText: Entrar código de confirmación
+OLSKFundLauncherItemEnterCluePromptText: Entrar código de confirmación
 OLSKFundLauncherItemClearAuthorizationText: Despejar autorización
 OLSKFundLauncherItemClearAuthorizationConfirmText: ¿Est@s segur@?

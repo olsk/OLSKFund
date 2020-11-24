@@ -14,24 +14,24 @@ kDefaultRoute.OLSKRouteLanguages.forEach(function (languageCode) {
 			});
 		});
 
-		it('localizes OLSKFundLauncherItemEnterConfirmation', function () {
-			return browser.assert.OLSKLauncherItemText('OLSKFundLauncherItemEnterConfirmation', uLocalized('OLSKFundLauncherItemEnterConfirmationText'));
+		it('localizes OLSKFundLauncherItemEnterClue', function () {
+			return browser.assert.OLSKLauncherItemText('OLSKFundLauncherItemEnterClue', uLocalized('OLSKFundLauncherItemEnterClueText'));
 		});
 
-		context('OLSKFundLauncherItemEnterConfirmation', function () {
+		context('OLSKFundLauncherItemEnterClue', function () {
 			
 			before(function () {
 				return browser.pressButton('.OLSKAppToolbarLauncherButton');
 			});
 
 			before(async function () {
-				return browser.fill('.LCHLauncherFilterInput', 'OLSKFundLauncherItemEnterConfirmation');
+				return browser.fill('.LCHLauncherFilterInput', 'OLSKFundLauncherItemEnterClue');
 			});
 			
-			it('localizes OLSKFundLauncherItemEnterConfirmationPrompt', function () {
+			it('localizes OLSKFundLauncherItemEnterCluePrompt', function () {
 				browser.assert.OLSKPromptQuestion(function () {
 					return browser.click('.LCHLauncherPipeItem');
-				}, uLocalized('OLSKFundLauncherItemEnterConfirmationPromptText'));
+				}, uLocalized('OLSKFundLauncherItemEnterCluePromptText'));
 			});
 		
 		});

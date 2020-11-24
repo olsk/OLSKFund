@@ -10,8 +10,8 @@ describe('OLSKFund_Access', function () {
 		return browser.assert.OLSKLauncherItems('OLSKFundLauncherFakeItemProxy', 1);
 	});
 
-	it('shows OLSKFundLauncherItemEnterConfirmation', function () {
-		return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemEnterConfirmation', 1);
+	it('shows OLSKFundLauncherItemEnterClue', function () {
+		return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemEnterClue', 1);
 	});
 
 	it('hides OLSKFundLauncherItemClearAuthorization', function () {
@@ -24,8 +24,8 @@ describe('OLSKFund_Access', function () {
 			return browser.pressButton('#TestFakeParamAuthorized');
 		});
 
-		it('hides OLSKFundLauncherItemEnterConfirmation', function () {
-			return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemEnterConfirmation', 0);
+		it('hides OLSKFundLauncherItemEnterClue', function () {
+			return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemEnterClue', 0);
 		});		
 
 		it('shows OLSKFundLauncherItemClearAuthorization', function () {
