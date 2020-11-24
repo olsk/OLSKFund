@@ -32,7 +32,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
-		if (typeof params.ParamExistingCode === 'undefined') {
+		if (typeof params.ParamExistingClue === 'undefined') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
@@ -48,7 +48,7 @@ const mod = {
 
 		params.ParamWindow.location.hash = '';
 
-		if (params.ParamExistingCode) {
+		if (params.ParamExistingClue) {
 			return;
 		}
 

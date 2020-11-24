@@ -86,7 +86,7 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 					} : {})).toString(),
 				}),
 			})),
-			ParamExistingCode: inputData.ParamExistingCode || null,
+			ParamExistingClue: inputData.ParamExistingClue || null,
 			OLSKFundDispatchPersist: (function () {
 				item.OLSKFundDispatchPersist = inputData.OLSKFundDispatchPersist ? inputData.OLSKFundDispatchPersist() :  item.OLSKFundDispatchPersist = Array.from(arguments);
 			}),
@@ -109,11 +109,11 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamExistingCode not defined', function () {
+	it('throws if ParamExistingClue not defined', function () {
 		throws(function () {
 			mod.OLSKFundSetupPostPay({
 				ParamWindow: uWindow(),
-				ParamExistingCode: undefined,
+				ParamExistingClue: undefined,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -122,7 +122,7 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		throws(function () {
 			mod.OLSKFundSetupPostPay({
 				ParamWindow: uWindow(),
-				ParamExistingCode: Math.random().toString(),
+				ParamExistingClue: Math.random().toString(),
 				OLSKFundDispatchPersist: Math.random().toString(),
 			});
 		}, /OLSKErrorInputNotValid/);
@@ -132,21 +132,21 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		deepEqual(_OLSKFundSetupPostPay(), {});
 	});
 
-	it('breaks if code matches ParamExistingCode', function () {
-		const ParamExistingCode = Math.random().toString();
+	it('breaks if code matches ParamExistingClue', function () {
+		const ParamExistingClue = Math.random().toString();
 
 		deepEqual(_OLSKFundSetupPostPay({
-			clue: ParamExistingCode,
-			ParamExistingCode,
+			clue: ParamExistingClue,
+			ParamExistingClue,
 		}), {});
 	});
 
-	it('breaks if ParamExistingCode different', function () {
-		const ParamExistingCode = Math.random().toString();
+	it('breaks if ParamExistingClue different', function () {
+		const ParamExistingClue = Math.random().toString();
 
 		deepEqual(_OLSKFundSetupPostPay({
 			clue: Math.random().toString(),
-			ParamExistingCode,
+			ParamExistingClue,
 		}), {});
 	});
 
