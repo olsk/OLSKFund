@@ -128,11 +128,11 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('breaks if no code', function () {
+	it('breaks if no clue', function () {
 		deepEqual(_OLSKFundSetupPostPay(), {});
 	});
 
-	it('breaks if code matches ParamExistingClue', function () {
+	it('breaks if clue matches ParamExistingClue', function () {
 		const ParamExistingClue = Math.random().toString();
 
 		deepEqual(_OLSKFundSetupPostPay({
