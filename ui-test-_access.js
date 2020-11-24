@@ -14,8 +14,8 @@ describe('OLSKFund_Access', function () {
 		return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemEnterClue', 1);
 	});
 
-	it('hides OLSKFundLauncherItemClearAuthorization', function () {
-		return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemClearAuthorization', 0);
+	it('hides OLSKFundLauncherItemClearClue', function () {
+		return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemClearClue', 0);
 	});
 
 	context('ParamAuthorized', function () {
@@ -28,8 +28,8 @@ describe('OLSKFund_Access', function () {
 			return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemEnterClue', 0);
 		});		
 
-		it('shows OLSKFundLauncherItemClearAuthorization', function () {
-			return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemClearAuthorization', 1);
+		it('shows OLSKFundLauncherItemClearClue', function () {
+			return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemClearClue', 1);
 		});		
 
 	});

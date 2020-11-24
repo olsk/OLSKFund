@@ -3,7 +3,8 @@ OLSKFundGrantErrorDecryptionText: Erreur de déchiffrement
 OLSKFundGrantErrorSigningText: Erreur de signature
 OLSKFundGrantErrorExpiredText: Accès expiré
 OLSKFundGateText: Déverrouiller des documents sans limite en contribuant au projet. Souhaitez-vous le faire maintenant ?
+OLSKFundWebViewTitleText: Financer un projet
 OLSKFundLauncherItemEnterClueText: Entrer code de confirmation
 OLSKFundLauncherItemEnterCluePromptText: Entrer code de confirmation
-OLSKFundLauncherItemClearAuthorizationText: Enlever autorisation
-OLSKFundLauncherItemClearAuthorizationConfirmText: Êtes-vous sûr.e ?
+OLSKFundLauncherItemClearClueText: Enlever autorisation
+OLSKFundLauncherItemClearClueConfirmText: Êtes-vous sûr.e ?

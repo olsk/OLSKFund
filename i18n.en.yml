@@ -3,7 +3,8 @@ OLSKFundGrantErrorDecryptionText: Decryption error
 OLSKFundGrantErrorSigningText: Signing error
 OLSKFundGrantErrorExpiredText: Access expired
 OLSKFundGateText: Unlock unlimited documents by making a contribution to the project. Would you like to do this now?
+OLSKFundWebViewTitleText: Fund a project
 OLSKFundLauncherItemEnterClueText: Enter confirmation code
 OLSKFundLauncherItemEnterCluePromptText: Enter confirmation code
-OLSKFundLauncherItemClearAuthorizationText: Clear authorization
-OLSKFundLauncherItemClearAuthorizationConfirmText: Are you sure?
+OLSKFundLauncherItemClearClueText: Clear authorization
+OLSKFundLauncherItemClearClueConfirmText: Are you sure?

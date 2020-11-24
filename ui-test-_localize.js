@@ -42,24 +42,24 @@ kDefaultRoute.OLSKRouteLanguages.forEach(function (languageCode) {
 				return browser.pressButton('#TestFakeParamAuthorized');
 			});
 
-			it('localizes OLSKFundLauncherItemClearAuthorization', function () {
-				return browser.assert.OLSKLauncherItemText('OLSKFundLauncherItemClearAuthorization', uLocalized('OLSKFundLauncherItemClearAuthorizationText'));
+			it('localizes OLSKFundLauncherItemClearClue', function () {
+				return browser.assert.OLSKLauncherItemText('OLSKFundLauncherItemClearClue', uLocalized('OLSKFundLauncherItemClearClueText'));
 			});
 
-			context('OLSKFundLauncherItemClearAuthorization', function () {
+			context('OLSKFundLauncherItemClearClue', function () {
 				
 				before(function () {
 					return browser.pressButton('.OLSKAppToolbarLauncherButton');
 				});
 
 				before(async function () {
-					return browser.fill('.LCHLauncherFilterInput', 'OLSKFundLauncherItemClearAuthorization');
+					return browser.fill('.LCHLauncherFilterInput', 'OLSKFundLauncherItemClearClue');
 				});
 				
-				it('localizes OLSKFundLauncherItemClearAuthorizationConfirm', function () {
+				it('localizes OLSKFundLauncherItemClearClueConfirm', function () {
 					browser.assert.OLSKConfirmQuestion(function () {
 						return browser.click('.LCHLauncherPipeItem');
-					}, uLocalized('OLSKFundLauncherItemClearAuthorizationText'));
+					}, uLocalized('OLSKFundLauncherItemClearClueText'));
 				});
 			
 			});			
