@@ -81,8 +81,8 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		mod.OLSKFundSetupPostPay({
 			ParamWindow: inputData.ParamWindow || uWindow(Object.assign({
 				location: Object.assign(new URL('https://example.com/form'), {
-					hash: (new URLSearchParams(inputData.confirmation ? {
-						confirmation: inputData.confirmation,
+					hash: (new URLSearchParams(inputData.clue ? {
+						clue: inputData.clue,
 					} : {})).toString(),
 				}),
 			})),
@@ -136,7 +136,7 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		const ParamExistingCode = Math.random().toString();
 
 		deepEqual(_OLSKFundSetupPostPay({
-			confirmation: ParamExistingCode,
+			clue: ParamExistingCode,
 			ParamExistingCode,
 		}), {});
 	});
@@ -145,7 +145,7 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		const ParamExistingCode = Math.random().toString();
 
 		deepEqual(_OLSKFundSetupPostPay({
-			confirmation: Math.random().toString(),
+			clue: Math.random().toString(),
 			ParamExistingCode,
 		}), {});
 	});
@@ -153,7 +153,7 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 	it('clears hash', function () {
 		const location = Object.assign(new URL('https://example.com/form'), {
 			hash: (new URLSearchParams({
-				confirmation: Math.random().toString(),
+				clue: Math.random().toString(),
 			})).toString(),
 		});
 
@@ -166,13 +166,13 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		deepEqual(location.hash, '');
 	});
 
-	it('passes code to OLSKFundDispatchPersist', function () {
-		const confirmation = Math.random().toString();
+	it('passes clue to OLSKFundDispatchPersist', function () {
+		const clue = Math.random().toString();
 
 		deepEqual(_OLSKFundSetupPostPay({
-			confirmation
+			clue
 		}), {
-			OLSKFundDispatchPersist: [confirmation],
+			OLSKFundDispatchPersist: [clue],
 		});
 	});
 
@@ -180,7 +180,7 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		const item = Math.random().toString();
 
 		deepEqual(_OLSKFundSetupPostPay({
-			confirmation: Math.random().toString(),
+			clue: Math.random().toString(),
 			OLSKFundDispatchPersist: (function () {
 				return item;
 			}),

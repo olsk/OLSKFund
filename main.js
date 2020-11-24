@@ -40,10 +40,9 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		const confirmation = Object.fromEntries((new URLSearchParams(params.ParamWindow.location.hash.replace(/^#+/, ''))).entries()).confirmation;
+		const clue = Object.fromEntries((new URLSearchParams(params.ParamWindow.location.hash.replace(/^#+/, ''))).entries()).clue;
 
-
-		if (!confirmation) {
+		if (!clue) {
 			return
 		}
 
@@ -53,7 +52,7 @@ const mod = {
 			return;
 		}
 
-		return params.OLSKFundDispatchPersist(confirmation);
+		return params.OLSKFundDispatchPersist(clue);
 	},
 
 	_OLSKFundGrantData () {
