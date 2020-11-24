@@ -249,7 +249,7 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 				OLSKPactAuthIdentity: 'alfa@bravo.charlie',
 				OLSKPactAuthProof: Math.random().toString(),
 				OLSKPactPayIdentity: 'alfa@bravo.charlie',
-				OLSKPactPayTransaction: Math.random().toString(),
+				OLSKPactPayClue: Math.random().toString(),
 			}, inputData.ParamBody || {}),
 		}));
 		
@@ -307,7 +307,7 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 	it('rejects if ParamBody not OLSKPactPayModel', async function () {
 		await rejects(_OLSKFundSetupGrant({
 			ParamBody: {
-				OLSKPactPayTransaction: null,
+				OLSKPactPayClue: null,
 			},
 		}), /OLSKErrorInputNotValid/);
 	});
@@ -366,7 +366,7 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 				OLSKPactAuthIdentity: 'alfa@bravo.charlie',
 				OLSKPactAuthProof: Math.random().toString(),
 				OLSKPactPayIdentity: 'alfa@bravo.charlie',
-				OLSKPactPayTransaction: Math.random().toString(),
+				OLSKPactPayClue: Math.random().toString(),
 			};
 
 			deepEqual((await _OLSKFundSetupGrant({

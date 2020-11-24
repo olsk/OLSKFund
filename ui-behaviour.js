@@ -73,7 +73,7 @@
 					OLSKPactAuthIdentity: 'alfa@bravo.charlie',
 					OLSKPactAuthProof: Math.random().toString(),
 					OLSKPactPayIdentity: 'alfa@bravo.charlie',
-					OLSKPactPayTransaction: Math.random().toString(),
+					OLSKPactPayClue: Math.random().toString(),
 				},
 				OLSKLocalized: window.OLSKLocalized,
 				OLSKFundDispatchPersist: (function () {}),
