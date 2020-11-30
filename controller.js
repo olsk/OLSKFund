@@ -10,7 +10,7 @@ const mod = {
 
 				return res.render(require('path').join(__dirname, 'stub-view'));
 			},
-			OLSKRouteLanguages: ['en', 'fr', 'es', 'pt'],
+			OLSKRouteLanguageCodes: ['en', 'fr', 'es', 'pt'],
 		}, {
 			OLSKRoutePath: '/OLSKFundStubGrantRoute',
 			OLSKRouteMethod: 'post',
