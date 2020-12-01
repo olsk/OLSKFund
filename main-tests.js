@@ -194,7 +194,7 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 describe('_OLSKFundGrantData', function test__OLSKFundGrantData() {
 
 	it('returns string', function () {
-		deepEqual(mod._OLSKFundGrantData(), 'kOLSKFundGrantData');
+		deepEqual(mod._OLSKFundGrantData(), 'OLSK_FUND_GRANT_DATA');
 	});
 
 });

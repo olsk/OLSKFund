@@ -56,7 +56,7 @@ const mod = {
 	},
 
 	_OLSKFundGrantData () {
-		return 'kOLSKFundGrantData';
+		return 'OLSK_FUND_GRANT_DATA';
 	},
 
 	async _OLSKFundSetupGrantDispatchPayload (params, payload) {
