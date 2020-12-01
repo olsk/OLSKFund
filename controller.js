@@ -17,7 +17,7 @@ const mod = {
 			OLSKRouteSignature: 'OLSKFundStubGrantRoute',
 			OLSKRouteFunction: async function OLSKFundStubGrantRoute (req, res, next) {
 				return res.json({
-					OLSK_FUND_ENCRYPTED_SIGNED: await require('OLSKCrypto').OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify({})),
+					OLSK_FUND_GRANT_V1: await require('OLSKCrypto').OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify({})),
 				});
 			},
 		}];
