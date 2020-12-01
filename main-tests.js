@@ -607,7 +607,7 @@ describe('OLSKFundURL', function test_OLSKFundURL() {
 
 
 
-describe.only('OLSKFundListen', function test_OLSKFundListen() {
+describe('OLSKFundListen', function test_OLSKFundListen() {
 
 	const _OLSKFundListen = function (inputData = {}) {
 		const item = {};
