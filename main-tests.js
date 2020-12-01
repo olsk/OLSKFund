@@ -350,9 +350,14 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 			const item = {
 				alfa: Math.random().toString(),
 			};
+
+			const OLSK_FUND_ENCRYPTED_SIGNED = await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item));
+
 			deepEqual((await _OLSKFundSetupGrant({
 				OLKSLocalStorageGet: (function () {
-					return OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, JSON.stringify(item));
+					return {
+						OLSK_FUND_ENCRYPTED_SIGNED,
+					};
 				}),
 			})), {
 				OLSKFundDispatchGrant: [item],
@@ -438,20 +443,20 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 		context('200', function () {
 			
 			it('calls _DataFoilOLSKLocalStorage.OLKSLocalStorageSet', async function () {
-				const OLSK_FUND_ENCRYPTED_SIGNED = await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+				const payload = {
+					OLSK_FUND_ENCRYPTED_SIGNED: await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString()),
+				};
 				
 				deepEqual((await _OLSKFundSetupGrant({
 					fetch: (function () {
 						return {
 							status: 200,
 							json: (function () {
-								return {
-									OLSK_FUND_ENCRYPTED_SIGNED,
-								};
+								return payload;
 							}),
 						};
 					}),
-				})).OLKSLocalStorageSet.slice(1), [mod._OLSKFundGrantData(), OLSK_FUND_ENCRYPTED_SIGNED]);
+				})).OLKSLocalStorageSet.slice(1), [mod._OLSKFundGrantData(), payload]);
 			});
 
 			it('calls OLSKFundDispatchProgress', async function () {
@@ -487,18 +492,26 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 	context('decryption', function test_decryption () {
 		
 		it('alerts if not decrypted', async function () {
+			const OLSK_FUND_ENCRYPTED_SIGNED = await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+
 			deepEqual((await _OLSKFundSetupGrant({
-				OLKSLocalStorageGet: (async function () {
-					return await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+				OLKSLocalStorageGet: (function () {
+					return {
+						OLSK_FUND_ENCRYPTED_SIGNED,
+					};
 				}),
 				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: Math.random().toString(),
 			})).alert, [uLocalized('OLSKFundGrantErrorDecryptionText')]);
 		});
 
 		it('alerts if not signed', async function () {
+			const OLSK_FUND_ENCRYPTED_SIGNED = await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+
 			deepEqual((await _OLSKFundSetupGrant({
-				OLKSLocalStorageGet: (async function () {
-					return await OLSKCrypto.OLSKCryptoEncryptSigned(process.env.OLSK_CRYPTO_PAIR_RECEIVER_PUBLIC, process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE, Math.random().toString());
+				OLKSLocalStorageGet: (function () {
+					return {
+						OLSK_FUND_ENCRYPTED_SIGNED,
+					};
 				}),
 				OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_SENDER_PRIVATE,
 			})).alert, [uLocalized('OLSKFundGrantErrorSigningText')]);

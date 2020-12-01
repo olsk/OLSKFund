@@ -61,7 +61,7 @@ const mod = {
 
 	async _OLSKFundSetupGrantDispatchPayload (params, payload) {
 		try {
-			return params.OLSKFundDispatchGrant(JSON.parse(await OLSKCrypto.OLSKCryptoDecryptSigned(params.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE, params.OLSK_CRYPTO_PAIR_SENDER_PUBLIC, payload)));
+			return params.OLSKFundDispatchGrant(JSON.parse(await OLSKCrypto.OLSKCryptoDecryptSigned(params.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE, params.OLSK_CRYPTO_PAIR_SENDER_PUBLIC, payload.OLSK_FUND_ENCRYPTED_SIGNED)));
 		} catch (e) {
 			if (e.message.match('Invalid RSA private key')) {
 				return params.ParamWindow.alert(params.OLSKLocalized('OLSKFundGrantErrorDecryptionText'));
@@ -149,7 +149,7 @@ const mod = {
 			return params.OLSKFundDispatchFail(params.ParamWindow.alert(json.RCSAPIError));
 		}
 
-		return mod._OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), json.OLSK_FUND_ENCRYPTED_SIGNED));
+		return mod._OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), json));
 	},
 
 	OLSKFundGate (param1, OLSKLocalized) {
