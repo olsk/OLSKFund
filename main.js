@@ -120,7 +120,7 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		const payload = params.OLSK_TESTING_BEHAVIOUR ? null : await this._DataFoilOLSKLocalStorage.OLKSLocalStorageGet(params.ParamWindow.localStorage, mod._OLSKFundGrantData());
+		const payload = params.ParamSpecUI ? null : await this._DataFoilOLSKLocalStorage.OLKSLocalStorageGet(params.ParamWindow.localStorage, mod._OLSKFundGrantData());
 		if (payload) {
 			return mod._OLSKFundSetupGrantDispatchPayload(params, payload);
 		}
@@ -474,7 +474,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof params.OLSK_TESTING_BEHAVIOUR !== 'boolean') {
+		if (typeof params.ParamSpecUI !== 'boolean') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
@@ -483,7 +483,7 @@ const mod = {
 			mod.OLSKFundLauncherItemEnterClue(params),
 			mod.OLSKFundLauncherItemClearClue(params),
 		].filter(function (e) {
-			if (params.OLSK_TESTING_BEHAVIOUR) {
+			if (params.ParamSpecUI) {
 				return true;
 			}
 

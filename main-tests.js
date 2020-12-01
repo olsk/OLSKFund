@@ -1564,7 +1564,7 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
 			ParamAuthorized: true,
-			OLSK_TESTING_BEHAVIOUR: false,
+			ParamSpecUI: false,
 			OLSKFundDispatchGrant: (function () {}),
 			OLSKFundDispatchPersist: (function () {}),
 		}, inputData))
@@ -1576,10 +1576,10 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if OLSK_TESTING_BEHAVIOUR not boolean', function () {
+	it('throws if ParamSpecUI not boolean', function () {
 		throws(function () {
 			_OLSKFundRecipes({
-				OLSK_TESTING_BEHAVIOUR: null,
+				ParamSpecUI: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -1596,7 +1596,7 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 
 		it('returns all recipes if true', function () {
 			deepEqual(_OLSKFundRecipes({
-				OLSK_TESTING_BEHAVIOUR: true,
+				ParamSpecUI: true,
 			}).map(function (e) {
 				return e.LCHRecipeSignature || e.LCHRecipeName;
 			}), Object.keys(mod).filter(function (e) {

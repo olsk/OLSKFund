@@ -13,7 +13,7 @@
 					ParamAuthorized: mod._ValueFakeParamAuthorized,
 					OLSKFundDispatchGrant: (function () {}),
 					OLSKFundDispatchPersist: (function () {}),
-					OLSK_TESTING_BEHAVIOUR: true,
+					ParamSpecUI: true,
 				}),
 			});
 		},
@@ -80,7 +80,7 @@
 				OLSKFundDispatchProgress: (function () {}),
 				OLSKFundDispatchFail: (function () {}),
 				OLSKFundDispatchGrant: (function () {}),
-				OLSK_TESTING_BEHAVIOUR: true,
+				ParamSpecUI: true,
 			});
 		},
 
