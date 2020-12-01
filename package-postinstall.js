@@ -1,8 +1,8 @@
 const mod = {
 
-	// SETUP
+	// LIFECYCLE
 
-	SetupEverything() {
+	LifecycleModuleDidLoad() {
 		if (!require('fs').existsSync(require('path').join(__dirname, 'node_modules'))) {
 			return;
 		}
@@ -53,12 +53,6 @@ const mod = {
 				", (typeof require === 'undefined' ? RSAKey : cryptico.RSAKey)",
 			));
 		})();
-	},
-
-	// LIFECYCLE
-
-	LifecycleModuleDidLoad() {
-		mod.SetupEverything();
 	},
 
 };
