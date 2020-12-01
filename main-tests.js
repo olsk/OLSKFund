@@ -1466,7 +1466,7 @@ describe('OLSKFundLauncherItemClearClue', function test_OLSKFundLauncherItemClea
 				}),
 			}).LCHRecipeCallback();
 
-			deepEqual(item, [uLocalized('OLSKFundLauncherItemClearClueText')]);
+			deepEqual(item, [uLocalized('OLSKFundLauncherItemClearClueConfirmText')]);
 		});
 
 		it('returns if ParamWindow.confirm false', function () {

@@ -457,7 +457,7 @@ const mod = {
 			LCHRecipeSignature: 'OLSKFundLauncherItemClearClue',
 			LCHRecipeName: params.OLSKLocalized('OLSKFundLauncherItemClearClueText'),
 			LCHRecipeCallback () {
-				if (!params.ParamWindow.confirm(params.OLSKLocalized('OLSKFundLauncherItemClearClueText'))) {
+				if (!params.ParamWindow.confirm(params.OLSKLocalized('OLSKFundLauncherItemClearClueConfirmText'))) {
 					return;
 				}
 
