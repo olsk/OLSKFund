@@ -623,7 +623,6 @@ describe('OLSKFundURL', function test_OLSKFundURL() {
 });
 
 
-
 describe('OLSKFundListen', function test_OLSKFundListen() {
 
 	const _OLSKFundListen = function (inputData = {}) {
