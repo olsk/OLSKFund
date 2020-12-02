@@ -41,7 +41,7 @@ const uPromise = function (inputData) {
 	};
 };
 
-const uRandomInt = function (inputData) {
+const uRandomInt = function () {
 	return Math.max(Date.now() % 1000, 1);
 };
 
