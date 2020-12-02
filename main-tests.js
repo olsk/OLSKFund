@@ -41,10 +41,6 @@ const uPromise = function (inputData) {
 	};
 };
 
-const uRandomInt = function () {
-	return Math.max(Date.now() % 1000, 1);
-};
-
 describe('OLSKFundResponseIsPresent', function test_OLSKFundResponseIsPresent() {
 
 	const _OLSKFundResponseIsPresent = function (inputData) {
