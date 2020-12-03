@@ -761,7 +761,6 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			return i ? [e, e * 10].join(',') : e;
 		}).join(' ') }` : '0:1 2 3 4'), Object.assign({
 			OLSKPactGrantPublicNumbers: [Math.random().toString()],
-			OLSKPactGrantIdentity: Math.random().toString(),
 			OLSKPactGrantProject: Math.random().toString(),
 			OLSKPactGrantStartDate: new Date(),
 			OLSKPactGrantEndDate: new Date(),
@@ -786,7 +785,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 	it('throws if param2 not valid', function () {
 		throws(function () {
 			_OLSKFundTier({
-				OLSKPactGrantIdentity: null,
+				OLSKPactGrantProject: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
