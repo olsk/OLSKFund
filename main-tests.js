@@ -766,7 +766,7 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 			OLSKPactGrantEndDate: new Date(),
 			OLSKPactGrantContribution: 400,
 			OLSKPactGrantFrequencyOption: OLSKPact.OLSKPactGrantFrequencyOptionMonthly(),
-			OLSKPactGrantProcessor: OLSKPact.OLSKPactPayProcessors()[Date.now() % OLSKPact.OLSKPactPayProcessors().length],
+			OLSKPactGrantProcessor: uRandomElement(OLSKPact.OLSKPactPayProcessors()),
 			OLSKPactGrantProcessorReference: Math.random().toString(),
 			OLSKPactGrantActive: true,
 		}, inputData));
