@@ -1239,6 +1239,41 @@ describe('OLSKFundLauncherItemFakeFlipProgress', function test_OLSKFundLauncherI
 
 });
 
+describe('OLSKFundLauncherItemFakeTier2WithNoBundle', function test_OLSKFundLauncherItemFakeTier2WithNoBundle() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.OLSKFundLauncherItemFakeTier2WithNoBundle(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mod.OLSKFundLauncherItemFakeTier2WithNoBundle({});
+		deepEqual(item, {
+			LCHRecipeName: 'OLSKFundLauncherItemFakeTier2WithNoBundle',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+		
+		it('calls set _ValueOLSKFundGrant', function () {
+			const item = {
+				_ValueOLSKFundGrant: OLSKPact.OLSKPactDataGrantObjectValid()
+			};
+			
+			mod.OLSKFundLauncherItemFakeTier2WithNoBundle(item).LCHRecipeCallback()
+			
+			deepEqual(item._ValueOLSKFundGrant, Object.assign(Object.assign({}, item._ValueOLSKFundGrant), {
+				OLSKPactGrantContribution: 1000,
+				OLSKPactGrantFrequencyOption: OLSKPact.OLSKPactGrantFrequencyOptionYearly(),
+			}));
+		});
+
+	});
+
+});
+
 describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnterClue() {
 
 	const _OLSKFundLauncherItemEnterClue = function (inputData = {}) {
