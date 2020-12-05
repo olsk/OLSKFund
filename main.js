@@ -429,6 +429,22 @@ const mod = {
 		};
 	},
 
+	OLSKFundLauncherItemFakeTier2Proxy (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeName: 'OLSKFundLauncherItemFakeTier2Proxy',
+			LCHRecipeCallback () {},
+			LCHRecipeIsExcluded () {
+				return !inputData.DataIsEligible({
+					ParamMinimumTier: 2,
+				});
+			}
+		};
+	},
+
 	OLSKFundLauncherItemEnterClue (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -541,6 +557,7 @@ const mod = {
 			mod.OLSKFundLauncherItemFakeFlipProgress(params.ParamMod),
 			mod.OLSKFundLauncherItemFakeTier2WithNoBundle(params.ParamMod),
 			mod.OLSKFundLauncherItemFakeTier2WithBundle(params.ParamMod),
+			mod.OLSKFundLauncherItemFakeTier2Proxy(params.ParamMod),
 			mod.OLSKFundLauncherItemEnterClue(params),
 			mod.OLSKFundLauncherItemClearClue(params),
 		].filter(function (e) {

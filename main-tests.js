@@ -1310,6 +1310,53 @@ describe('OLSKFundLauncherItemFakeTier2WithBundle', function test_OLSKFundLaunch
 
 });
 
+describe('OLSKFundLauncherItemFakeTier2Proxy', function test_OLSKFundLauncherItemFakeTier2Proxy() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.OLSKFundLauncherItemFakeTier2Proxy(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mod.OLSKFundLauncherItemFakeTier2Proxy({});
+		deepEqual(item, {
+			LCHRecipeName: 'OLSKFundLauncherItemFakeTier2Proxy',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+			LCHRecipeIsExcluded: item.LCHRecipeIsExcluded,
+		});
+	});
+
+	context('LCHRecipeIsExcluded', function () {
+
+		it('calls DataIsEligible', function () {
+			const item = [];
+
+			mod.OLSKFundLauncherItemFakeTier2Proxy({
+				DataIsEligible: (function () {
+					item.push(...arguments);
+				}),
+			}).LCHRecipeIsExcluded();
+			
+			deepEqual(item, [{
+				ParamMinimumTier: 2,
+			}]);
+		});
+
+		it('returns flipped result', function () {
+			const DataIsEligible = uRandomElement(true, false);
+
+			deepEqual(mod.OLSKFundLauncherItemFakeTier2Proxy({
+				DataIsEligible: (function () {
+					return DataIsEligible;
+				}),
+			}).LCHRecipeIsExcluded(), !DataIsEligible);
+		});
+
+	});
+
+});
+
 describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnterClue() {
 
 	const _OLSKFundLauncherItemEnterClue = function (inputData = {}) {
