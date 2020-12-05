@@ -10,6 +10,7 @@
 				LCHOptionRecipes: exports.OLSKFundRecipes({
 					ParamWindow: window,
 					OLSKLocalized: window.OLSKLocalized,
+					ParamConnected: true,
 					ParamAuthorized: mod._ValueFakeParamAuthorized,
 					OLSKFundDispatchGrant: (function () {}),
 					OLSKFundDispatchPersist: (function () {}),

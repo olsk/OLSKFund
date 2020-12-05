@@ -1224,6 +1224,7 @@ describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnte
 		}).OLSKFundLauncherItemEnterClue(Object.assign({
 			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
+			ParamConnected: true,
 			ParamAuthorized: true,
 			OLSKFundDispatchPersist: (function () {}),
 		}, inputData))
@@ -1247,6 +1248,14 @@ describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnte
 		throws(function () {
 			_OLSKFundLauncherItemEnterClue({
 				OLSKLocalized: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamConnected not boolean', function () {
+		throws(function () {
+			_OLSKFundLauncherItemEnterClue({
+				ParamConnected: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -1354,14 +1363,23 @@ describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnte
 
 	context('LCHRecipeIsExcluded', function () {
 
+		it('returns true if ParamConnected false', function () {
+			deepEqual(_OLSKFundLauncherItemEnterClue({
+				ParamConnected: false,
+				ParamAuthorized: false,
+			}).LCHRecipeIsExcluded(), true);
+		});
+
 		it('returns true if ParamAuthorized true', function () {
 			deepEqual(_OLSKFundLauncherItemEnterClue({
+				ParamConnected: true,
 				ParamAuthorized: true,
 			}).LCHRecipeIsExcluded(), true);
 		});
 
 		it('returns false', function () {
 			deepEqual(_OLSKFundLauncherItemEnterClue({
+				ParamConnected: true,
 				ParamAuthorized: false,
 			}).LCHRecipeIsExcluded(), false);
 		});
@@ -1380,6 +1398,7 @@ describe('OLSKFundLauncherItemClearClue', function test_OLSKFundLauncherItemClea
 		}).OLSKFundLauncherItemClearClue(Object.assign({
 			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
+			ParamConnected: true,
 			ParamAuthorized: true,
 			OLSKFundDispatchGrant: (function () {}),
 			OLSKFundDispatchPersist: (function () {}),
@@ -1404,6 +1423,14 @@ describe('OLSKFundLauncherItemClearClue', function test_OLSKFundLauncherItemClea
 		throws(function () {
 			_OLSKFundLauncherItemClearClue({
 				OLSKLocalized: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamConnected not boolean', function () {
+		throws(function () {
+			_OLSKFundLauncherItemClearClue({
+				ParamConnected: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -1535,14 +1562,23 @@ describe('OLSKFundLauncherItemClearClue', function test_OLSKFundLauncherItemClea
 
 	context('LCHRecipeIsExcluded', function () {
 
+		it('returns true if ParamConnected false', function () {
+			deepEqual(_OLSKFundLauncherItemClearClue({
+				ParamConnected: false,
+				ParamAuthorized: true,
+			}).LCHRecipeIsExcluded(), true);
+		});
+
 		it('returns true if ParamAuthorized false', function () {
 			deepEqual(_OLSKFundLauncherItemClearClue({
+				ParamConnected: true,
 				ParamAuthorized: false,
 			}).LCHRecipeIsExcluded(), true);
 		});
 
 		it('returns false', function () {
 			deepEqual(_OLSKFundLauncherItemClearClue({
+				ParamConnected: true,
 				ParamAuthorized: true,
 			}).LCHRecipeIsExcluded(), false);
 		});
@@ -1557,7 +1593,8 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 		return mod.OLSKFundRecipes(Object.assign({
 			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
-			ParamAuthorized: true,
+			ParamConnected: uRandomElement(true, false),
+			ParamAuthorized: uRandomElement(true, false),
 			ParamSpecUI: false,
 			OLSKFundDispatchGrant: (function () {}),
 			OLSKFundDispatchPersist: (function () {}),

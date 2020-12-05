@@ -396,6 +396,10 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (typeof params.ParamConnected !== 'boolean') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
 		if (typeof params.ParamAuthorized !== 'boolean') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -421,7 +425,7 @@ const mod = {
 				return params.OLSKFundDispatchPersist(item);
 			},
 			LCHRecipeIsExcluded () {
-				return !!params.ParamAuthorized;
+				return !params.ParamConnected || params.ParamAuthorized;
 			},
 		};
 	},
@@ -436,6 +440,10 @@ const mod = {
 		}
 		
 		if (typeof params.OLSKLocalized !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamConnected !== 'boolean') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
@@ -464,7 +472,7 @@ const mod = {
 				return params.OLSKFundDispatchPersist(params.OLSKFundDispatchGrant(_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), null)));
 			},
 			LCHRecipeIsExcluded () {
-				return !params.ParamAuthorized;
+				return !params.ParamConnected || !params.ParamAuthorized;
 			},
 		};
 	},
