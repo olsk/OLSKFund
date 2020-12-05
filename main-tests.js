@@ -1214,6 +1214,38 @@ describe('OLSKFundLauncherFakeItemProxy', function test_OLSKFundLauncherFakeItem
 
 });
 
+describe('OLSKFundLauncherItemFakeFlipProgress', function test_OLSKFundLauncherItemFakeFlipProgress() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.OLSKFundLauncherItemFakeFlipProgress(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mod.OLSKFundLauncherItemFakeFlipProgress({});
+		deepEqual(item, {
+			LCHRecipeName: 'OLSKFundLauncherItemFakeFlipProgress',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+		
+		it('calls OLSKFundDispatchProgress with flipped _ValueOLSKFundProgress', function () {
+			const _ValueOLSKFundProgress = uRandomElement(true, false);
+			deepEqual(mod.OLSKFundLauncherItemFakeFlipProgress({
+				_ValueOLSKFundProgress,
+				OLSKFundDispatchProgress: (function () {
+					return Array.from(arguments);
+				}),
+			}).LCHRecipeCallback(), [!_ValueOLSKFundProgress]);
+		});
+
+	});
+
+});
+
 describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnterClue() {
 
 	const _OLSKFundLauncherItemEnterClue = function (inputData = {}) {
@@ -1595,6 +1627,7 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 			OLSKLocalized: uLocalized,
 			ParamConnected: uRandomElement(true, false),
 			ParamAuthorized: uRandomElement(true, false),
+			ParamMod: {},
 			ParamSpecUI: false,
 			OLSKFundDispatchGrant: (function () {}),
 			OLSKFundDispatchPersist: (function () {}),
@@ -1604,6 +1637,14 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 	it('throws if not object', function () {
 		throws(function () {
 			mod.OLSKFundRecipes(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamMod not object', function () {
+		throws(function () {
+			_OLSKFundRecipes({
+				ParamMod: null,
+			});
 		}, /OLSKErrorInputNotValid/);
 	});
 

@@ -383,6 +383,19 @@ const mod = {
 		};
 	},
 
+	OLSKFundLauncherItemFakeFlipProgress (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeName: 'OLSKFundLauncherItemFakeFlipProgress',
+			LCHRecipeCallback () {
+				return inputData.OLSKFundDispatchProgress(!inputData._ValueOLSKFundProgress);
+			},
+		};
+	},
+
 	OLSKFundLauncherItemEnterClue (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -482,12 +495,17 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (typeof params.ParamMod !== 'object' || params.ParamMod === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
 		if (typeof params.ParamSpecUI !== 'boolean') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return [
 			mod.OLSKFundLauncherFakeItemProxy(),
+			mod.OLSKFundLauncherItemFakeFlipProgress(params.ParamMod),
 			mod.OLSKFundLauncherItemEnterClue(params),
 			mod.OLSKFundLauncherItemClearClue(params),
 		].filter(function (e) {
