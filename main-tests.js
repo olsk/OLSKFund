@@ -759,17 +759,10 @@ describe('OLSKFundTier', function test_OLSKFundTier() {
 	const _OLSKFundTier = function (inputData = {}) {
 		return mod.OLSKFundTier(inputData._OLSKFundPricingRows ? inputData._OLSKFundPricingRows.join(';') : (inputData._OLSKFundPricingNumbers ? `0:${ inputData._OLSKFundPricingNumbers.map(function (e, i) {
 			return i ? [e, e * 10].join(',') : e;
-		}).join(' ') }` : '0:1 2 3 4'), Object.assign({
-			OLSKPactGrantPublicNumbers: [Math.random().toString()],
-			OLSKPactGrantProject: Math.random().toString(),
-			OLSKPactGrantStartDate: new Date(),
-			OLSKPactGrantEndDate: new Date(),
+		}).join(' ') }` : '0:1 2 3 4'), OLSKPact.OLSKPactDataGrantObjectValid(Object.assign({
 			OLSKPactGrantContribution: 400,
 			OLSKPactGrantFrequencyOption: OLSKPact.OLSKPactGrantFrequencyOptionMonthly(),
-			OLSKPactGrantProcessor: uRandomElement(OLSKPact.OLSKPactPayProcessors()),
-			OLSKPactGrantProcessorReference: Math.random().toString(),
-			OLSKPactGrantActive: true,
-		}, inputData));
+		}, inputData)));
 	};
 
 	it('throws if param1 not valid', function () {
