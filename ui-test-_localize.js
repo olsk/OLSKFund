@@ -59,7 +59,7 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 				it('localizes OLSKFundLauncherItemClearClueConfirm', function () {
 					browser.assert.OLSKConfirmQuestion(function () {
 						return browser.click('.LCHLauncherPipeItem');
-					}, uLocalized('OLSKFundLauncherItemClearClueText'));
+					}, uLocalized('OLSKFundLauncherItemClearClueConfirmText'));
 				});
 			
 			});			
