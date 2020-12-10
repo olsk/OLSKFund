@@ -88,7 +88,7 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 			})),
 			ParamExistingClue: inputData.ParamExistingClue || null,
 			OLSKFundDispatchPersist: (function () {
-				item.OLSKFundDispatchPersist = inputData.OLSKFundDispatchPersist ? inputData.OLSKFundDispatchPersist() :  item.OLSKFundDispatchPersist = Array.from(arguments);
+				item.OLSKFundDispatchPersist = inputData.OLSKFundDispatchPersist ? inputData.OLSKFundDispatchPersist() :  item.OLSKFundDispatchPersist = [...arguments];
 			}),
 		});
 
@@ -207,18 +207,18 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 		await Object.assign(Object.assign({}, mod), {
 			_DataFoilOLSKLocalStorage: {
 				OLKSLocalStorageGet: inputData.OLKSLocalStorageGet || (function () {
-					item.OLKSLocalStorageGet = Array.from(arguments);
+					item.OLKSLocalStorageGet = [...arguments];
 				}),
 				OLKSLocalStorageSet: inputData.OLKSLocalStorageSet || (function () {
-					item.OLKSLocalStorageSet = Array.from(arguments);
+					item.OLKSLocalStorageSet = [...arguments];
 					
-					return Array.from(arguments).pop();
+					return [...arguments].pop();
 				}),
 			},
 		}).OLSKFundSetupGrant(Object.assign({
 			ParamWindow: uWindow({
 				fetch: inputData.fetch || (function () {
-					item.fetch = Array.from(arguments);
+					item.fetch = [...arguments];
 					return {
 						response: 200,
 						json: (function () {
@@ -227,7 +227,7 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 					};
 				}),
 				alert: inputData.alert || (function () {
-					item.alert = Array.from(arguments);
+					item.alert = [...arguments];
 				}),
 			}),
 			OLSK_FUND_API_URL: inputData.OLSK_FUND_API_URL || Math.random().toString(),
@@ -235,13 +235,13 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE,
 			OLSK_CRYPTO_PAIR_SENDER_PUBLIC: process.env.OLSK_CRYPTO_PAIR_SENDER_PUBLIC,
 			OLSKFundDispatchProgress: (function () {
-				item.OLSKFundDispatchProgress = Array.from(arguments);
+				item.OLSKFundDispatchProgress = [...arguments];
 			}),
 			OLSKFundDispatchFail: (function () {
-				item.OLSKFundDispatchFail = Array.from(arguments);
+				item.OLSKFundDispatchFail = [...arguments];
 			}),
 			OLSKFundDispatchGrant: (function () {
-				item.OLSKFundDispatchGrant = Array.from(arguments);
+				item.OLSKFundDispatchGrant = [...arguments];
 			}),
 		}, inputData, {
 			ParamBody: Object.assign({
@@ -466,7 +466,7 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 				deepEqual((await _OLSKFundSetupGrant({
 					OLKSLocalStorageGet: (function () {}),
 					OLKSLocalStorageSet: (function () {
-						return Array.from(arguments).pop();
+						return [...arguments].pop();
 					}),
 					fetch: (function () {
 						return {
@@ -631,7 +631,7 @@ describe('OLSKFundListen', function test_OLSKFundListen() {
 				}),
 			}),
 			OLSKFundDispatchReceive: (function () {
-				item.OLSKFundDispatchReceive = inputData.OLSKFundDispatchReceive ? inputData.OLSKFundDispatchReceive() :  item.OLSKFundDispatchReceive = Array.from(arguments);
+				item.OLSKFundDispatchReceive = inputData.OLSKFundDispatchReceive ? inputData.OLSKFundDispatchReceive() :  item.OLSKFundDispatchReceive = [...arguments];
 			}),
 		});
 
@@ -1230,7 +1230,7 @@ describe('OLSKFundLauncherItemFakeFlipProgress', function test_OLSKFundLauncherI
 			deepEqual(mod.OLSKFundLauncherItemFakeFlipProgress({
 				_ValueOLSKFundProgress,
 				OLSKFundDispatchProgress: (function () {
-					return Array.from(arguments);
+					return [...arguments];
 				}),
 			}).LCHRecipeCallback(), [!_ValueOLSKFundProgress]);
 		});
