@@ -1775,7 +1775,7 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 		}));
 	});
 
-	context('OLSK_IS_TESTING_BEHAVIOUR', function () {
+	context('ParamSpecUI', function () {
 
 		it('returns all recipes if true', function () {
 			deepEqual(_OLSKFundRecipes({
