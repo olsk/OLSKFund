@@ -26,7 +26,7 @@
   	"// SPEC": null,
   	"OLSKSpec": "olsk/OLSKSpec",
   	
-    "// UI TESTS": null,
+    "// INTERFACE TESTS": null,
     "launchlet": "latest",
     "OLSKExpress": "olsk/OLSKExpress",
     "OLSKString": "olsk/OLSKString",
