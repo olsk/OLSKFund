@@ -79,25 +79,25 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 		context('OLSKFundSetupGrant', function () {
 
 			it('localizes OLSKFundGrantErrorConnection', async function () {
-				browser.assert.deepEqual(await browser.OLSKAlertTextAsync(function () {
+				browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
 					return browser.pressButton('#TestFakeErrorConnection');
 				}), uLocalized('OLSKFundGrantErrorConnectionText'));
 			});
 
 			it('localizes OLSKFundGrantErrorDecryption', async function () {
-				browser.assert.deepEqual(await browser.OLSKAlertTextAsync(function () {
+				browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
 					return browser.pressButton('#TestFakeErrorDecryption');
 				}), uLocalized('OLSKFundGrantErrorDecryptionText'));
 			});
 
 			it('localizes OLSKFundGrantErrorSigning', async function () {
-				browser.assert.deepEqual(await browser.OLSKAlertTextAsync(function () {
+				browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
 					return browser.pressButton('#TestFakeErrorSigning');
 				}), uLocalized('OLSKFundGrantErrorSigningText'));
 			});
 
 			it.skip('localizes OLSKFundGrantErrorExpired', async function () {
-				browser.assert.deepEqual(await browser.OLSKAlertTextAsync(function () {
+				browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
 					return browser.pressButton('#TestFakeErrorExpired');
 				}), uLocalized('OLSKFundGrantErrorExpiredText'));
 			});
