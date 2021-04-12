@@ -23,20 +23,8 @@
     "// I sacrifice myself for the commas of others": null    
   },
   "devDependencies": {
-  	"// SPEC": null,
-  	"OLSKSpec": "olsk/OLSKSpec",
-  	
-    "// INTERFACE TESTS": null,
+  	"OLSKPithToolchain": "olsk/OLSKPithToolchain",
     "launchlet": "latest",
-    "OLSKExpress": "olsk/OLSKExpress",
-    "OLSKString": "olsk/OLSKString",
-    "OLSKInternational": "olsk/OLSKInternational",
-
-    "// HOTFIX": null,
-    "OLSKHotfix": "olsk/OLSKHotfix",
-    
-    "// BUNDLE": null,
-    "OLSKBundle": "olsk/OLSKBundle",
     
     "// I sacrifice myself for the commas of others": null    
   }
