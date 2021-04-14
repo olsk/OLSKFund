@@ -3,6 +3,12 @@
 
 		_ValueFakeParamAuthorized: false,
 
+		// DATA
+
+		DataIsEligible () {
+			return false;
+		},
+
 		// INTERFACE
 
 		InterfaceLauncherButtonDidClick () {
@@ -10,6 +16,7 @@
 				LCHOptionRecipes: exports.OLSKFundRecipes({
 					ParamWindow: window,
 					OLSKLocalized: window.OLSKLocalized,
+					ParamMod: mod,
 					ParamConnected: true,
 					ParamAuthorized: mod._ValueFakeParamAuthorized,
 					OLSKFundDispatchGrant: (function () {}),

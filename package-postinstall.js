@@ -26,33 +26,6 @@ const mod = {
 				require('fs').writeFileSync(filePath, require('fs').readFileSync(filePath, 'utf8').replace(/\bmod\b/g, e));
 			})
 		})();
-
-		(function OLSKHotfixOLSKCryptoForTesting() {
-			const filePath = './node_modules/OLSKCrypto/main.js';
-			require('fs').writeFileSync(filePath, require('OLSKString').OLSKStringPatch(
-				require('fs').readFileSync(filePath, 'utf8'),
-				'const cryptico',
-				'(function() { const  cryptico',
-			));
-
-			require('fs').writeFileSync(filePath, require('OLSKString').OLSKStringPatch(
-				require('fs').readFileSync(filePath, 'utf8'),
-				'Object.assign(exports, OLSKCrypto);',
-				'Object.assign(exports, OLSKCrypto) ; })();',
-			));
-
-			require('fs').writeFileSync(filePath, require('OLSKString').OLSKStringPatch(
-				require('fs').readFileSync(filePath, 'utf8'),
-				"= require('cryptico');",
-				"=  (function() { return typeof require === 'undefined' ? window.cryptico : require('cryptico'); })();",
-			));
-
-			require('fs').writeFileSync(filePath, require('OLSKString').OLSKStringPatch(
-				require('fs').readFileSync(filePath, 'utf8'),
-				', cryptico.RSAKey',
-				", (typeof require === 'undefined' ? RSAKey : cryptico.RSAKey)",
-			));
-		})();
 	},
 
 };
