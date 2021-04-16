@@ -32,6 +32,16 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (typeof params.ParamFormURL !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamProject !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		const _this = this;
+
 		return Object.assign(params.ParamMod, {
 
 			_OLSKAppToolbarDispatchFundNotConnected () {
@@ -42,7 +52,21 @@ const mod = {
 				params.ParamMod._ValueCloudToolbarHidden = false;
 			},
 
-			_OLSKAppToolbarDispatchFundConnected () {},
+			_OLSKAppToolbarDispatchFundConnected () {
+				params.ParamMod._ValueFundURL = mod.OLSKFundURL(Object.assign(Object.assign({}, params), {
+					ParamIdentity: params.ParamMod._ValueCloudIdentity,
+					ParamHomeURL: (debug.ParamWindow || window).location.origin + (debug.ParamWindow || window).location.pathname,
+				}));
+
+				params.ParamMod._OLSKWebView.modPublic.OLSKModalViewShow();
+
+				return _this.OLSKFundListen({
+					ParamWindow: (debug.ParamWindow || window),
+					OLSKFundDispatchReceive: params.ParamMod.OLSKFundDispatchReceive,
+				});
+			},
+
+			OLSKFundDispatchReceive () {},
 
 			OLSKAppToolbarDispatchFund () {
 				return params.ParamMod[params.ParamMod._ValueCloudIdentity ? '_OLSKAppToolbarDispatchFundConnected' : '_OLSKAppToolbarDispatchFundNotConnected']();

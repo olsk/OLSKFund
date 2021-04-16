@@ -11,11 +11,14 @@ const uWindow = function (inputData = {}) {
 		confirm () {},
 		location: {
 			reload () {},
+			origin: Math.random().toString(),
+			pathname: Math.random().toString(),
 		},
 		localStorage: {
 			setItem: (function () {}),
 			getItem: (function () {}),
 		},
+		addEventListener: (function () {}),
 	}, inputData);
 };
 
@@ -44,11 +47,19 @@ const uPromise = function (inputData) {
 describe('OLSKFundSetup', function test_OLSKFundSetup() {
 
 	const _OLSKFundSetup = function (inputData = {}) {
-		return mod.OLSKFundSetup(Object.assign({
-			ParamMod: {},
+		return Object.assign(Object.assign({}, mod), inputData).OLSKFundSetup(Object.assign({
+			ParamMod: Object.assign({
+				_OLSKWebView: {
+					modPublic: {
+						OLSKModalViewShow: (function () {}),
+					},
+				},
+			}, inputData),
 			OLSKLocalized: uLocalized,
+			ParamFormURL: uLink(),
+			ParamProject: Math.random().toString(),
 		}, inputData), {
-			ParamWindow: uWindow(inputData),
+			ParamWindow: inputData.ParamWindow || uWindow(inputData),
 		});
 	};
 
@@ -74,6 +85,22 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
+	it('throws if ParamFormURL not string', function () {
+		throws(function () {
+			_OLSKFundSetup({
+				ParamFormURL: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamProject not string', function () {
+		throws(function () {
+			_OLSKFundSetup({
+				ParamProject: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
 	it('returns ParamMod', function () {
 		const ParamMod = {};
 
@@ -88,6 +115,10 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 
 	it('sets _OLSKAppToolbarDispatchFundConnected', function () {
 		deepEqual(typeof _OLSKFundSetup()._OLSKAppToolbarDispatchFundConnected, 'function');
+	});
+
+	it('sets OLSKFundDispatchReceive', function () {
+		deepEqual(typeof _OLSKFundSetup().OLSKFundDispatchReceive, 'function');
 	});
 
 	it('sets OLSKAppToolbarDispatchFund', function () {
@@ -117,6 +148,67 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			})._OLSKAppToolbarDispatchFundNotConnected()
 			
 			deepEqual(ParamMod._ValueCloudToolbarHidden, flag ? false : undefined);
+		});
+	
+	});
+
+	context('_OLSKAppToolbarDispatchFundConnected', function () {
+		
+		it('sets ParamMod._ValueFundURL', function () {
+			const _ValueCloudIdentity = Math.random().toString();
+			const ParamFormURL = uLink();
+			const ParamProject = Math.random().toString();
+			const location = {
+				origin: Math.random().toString(),
+				pathname: Math.random().toString(),
+			};
+			
+			const ParamMod = _OLSKFundSetup({
+				_ValueCloudIdentity,
+				location,
+				ParamFormURL,
+				ParamProject,
+			});
+
+			ParamMod._OLSKAppToolbarDispatchFundConnected();
+			
+			deepEqual(ParamMod._ValueFundURL, mod.OLSKFundURL({
+				ParamFormURL,
+				ParamProject,
+				ParamIdentity: _ValueCloudIdentity,
+				ParamHomeURL: location.origin + location.pathname,
+			}));
+		});
+
+		it('calls ParamMod._OLSKWebView.modPublic.OLSKModalViewShow', function () {
+			const item = Math.random().toString();
+			deepEqual(uCapture(function (capture) {
+				_OLSKFundSetup({
+					_ValueCloudIdentity: Math.random().toString(),
+					_OLSKWebView: {
+						modPublic: {
+							OLSKModalViewShow: (function () {
+								capture(item);
+							}),
+						},
+					},
+				})._OLSKAppToolbarDispatchFundConnected();
+			}), [item]);
+		});
+
+		it('calls OLSKFundListen', function () {
+			const ParamWindow = uWindow();
+			const ParamMod = _OLSKFundSetup({
+				_ValueCloudIdentity: Math.random().toString(),
+				OLSKFundListen: (function () {
+					return [...arguments];
+				}),
+				ParamWindow,
+			});
+			deepEqual(ParamMod._OLSKAppToolbarDispatchFundConnected(), [{
+				ParamWindow,
+				OLSKFundDispatchReceive: ParamMod.OLSKFundDispatchReceive,
+			}]);
 		});
 	
 	});
