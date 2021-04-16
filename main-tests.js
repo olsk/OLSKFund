@@ -225,7 +225,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 
 	context('OLSKFundDispatchProgress', function () {
 
-		it('sets ParamMod._ValueFundClue', function () {
+		it('sets ParamMod._ValueOLSKFundProgress', function () {
 			const item = Math.random().toString();
 			
 			const ParamMod = _OLSKFundSetup();
