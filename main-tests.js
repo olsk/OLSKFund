@@ -282,15 +282,12 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		});
 
 		it('calls ParamMod._OLSKFundSetupDispatchUpdate', function () {
-			const item = Math.random().toString();
-			deepEqual(uCapture(function (capture) {
+			deepEqual(uCapture(function (_OLSKFundSetupDispatchUpdate) {
 				_OLSKFundSetup({
 					_ValueCloudIdentity: Math.random().toString(),
-					_OLSKFundSetupDispatchUpdate: (function () {
-						capture(item);
-					}),
+					_OLSKFundSetupDispatchUpdate,
 				})._OLSKAppToolbarDispatchFundConnected();
-			}), [item]);
+			}), ['_ValueFundURL']);
 		});
 
 		it('calls ParamMod._OLSKWebView.modPublic.OLSKModalViewShow', function () {

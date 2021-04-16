@@ -95,12 +95,10 @@ const mod = {
 			},
 
 			_OLSKAppToolbarDispatchFundConnected () {
-				params.ParamMod._ValueFundURL = mod.OLSKFundURL(Object.assign(Object.assign({}, params), {
+				setHotfix('_ValueFundURL', mod.OLSKFundURL(Object.assign(Object.assign({}, params), {
 					ParamIdentity: params.ParamMod._ValueCloudIdentity,
 					ParamHomeURL: (debug.ParamWindow || window).location.origin + (debug.ParamWindow || window).location.pathname,
-				}));
-
-				params.ParamMod._OLSKFundSetupDispatchUpdate();
+				})));
 
 				params.ParamMod._OLSKWebView.modPublic.OLSKModalViewShow();
 
