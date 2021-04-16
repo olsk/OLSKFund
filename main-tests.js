@@ -57,6 +57,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 					},
 				},
 				OLSKFundSetupDispatchClue: (function () {}),
+				_OLSKFundSetupDispatchUpdate: (function () {}),
 				OLSKFundDispatchPersist: (function () {}),
 			}, inputData),
 			OLSKLocalized: uLocalized,
@@ -86,6 +87,14 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		throws(function () {
 			_OLSKFundSetup({
 				OLSKFundSetupDispatchClue: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamMod._OLSKFundSetupDispatchUpdate not function', function () {
+		throws(function () {
+			_OLSKFundSetup({
+				_OLSKFundSetupDispatchUpdate: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -125,6 +134,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 	it('returns ParamMod', function () {
 		const ParamMod = {
 			OLSKFundSetupDispatchClue: (function () {}),
+			_OLSKFundSetupDispatchUpdate: (function () {}),
 		};
 
 		strictEqual(_OLSKFundSetup({
@@ -221,6 +231,18 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 				ParamIdentity: _ValueCloudIdentity,
 				ParamHomeURL: location.origin + location.pathname,
 			}));
+		});
+
+		it('calls ParamMod._OLSKFundSetupDispatchUpdate', function () {
+			const item = Math.random().toString();
+			deepEqual(uCapture(function (capture) {
+				_OLSKFundSetup({
+					_ValueCloudIdentity: Math.random().toString(),
+					_OLSKFundSetupDispatchUpdate: (function () {
+						capture(item);
+					}),
+				})._OLSKAppToolbarDispatchFundConnected();
+			}), [item]);
 		});
 
 		it('calls ParamMod._OLSKWebView.modPublic.OLSKModalViewShow', function () {

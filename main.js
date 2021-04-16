@@ -34,6 +34,10 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (typeof params.ParamMod._OLSKFundSetupDispatchUpdate !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
 		if (typeof params.OLSKLocalized !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -73,6 +77,8 @@ const mod = {
 					ParamIdentity: params.ParamMod._ValueCloudIdentity,
 					ParamHomeURL: (debug.ParamWindow || window).location.origin + (debug.ParamWindow || window).location.pathname,
 				}));
+
+				params.ParamMod._OLSKFundSetupDispatchUpdate();
 
 				params.ParamMod._OLSKWebView.modPublic.OLSKModalViewShow();
 
