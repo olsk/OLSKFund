@@ -30,6 +30,10 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (typeof params.OLSKFundSetupDispatchClue !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
 		if (typeof params.OLSKLocalized !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -53,6 +57,8 @@ const mod = {
 		}
 
 		return Object.assign(params.ParamMod, {
+
+			_ValueFundClue: params.OLSKFundSetupDispatchClue(),
 
 			_OLSKAppToolbarDispatchFundNotConnected () {
 				if (!(debug.ParamWindow || window).confirm(params.OLSKLocalized('OLSKRemoteStorageConnectConfirmText'))) {

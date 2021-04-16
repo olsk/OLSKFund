@@ -58,6 +58,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 				},
 				OLSKFundDispatchPersist: (function () {}),
 			}, inputData),
+			OLSKFundSetupDispatchClue: (function () {}),
 			OLSKLocalized: uLocalized,
 			ParamFormURL: uLink(),
 			ParamProject: Math.random().toString(),
@@ -77,6 +78,14 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		throws(function () {
 			_OLSKFundSetup({
 				ParamMod: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if OLSKFundSetupDispatchClue not function', function () {
+		throws(function () {
+			_OLSKFundSetup({
+				OLSKFundSetupDispatchClue: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -119,6 +128,15 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		strictEqual(_OLSKFundSetup({
 			ParamMod
 		}), ParamMod);
+	});
+
+	it('sets _ValueFundClue', function () {
+		const item = Math.random().toString();
+		deepEqual(_OLSKFundSetup({
+			OLSKFundSetupDispatchClue: (function () {
+				return item;
+			}),
+		})._ValueFundClue, item);
 	});
 
 	it('sets _OLSKAppToolbarDispatchFundNotConnected', function () {
