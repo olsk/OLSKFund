@@ -123,6 +123,10 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		deepEqual(typeof _OLSKFundSetup().OLSKFundDispatchProgress, 'function');
 	});
 
+	it('sets OLSKFundDispatchFail', function () {
+		deepEqual(typeof _OLSKFundSetup().OLSKFundDispatchFail, 'function');
+	});
+
 	it('sets OLSKFundDispatchReceive', function () {
 		deepEqual(typeof _OLSKFundSetup().OLSKFundDispatchReceive, 'function');
 	});
@@ -231,6 +235,18 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			deepEqual(ParamMod._ValueOLSKFundProgress, item);
 		});
 
+	});
+
+	context('OLSKFundDispatchFail', function () {
+
+		it('calls ParamMod.OLSKFundDispatchPersist', function () {
+			deepEqual(_OLSKFundSetup({
+				OLSKFundDispatchPersist: (function () {
+					return [...arguments];
+				}),
+			}).OLSKFundDispatchFail(), [null]);
+		});
+	
 	});
 
 	context('OLSKFundDispatchReceive', function () {

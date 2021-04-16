@@ -70,6 +70,10 @@ const mod = {
 				params.ParamMod._ValueOLSKFundProgress = inputData;
 			},
 
+			OLSKFundDispatchFail () {
+				return params.ParamMod.OLSKFundDispatchPersist(null);
+			},
+
 			OLSKFundDispatchReceive (inputData) {
 				params.ParamMod._OLSKWebView.modPublic.OLSKModalViewClose();
 
