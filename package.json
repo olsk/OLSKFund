@@ -12,6 +12,7 @@
   },
   "dependencies": {
   	"OLSKPact": "olsk/OLSKPact",
+    "OLSKObject": "olsk/OLSKObject",
     "OLSKCrypto": "olsk/OLSKCrypto",
     "OLSKLocalStorage": "olsk/OLSKLocalStorage",
   	

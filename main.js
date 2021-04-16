@@ -1,5 +1,7 @@
 const OLSKPact = require('OLSKPact');
 const OLSKCrypto = require('OLSKCrypto');
+const _OLSKObject = require('OLSKObject');
+const OLSKObject = _OLSKObject.default || _OLSKObject;
 
 const uIsFilled = function (inputData) {
 	return typeof inputData === 'string' && inputData.trim() !== '';
@@ -84,6 +86,10 @@ const mod = {
 
 			OLSKAppToolbarDispatchFund () {
 				return params.ParamMod[params.ParamMod._ValueCloudIdentity ? '_OLSKAppToolbarDispatchFundConnected' : '_OLSKAppToolbarDispatchFundNotConnected']();
+			},
+
+			OLSKFundDispatchGrant (inputData) {
+				params.ParamMod._ValueOLSKFundGrant = OLSKObject.OLSKObjectPostJSONParse(inputData);
 			},
 
 		});

@@ -4,6 +4,7 @@ const mod = require('./main.js');
 
 const OLSKPact = require('OLSKPact');
 const OLSKCrypto = require('OLSKCrypto');
+const OLSKObject = require('OLSKObject').default;
 
 const uWindow = function (inputData = {}) {
 	return Object.assign({
@@ -133,6 +134,10 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 
 	it('sets OLSKAppToolbarDispatchFund', function () {
 		deepEqual(typeof _OLSKFundSetup().OLSKAppToolbarDispatchFund, 'function');
+	});
+
+	it('sets OLSKFundDispatchGrant', function () {
+		deepEqual(typeof _OLSKFundSetup().OLSKFundDispatchGrant, 'function');
 	});
 
 	context('_OLSKAppToolbarDispatchFundNotConnected', function () {
@@ -309,6 +314,23 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			}), _ValueCloudIdentity ? [_OLSKAppToolbarDispatchFundConnected] : [_OLSKAppToolbarDispatchFundNotConnected]);
 		});
 	
+	});
+
+	context('OLSKFundDispatchGrant', function () {
+
+		it('sets ParamMod._ValueOLSKFundGrant', function () {
+			const item = {
+				[Math.random().toString()]: Math.random().toString(),
+				XYZDate: (new Date()).toJSON(),
+			};
+			
+			const ParamMod = _OLSKFundSetup();
+
+			ParamMod.OLSKFundDispatchGrant(item);
+			
+			deepEqual(ParamMod._ValueOLSKFundGrant, OLSKObject.OLSKObjectPostJSONParse(item));
+		});
+
 	});
 
 });
