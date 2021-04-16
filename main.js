@@ -42,7 +42,15 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (typeof params.ParamSpecUI !== 'boolean') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
 		const _this = this;
+
+		if (params.ParamSpecUI && window.location.search.match('FakeOLSKFundResponseIsPresent=true')) {
+			OLSKFund._OLSKFundFakeGrantResponseRandom();
+		}
 
 		return Object.assign(params.ParamMod, {
 

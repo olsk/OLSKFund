@@ -61,6 +61,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			OLSKLocalized: uLocalized,
 			ParamFormURL: uLink(),
 			ParamProject: Math.random().toString(),
+			ParamSpecUI: false,
 		}, inputData), {
 			ParamWindow: inputData.ParamWindow || uWindow(inputData),
 		});
@@ -100,6 +101,14 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		throws(function () {
 			_OLSKFundSetup({
 				ParamProject: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamSpecUI not boolean', function () {
+		throws(function () {
+			_OLSKFundSetup({
+				ParamSpecUI: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
