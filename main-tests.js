@@ -46,7 +46,10 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 	const _OLSKFundSetup = function (inputData = {}) {
 		return mod.OLSKFundSetup(Object.assign({
 			ParamMod: {},
-		}, inputData));
+			OLSKLocalized: uLocalized,
+		}, inputData), {
+			ParamWindow: uWindow(inputData),
+		});
 	};
 
 	it('throws if not object', function () {
@@ -63,6 +66,14 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
+	it('throws if OLSKLocalized not function', function () {
+		throws(function () {
+			_OLSKFundSetup({
+				OLSKLocalized: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
 	it('returns ParamMod', function () {
 		const ParamMod = {};
 
@@ -71,8 +82,39 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		}), ParamMod);
 	});
 
+	it('sets _OLSKAppToolbarDispatchFundNotConnected', function () {
+		deepEqual(typeof _OLSKFundSetup()._OLSKAppToolbarDispatchFundNotConnected, 'function');
+	});
+
 	it('sets OLSKAppToolbarDispatchFund', function () {
 		deepEqual(typeof _OLSKFundSetup().OLSKAppToolbarDispatchFund, 'function');
+	});
+
+	context('_OLSKAppToolbarDispatchFundNotConnected', function () {
+		
+		it('calls window.confirm', function () {
+			deepEqual(uCapture(function (confirm) {
+				_OLSKFundSetup({
+					confirm,
+				})._OLSKAppToolbarDispatchFundNotConnected();
+			}), [uLocalized('OLSKRemoteStorageConnectConfirmText')]);
+		});
+		
+		it('sets _ValueCloudToolbarHidden', function () {
+			const ParamMod = {};
+			
+			const item = uRandomElement(true, false);
+
+			_OLSKFundSetup({
+				ParamMod,
+				confirm: (function () {
+					return item;
+				}),
+			})._OLSKAppToolbarDispatchFundNotConnected()
+			
+			deepEqual(ParamMod._ValueCloudToolbarHidden, item ? false : undefined);
+		});
+	
 	});
 
 });

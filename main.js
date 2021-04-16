@@ -19,7 +19,7 @@ const uPromise = function (inputData) {
 
 const mod = {
 
-	OLSKFundSetup (params) {
+	OLSKFundSetup (params, debug) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -28,8 +28,22 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (typeof params.OLSKLocalized !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
 		return Object.assign(params.ParamMod, {
+
+			_OLSKAppToolbarDispatchFundNotConnected () {
+				if (!(debug.ParamWindow || window).confirm(params.OLSKLocalized('OLSKRemoteStorageConnectConfirmText'))) {
+					return;
+				}
+
+				mod._ValueCloudToolbarHidden = false;
+			},
+
 			OLSKAppToolbarDispatchFund () {},
+			
 		});
 	},
 
