@@ -596,12 +596,6 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 		}), /OLSKErrorInputNotValid/);
 	});
 
-	it('rejects if ParamWindow not valid', async function () {
-		await rejects(_OLSKFundSetupGrant({
-			ParamWindow: {},
-		}), /OLSKErrorInputNotValid/);
-	});
-
 	it('rejects if OLSK_FUND_API_URL not string', async function () {
 		await rejects(_OLSKFundSetupGrant({
 			OLSK_FUND_API_URL: null,

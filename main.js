@@ -174,10 +174,6 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		if (!params.ParamWindow.location) {
-			return Promise.reject(new Error('OLSKErrorInputNotValid'));
-		}
-		
 		if (typeof params.OLSK_FUND_API_URL !== 'string') {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
@@ -206,7 +202,7 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		const payload = params.ParamSpecUI ? null : await this._DataFoilOLSKLocalStorage.OLKSLocalStorageGet(params.ParamWindow.localStorage, mod._OLSKFundGrantData());
+		const payload = params.ParamSpecUI ? null : await this._DataFoilOLSKLocalStorage.OLKSLocalStorageGet((params.ParamWindow || window).localStorage, mod._OLSKFundGrantData());
 		if (payload) {
 			return mod._OLSKFundSetupGrantDispatchPayload(params, payload);
 		}
@@ -216,7 +212,7 @@ const mod = {
 		try {
 			params.OLSKFundDispatchProgress(true);
 			
-			response = await params.ParamWindow.fetch(params.OLSK_FUND_API_URL, {
+			response = await (params.ParamWindow || window).fetch(params.OLSK_FUND_API_URL, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -224,7 +220,7 @@ const mod = {
 				body: JSON.stringify(params.ParamBody),
 			});
 		} catch (error) {
-			return params.ParamWindow.alert(params.OLSKLocalized('OLSKFundGrantErrorConnectionText'));
+			return (params.ParamWindow || window).alert(params.OLSKLocalized('OLSKFundGrantErrorConnectionText'));
 		}
 
 		const json = await response.json();
@@ -232,10 +228,10 @@ const mod = {
 		params.OLSKFundDispatchProgress(false);
 
 		if (response.status !== 200) {
-			return params.OLSKFundDispatchFail(params.ParamWindow.alert(json.RCSAPIError));
+			return params.OLSKFundDispatchFail((params.ParamWindow || window).alert(json.RCSAPIError));
 		}
 
-		return mod._OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), json));
+		return mod._OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet((params.ParamWindow || window).localStorage, mod._OLSKFundGrantData(), json));
 	},
 
 	OLSKFundGate (param1, OLSKLocalized) {
