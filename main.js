@@ -19,6 +19,20 @@ const uPromise = function (inputData) {
 
 const mod = {
 
+	OLSKFundSetup (params) {
+		if (typeof params !== 'object' || params === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamMod !== 'object' || params.ParamMod === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return Object.assign(params.ParamMod, {
+			OLSKAppToolbarDispatchFund () {},
+		});
+	},
+
 	OLSKFundResponseIsPresent () {
 		return !!this._DataFoilOLSKLocalStorage.OLKSLocalStorageGet(typeof window === 'undefined' ? null : window.localStorage, mod._OLSKFundGrantData())
 	},

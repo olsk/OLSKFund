@@ -1,4 +1,4 @@
-const { throws, rejects, deepEqual } = require('assert');
+const { throws, rejects, deepEqual, strictEqual } = require('assert');
 
 const mod = require('./main.js');
 
@@ -40,6 +40,42 @@ const uPromise = function (inputData) {
 		},
 	};
 };
+
+describe('OLSKFundSetup', function test_OLSKFundSetup() {
+
+	const _OLSKFundSetup = function (inputData = {}) {
+		return mod.OLSKFundSetup(Object.assign({
+			ParamMod: {},
+		}, inputData));
+	};
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.OLSKFundSetup(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamMod not object', function () {
+		throws(function () {
+			_OLSKFundSetup({
+				ParamMod: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns ParamMod', function () {
+		const ParamMod = {};
+
+		strictEqual(_OLSKFundSetup({
+			ParamMod
+		}), ParamMod);
+	});
+
+	it('sets OLSKAppToolbarDispatchFund', function () {
+		deepEqual(typeof _OLSKFundSetup().OLSKAppToolbarDispatchFund, 'function');
+	});
+
+});
 
 describe('OLSKFundResponseIsPresent', function test_OLSKFundResponseIsPresent() {
 
