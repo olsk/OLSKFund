@@ -39,7 +39,7 @@ const mod = {
 					return;
 				}
 
-				mod._ValueCloudToolbarHidden = false;
+				params.ParamMod._ValueCloudToolbarHidden = false;
 			},
 
 			OLSKAppToolbarDispatchFund () {},
