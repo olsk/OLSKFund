@@ -228,28 +228,26 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 	
 	});
 
-	context('OLSKFundDispatchProgress', function () {
+	context('OLSKAppToolbarDispatchFund', function () {
 
-		it('sets ParamMod._ValueOLSKFundProgress', function () {
-			const item = Math.random().toString();
-			
-			const ParamMod = _OLSKFundSetup();
-
-			ParamMod.OLSKFundDispatchProgress(item);
-			
-			deepEqual(ParamMod._ValueOLSKFundProgress, item);
-		});
-
-	});
-
-	context('OLSKFundDispatchFail', function () {
-
-		it('calls ParamMod.OLSKFundDispatchPersist', function () {
-			deepEqual(_OLSKFundSetup({
-				OLSKFundDispatchPersist: (function () {
-					return [...arguments];
-				}),
-			}).OLSKFundDispatchFail(), [null]);
+		it('calls dispatch', function () {
+			const _ValueCloudIdentity = uRandomElement(Math.random().toString(), undefined);
+			const _OLSKAppToolbarDispatchFundNotConnected = Math.random().toString();
+			const _OLSKAppToolbarDispatchFundConnected = Math.random().toString();
+			deepEqual(uCapture(function (capture) {
+				Object.assign(_OLSKFundSetup({
+					ParamMod: {
+						_ValueCloudIdentity,
+					},
+				}), {
+					_OLSKAppToolbarDispatchFundNotConnected: (function () {
+						capture(_OLSKAppToolbarDispatchFundNotConnected);
+					}),
+					_OLSKAppToolbarDispatchFundConnected: (function () {
+						capture(_OLSKAppToolbarDispatchFundConnected);
+					}),
+				}).OLSKAppToolbarDispatchFund();
+			}), _ValueCloudIdentity ? [_OLSKAppToolbarDispatchFundConnected] : [_OLSKAppToolbarDispatchFundNotConnected]);
 		});
 	
 	});
@@ -292,26 +290,28 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 	
 	});
 
-	context('OLSKAppToolbarDispatchFund', function () {
+	context('OLSKFundDispatchProgress', function () {
 
-		it('calls dispatch', function () {
-			const _ValueCloudIdentity = uRandomElement(Math.random().toString(), undefined);
-			const _OLSKAppToolbarDispatchFundNotConnected = Math.random().toString();
-			const _OLSKAppToolbarDispatchFundConnected = Math.random().toString();
-			deepEqual(uCapture(function (capture) {
-				Object.assign(_OLSKFundSetup({
-					ParamMod: {
-						_ValueCloudIdentity,
-					},
-				}), {
-					_OLSKAppToolbarDispatchFundNotConnected: (function () {
-						capture(_OLSKAppToolbarDispatchFundNotConnected);
-					}),
-					_OLSKAppToolbarDispatchFundConnected: (function () {
-						capture(_OLSKAppToolbarDispatchFundConnected);
-					}),
-				}).OLSKAppToolbarDispatchFund();
-			}), _ValueCloudIdentity ? [_OLSKAppToolbarDispatchFundConnected] : [_OLSKAppToolbarDispatchFundNotConnected]);
+		it('sets ParamMod._ValueOLSKFundProgress', function () {
+			const item = Math.random().toString();
+			
+			const ParamMod = _OLSKFundSetup();
+
+			ParamMod.OLSKFundDispatchProgress(item);
+			
+			deepEqual(ParamMod._ValueOLSKFundProgress, item);
+		});
+
+	});
+
+	context('OLSKFundDispatchFail', function () {
+
+		it('calls ParamMod.OLSKFundDispatchPersist', function () {
+			deepEqual(_OLSKFundSetup({
+				OLSKFundDispatchPersist: (function () {
+					return [...arguments];
+				}),
+			}).OLSKFundDispatchFail(), [null]);
 		});
 	
 	});

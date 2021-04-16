@@ -68,12 +68,8 @@ const mod = {
 				});
 			},
 
-			OLSKFundDispatchProgress (inputData) {
-				params.ParamMod._ValueOLSKFundProgress = inputData;
-			},
-
-			OLSKFundDispatchFail () {
-				return params.ParamMod.OLSKFundDispatchPersist(null);
+			OLSKAppToolbarDispatchFund () {
+				return params.ParamMod[params.ParamMod._ValueCloudIdentity ? '_OLSKAppToolbarDispatchFundConnected' : '_OLSKAppToolbarDispatchFundNotConnected']();
 			},
 
 			OLSKFundDispatchReceive (inputData) {
@@ -84,8 +80,12 @@ const mod = {
 				return params.ParamMod.OLSKFundDispatchPersist(inputData);
 			},
 
-			OLSKAppToolbarDispatchFund () {
-				return params.ParamMod[params.ParamMod._ValueCloudIdentity ? '_OLSKAppToolbarDispatchFundConnected' : '_OLSKAppToolbarDispatchFundNotConnected']();
+			OLSKFundDispatchProgress (inputData) {
+				params.ParamMod._ValueOLSKFundProgress = inputData;
+			},
+
+			OLSKFundDispatchFail () {
+				return params.ParamMod.OLSKFundDispatchPersist(null);
 			},
 
 			OLSKFundDispatchGrant (inputData) {
