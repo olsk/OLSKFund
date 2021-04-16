@@ -86,6 +86,10 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		deepEqual(typeof _OLSKFundSetup()._OLSKAppToolbarDispatchFundNotConnected, 'function');
 	});
 
+	it('sets _OLSKAppToolbarDispatchFundConnected', function () {
+		deepEqual(typeof _OLSKFundSetup()._OLSKAppToolbarDispatchFundConnected, 'function');
+	});
+
 	it('sets OLSKAppToolbarDispatchFund', function () {
 		deepEqual(typeof _OLSKFundSetup().OLSKAppToolbarDispatchFund, 'function');
 	});
@@ -100,19 +104,43 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			}), [uLocalized('OLSKRemoteStorageConnectConfirmText')]);
 		});
 		
-		it('sets _ValueCloudToolbarHidden', function () {
+		it('sets ParamMod._ValueCloudToolbarHidden', function () {
 			const ParamMod = {};
 			
-			const item = uRandomElement(true, false);
+			const flag = uRandomElement(true, false);
 
 			_OLSKFundSetup({
 				ParamMod,
 				confirm: (function () {
-					return item;
+					return flag;
 				}),
 			})._OLSKAppToolbarDispatchFundNotConnected()
 			
-			deepEqual(ParamMod._ValueCloudToolbarHidden, item ? false : undefined);
+			deepEqual(ParamMod._ValueCloudToolbarHidden, flag ? false : undefined);
+		});
+	
+	});
+
+	context('OLSKAppToolbarDispatchFund', function () {
+
+		it('calls dispatch', function () {
+			const _ValueCloudIdentity = uRandomElement(Math.random().toString(), undefined);
+			const _OLSKAppToolbarDispatchFundNotConnected = Math.random().toString();
+			const _OLSKAppToolbarDispatchFundConnected = Math.random().toString();
+			deepEqual(uCapture(function (capture) {
+				Object.assign(_OLSKFundSetup({
+					ParamMod: {
+						_ValueCloudIdentity
+					},
+				}), {
+					_OLSKAppToolbarDispatchFundNotConnected: (function () {
+						capture(_OLSKAppToolbarDispatchFundNotConnected);
+					}),
+					_OLSKAppToolbarDispatchFundConnected: (function () {
+						capture(_OLSKAppToolbarDispatchFundConnected);
+					}),
+				}).OLSKAppToolbarDispatchFund();
+			}), _ValueCloudIdentity ? [_OLSKAppToolbarDispatchFundConnected] : [_OLSKAppToolbarDispatchFundNotConnected]);
 		});
 	
 	});

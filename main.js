@@ -42,8 +42,12 @@ const mod = {
 				params.ParamMod._ValueCloudToolbarHidden = false;
 			},
 
-			OLSKAppToolbarDispatchFund () {},
-			
+			_OLSKAppToolbarDispatchFundConnected () {},
+
+			OLSKAppToolbarDispatchFund () {
+				return params.ParamMod[params.ParamMod._ValueCloudIdentity ? '_OLSKAppToolbarDispatchFundConnected' : '_OLSKAppToolbarDispatchFundNotConnected']();
+			},
+
 		});
 	},
 
