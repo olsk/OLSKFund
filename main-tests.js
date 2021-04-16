@@ -401,13 +401,13 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 
 		mod.OLSKFundSetupPostPay({
 			ParamWindow: inputData.ParamWindow || uWindow(Object.assign({
-				location: Object.assign(new URL('https://example.com/form'), {
+				location: Object.assign(new URL(uLink()), {
 					hash: (new URLSearchParams(inputData.clue ? {
 						clue: inputData.clue,
 					} : {})).toString(),
 				}),
 			})),
-			ParamExistingClue: inputData.ParamExistingClue || null,
+			_ValueFundClue: inputData._ValueFundClue || null,
 			OLSKFundDispatchPersist: (function () {
 				item.OLSKFundDispatchPersist = inputData.OLSKFundDispatchPersist ? inputData.OLSKFundDispatchPersist() :  item.OLSKFundDispatchPersist = [...arguments];
 			}),
@@ -422,19 +422,11 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamWindow not valid', function () {
-		throws(function () {
-			_OLSKFundSetupPostPay({
-				ParamWindow: {},
-			});
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if ParamExistingClue not defined', function () {
+	it('throws if _ValueFundClue not defined', function () {
 		throws(function () {
 			mod.OLSKFundSetupPostPay({
-				ParamWindow: uWindow(),
-				ParamExistingClue: undefined,
+				_ValueFundClue: undefined,
+				OLSKFundDispatchPersist: (function () {}),
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -442,9 +434,8 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 	it('throws if OLSKFundDispatchPersist not function', function () {
 		throws(function () {
 			mod.OLSKFundSetupPostPay({
-				ParamWindow: uWindow(),
-				ParamExistingClue: Math.random().toString(),
-				OLSKFundDispatchPersist: Math.random().toString(),
+				_ValueFundClue: Math.random().toString(),
+				OLSKFundDispatchPersist: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -453,21 +444,21 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		deepEqual(_OLSKFundSetupPostPay(), {});
 	});
 
-	it('breaks if clue matches ParamExistingClue', function () {
-		const ParamExistingClue = Math.random().toString();
+	it('breaks if clue matches _ValueFundClue', function () {
+		const _ValueFundClue = Math.random().toString();
 
 		deepEqual(_OLSKFundSetupPostPay({
-			clue: ParamExistingClue,
-			ParamExistingClue,
+			clue: _ValueFundClue,
+			_ValueFundClue,
 		}), {});
 	});
 
-	it('breaks if ParamExistingClue different', function () {
-		const ParamExistingClue = Math.random().toString();
+	it('breaks if _ValueFundClue different', function () {
+		const _ValueFundClue = Math.random().toString();
 
 		deepEqual(_OLSKFundSetupPostPay({
 			clue: Math.random().toString(),
-			ParamExistingClue,
+			_ValueFundClue,
 		}), {});
 	});
 

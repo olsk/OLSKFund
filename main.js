@@ -118,11 +118,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (!params.ParamWindow.location) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-		
-		if (typeof params.ParamExistingClue === 'undefined') {
+		if (typeof params._ValueFundClue === 'undefined') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
@@ -130,15 +126,15 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		const clue = Object.fromEntries((new URLSearchParams(params.ParamWindow.location.hash.replace(/^#+/, ''))).entries()).clue;
+		const clue = Object.fromEntries((new URLSearchParams((params.ParamWindow || window).location.hash.replace(/^#+/, ''))).entries()).clue;
 
 		if (!clue) {
 			return
 		}
 
-		params.ParamWindow.location.hash = '';
+		(params.ParamWindow || window).location.hash = '';
 
-		if (params.ParamExistingClue) {
+		if (params._ValueFundClue) {
 			return;
 		}
 
