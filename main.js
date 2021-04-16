@@ -82,9 +82,9 @@ const mod = {
 			})._ValueDocumentRemainder = '';
 		}
 
-		return Object.assign(params.ParamMod, {
+		setHotfix('_ValueFundClue', params.ParamMod.OLSKFundSetupDispatchClue());
 
-			_ValueFundClue: params.ParamMod.OLSKFundSetupDispatchClue(),
+		return Object.assign(params.ParamMod, {
 
 			_OLSKAppToolbarDispatchFundNotConnected () {
 				if (!(debug.ParamWindow || window).confirm(params.OLSKLocalized('OLSKRemoteStorageConnectConfirmText'))) {
@@ -129,7 +129,7 @@ const mod = {
 			},
 
 			OLSKFundDispatchProgress (inputData) {
-				params.ParamMod._ValueOLSKFundProgress = inputData;
+				setHotfix('_ValueOLSKFundProgress', inputData);
 			},
 
 			OLSKFundDispatchFail () {

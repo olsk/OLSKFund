@@ -159,6 +159,17 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		})._ValueFundClue, item);
 	});
 
+	it('calls ParamMod._OLSKFundSetupDispatchUpdate', function () {
+		deepEqual(uCapture(function (_OLSKFundSetupDispatchUpdate) {
+			_OLSKFundSetup({
+				OLSKFundSetupDispatchClue: (function () {
+					return Math.random().toString();
+				}),
+				_OLSKFundSetupDispatchUpdate,
+			});
+		}), ['_ValueFundClue']);
+	});
+
 	it('sets _ValueDocumentRemainder', function () {
 		const ParamDocumentLimit = uRandomElement(Math.max(1, uRandomInt()), undefined);
 		deepEqual(_OLSKFundSetup({
@@ -226,7 +237,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 					ParamDocumentLimit: Math.max(1, uRandomInt()),
 					_OLSKFundSetupDispatchUpdate,
 				}).OLSKFundDocumentRemainder(uRandomInt());
-			}), ['_ValueDocumentRemainder']);
+			}), ['_ValueFundClue', '_ValueDocumentRemainder']);
 		});
 	
 	});
@@ -263,7 +274,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 					}),
 					_OLSKFundSetupDispatchUpdate,
 				})._OLSKAppToolbarDispatchFundNotConnected();
-			}), ['_ValueCloudToolbarHidden']);
+			}), ['_ValueFundClue', '_ValueCloudToolbarHidden']);
 		});
 	
 	});
@@ -302,7 +313,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 					_ValueCloudIdentity: Math.random().toString(),
 					_OLSKFundSetupDispatchUpdate,
 				})._OLSKAppToolbarDispatchFundConnected();
-			}), ['_ValueFundURL']);
+			}), ['_ValueFundClue', '_ValueFundURL']);
 		});
 
 		it('calls ParamMod._OLSKWebView.modPublic.OLSKModalViewShow', function () {
@@ -433,6 +444,14 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			ParamMod.OLSKFundDispatchProgress(item);
 			
 			deepEqual(ParamMod._ValueOLSKFundProgress, item);
+		});
+
+		it('calls ParamMod._OLSKFundSetupDispatchUpdate', function () {
+			deepEqual(uCapture(function (_OLSKFundSetupDispatchUpdate) {
+				_OLSKFundSetup({
+					_OLSKFundSetupDispatchUpdate,
+				}).OLSKFundDispatchProgress();
+			}), ['_ValueFundClue', '_ValueOLSKFundProgress']);
 		});
 
 	});
