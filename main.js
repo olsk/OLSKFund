@@ -21,7 +21,7 @@ const uPromise = function (inputData) {
 
 const mod = {
 
-	OLSKFundSetup (params, debug) {
+	OLSKFundSetup (params, debug = {}) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
