@@ -52,8 +52,10 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 				_OLSKWebView: {
 					modPublic: {
 						OLSKModalViewShow: (function () {}),
+						OLSKModalViewClose: (function () {}),
 					},
 				},
+				OLSKFundDispatchPersist: (function () {}),
 			}, inputData),
 			OLSKLocalized: uLocalized,
 			ParamFormURL: uLink(),
@@ -213,6 +215,44 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 	
 	});
 
+	context('OLSKFundDispatchReceive', function () {
+
+		it('calls ParamMod._OLSKWebView.modPublic.OLSKModalViewClose', function () {
+			const item = Math.random().toString();
+			deepEqual(uCapture(function (capture) {
+				_OLSKFundSetup({
+					_OLSKWebView: {
+						modPublic: {
+							OLSKModalViewClose: (function () {
+								capture(item);
+							}),
+						},
+					},
+				}).OLSKFundDispatchReceive();
+			}), [item]);
+		});
+		
+		it('sets ParamMod._ValueFundClue', function () {
+			const item = Math.random().toString();
+			
+			const ParamMod = _OLSKFundSetup();
+
+			ParamMod.OLSKFundDispatchReceive(item);
+			
+			deepEqual(ParamMod._ValueFundClue, item);
+		});
+
+		it('calls ParamMod.OLSKFundDispatchPersist', function () {
+			const item = Math.random().toString();
+			deepEqual(_OLSKFundSetup({
+				OLSKFundDispatchPersist: (function () {
+					return [...arguments];
+				}),
+			}).OLSKFundDispatchReceive(item), [item]);
+		});
+	
+	});
+
 	context('OLSKAppToolbarDispatchFund', function () {
 
 		it('calls dispatch', function () {
@@ -222,7 +262,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			deepEqual(uCapture(function (capture) {
 				Object.assign(_OLSKFundSetup({
 					ParamMod: {
-						_ValueCloudIdentity
+						_ValueCloudIdentity,
 					},
 				}), {
 					_OLSKAppToolbarDispatchFundNotConnected: (function () {

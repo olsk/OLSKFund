@@ -66,7 +66,13 @@ const mod = {
 				});
 			},
 
-			OLSKFundDispatchReceive () {},
+			OLSKFundDispatchReceive (inputData) {
+				params.ParamMod._OLSKWebView.modPublic.OLSKModalViewClose();
+
+				params.ParamMod._ValueFundClue = inputData;
+
+				return params.ParamMod.OLSKFundDispatchPersist(inputData);
+			},
 
 			OLSKAppToolbarDispatchFund () {
 				return params.ParamMod[params.ParamMod._ValueCloudIdentity ? '_OLSKAppToolbarDispatchFundConnected' : '_OLSKAppToolbarDispatchFundNotConnected']();
