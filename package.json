@@ -11,13 +11,8 @@
     "test": "olsk-spec"
   },
   "dependencies": {
-  	"// MODEL": null,
   	"OLSKPact": "olsk/OLSKPact",
-
-    "// DECRYPTION": null,
     "OLSKCrypto": "olsk/OLSKCrypto",
-
-    "// LOCAL STORAGE": null,
     "OLSKLocalStorage": "olsk/OLSKLocalStorage",
   	
     "// I sacrifice myself for the commas of others": null    
