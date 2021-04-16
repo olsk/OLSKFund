@@ -181,6 +181,10 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		deepEqual(typeof _OLSKFundSetup()._OLSKAppToolbarDispatchFundConnected, 'function');
 	});
 
+	it('sets OLSKFundDocumentGate', function () {
+		deepEqual(typeof _OLSKFundSetup().OLSKFundDocumentGate, 'function');
+	});
+
 	it('sets OLSKFundDispatchProgress', function () {
 		deepEqual(typeof _OLSKFundSetup().OLSKFundDispatchProgress, 'function');
 	});
@@ -249,6 +253,17 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			ParamMod._OLSKAppToolbarDispatchFundNotConnected()
 			
 			deepEqual(ParamMod._ValueCloudToolbarHidden, flag ? false : undefined);
+		});
+
+		it('calls ParamMod._OLSKFundSetupDispatchUpdate', function () {
+			deepEqual(uCapture(function (_OLSKFundSetupDispatchUpdate) {
+				_OLSKFundSetup({
+					confirm: (function () {
+						return true;
+					}),
+					_OLSKFundSetupDispatchUpdate,
+				})._OLSKAppToolbarDispatchFundNotConnected();
+			}), ['_ValueCloudToolbarHidden']);
 		});
 	
 	});
@@ -319,6 +334,31 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 				ParamWindow,
 				OLSKFundDispatchReceive: ParamMod.OLSKFundDispatchReceive,
 			}]);
+		});
+	
+	});
+
+	context('OLSKFundDocumentGate', function () {
+		
+		it('calls window.confirm', function () {
+			deepEqual(uCapture(function (confirm) {
+				_OLSKFundSetup({
+					confirm,
+				}).OLSKFundDocumentGate();
+			}), [uLocalized('OLSKFundGateText')]);
+		});
+
+		it('calls ParamMod.OLSKAppToolbarDispatchFund', function () {
+			const item = Math.random().toString();
+			deepEqual(Object.assign(_OLSKFundSetup({
+				confirm: (function () {
+					return true;
+				}),
+			}), {
+				OLSKAppToolbarDispatchFund: (function () {
+					return item;
+				}),
+			}).OLSKFundDocumentGate(), item);
 		});
 	
 	});

@@ -91,7 +91,7 @@ const mod = {
 					return;
 				}
 
-				params.ParamMod._ValueCloudToolbarHidden = false;
+				setHotfix('_ValueCloudToolbarHidden', false);
 			},
 
 			_OLSKAppToolbarDispatchFundConnected () {
@@ -106,6 +106,14 @@ const mod = {
 					ParamWindow: (debug.ParamWindow || window),
 					OLSKFundDispatchReceive: params.ParamMod.OLSKFundDispatchReceive,
 				});
+			},
+
+			OLSKFundDocumentGate () {
+				if (!(debug.ParamWindow || window).confirm(params.OLSKLocalized('OLSKFundGateText'))) {
+					return;
+				}
+
+				return params.ParamMod.OLSKAppToolbarDispatchFund();
 			},
 
 			OLSKAppToolbarDispatchFund () {
