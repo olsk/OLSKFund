@@ -66,6 +66,10 @@ const mod = {
 				});
 			},
 
+			OLSKFundDispatchProgress (inputData) {
+				params.ParamMod._ValueOLSKFundProgress = inputData;
+			},
+
 			OLSKFundDispatchReceive (inputData) {
 				params.ParamMod._OLSKWebView.modPublic.OLSKModalViewClose();
 

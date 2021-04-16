@@ -119,6 +119,10 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		deepEqual(typeof _OLSKFundSetup()._OLSKAppToolbarDispatchFundConnected, 'function');
 	});
 
+	it('sets OLSKFundDispatchProgress', function () {
+		deepEqual(typeof _OLSKFundSetup().OLSKFundDispatchProgress, 'function');
+	});
+
 	it('sets OLSKFundDispatchReceive', function () {
 		deepEqual(typeof _OLSKFundSetup().OLSKFundDispatchReceive, 'function');
 	});
@@ -213,6 +217,20 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			}]);
 		});
 	
+	});
+
+	context('OLSKFundDispatchProgress', function () {
+
+		it('sets ParamMod._ValueFundClue', function () {
+			const item = Math.random().toString();
+			
+			const ParamMod = _OLSKFundSetup();
+
+			ParamMod.OLSKFundDispatchProgress(item);
+			
+			deepEqual(ParamMod._ValueOLSKFundProgress, item);
+		});
+
 	});
 
 	context('OLSKFundDispatchReceive', function () {
