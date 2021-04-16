@@ -142,6 +142,14 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		}), ParamMod);
 	});
 
+	it('throws if ParamDocumentLimit not number', function () {
+		throws(function () {
+			_OLSKFundSetup({
+				ParamDocumentLimit: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
 	it('sets _ValueFundClue', function () {
 		const item = Math.random().toString();
 		deepEqual(_OLSKFundSetup({
@@ -149,6 +157,20 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 				return item;
 			}),
 		})._ValueFundClue, item);
+	});
+
+	it('sets _ValueDocumentRemainder', function () {
+		const ParamDocumentLimit = uRandomElement(Math.max(1, uRandomInt()), undefined);
+		deepEqual(_OLSKFundSetup({
+			ParamDocumentLimit,
+		})._ValueDocumentRemainder, ParamDocumentLimit ? '' : undefined);
+	});
+
+	it('sets OLSKFundDocumentRemainder', function () {
+		const ParamDocumentLimit = uRandomElement(Math.max(1, uRandomInt()), undefined);
+		deepEqual(typeof _OLSKFundSetup({
+			ParamDocumentLimit,
+		}).OLSKFundDocumentRemainder, ParamDocumentLimit ? 'function' : 'undefined');
 	});
 
 	it('sets _OLSKAppToolbarDispatchFundNotConnected', function () {
@@ -177,6 +199,32 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 
 	it('sets OLSKFundDispatchGrant', function () {
 		deepEqual(typeof _OLSKFundSetup().OLSKFundDispatchGrant, 'function');
+	});
+
+	context('OLSKFundDocumentRemainder', function () {
+
+		it('sets ParamMod._ValueDocumentRemainder', function () {
+			const ParamDocumentLimit = Math.max(1, uRandomInt());
+			const item = Math.max(1, uRandomInt(ParamDocumentLimit)) + uRandomInt(10);
+
+			const ParamMod = _OLSKFundSetup({
+				ParamDocumentLimit,
+			});
+
+			ParamMod.OLSKFundDocumentRemainder(item);
+
+			deepEqual(ParamMod._ValueDocumentRemainder, mod.OLSKFundRemainder(item, ParamDocumentLimit));
+		});
+
+		it('calls ParamMod._OLSKFundSetupDispatchUpdate', function () {
+			deepEqual(uCapture(function (_OLSKFundSetupDispatchUpdate) {
+				_OLSKFundSetup({
+					ParamDocumentLimit: Math.max(1, uRandomInt()),
+					_OLSKFundSetupDispatchUpdate,
+				}).OLSKFundDocumentRemainder(uRandomInt());
+			}), ['_ValueDocumentRemainder']);
+		});
+	
 	});
 
 	context('_OLSKAppToolbarDispatchFundNotConnected', function () {

@@ -54,10 +54,32 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (typeof params.ParamDocumentLimit !== 'undefined') {
+			if (typeof params.ParamDocumentLimit !== 'number') {
+				throw new Error('OLSKErrorInputNotValid');
+			}
+		}
+
 		const _this = this;
 
 		if (params.ParamSpecUI && window.location.search.match('FakeOLSKFundResponseIsPresent=true')) {
 			OLSKFund._OLSKFundFakeGrantResponseRandom();
+		}
+
+		const setHotfix = function (key, value) {
+			params.ParamMod[key] = value;
+
+			params.ParamMod._OLSKFundSetupDispatchUpdate(key);
+		};
+
+		if (params.ParamDocumentLimit) {
+			Object.assign(params.ParamMod, {
+
+				OLSKFundDocumentRemainder (inputData) {
+					setHotfix('_ValueDocumentRemainder', mod.OLSKFundRemainder(inputData, params.ParamDocumentLimit));
+				},
+
+			})._ValueDocumentRemainder = '';
 		}
 
 		return Object.assign(params.ParamMod, {
