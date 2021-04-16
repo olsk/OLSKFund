@@ -56,9 +56,9 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 						OLSKModalViewClose: (function () {}),
 					},
 				},
+				OLSKFundSetupDispatchClue: (function () {}),
 				OLSKFundDispatchPersist: (function () {}),
 			}, inputData),
-			OLSKFundSetupDispatchClue: (function () {}),
 			OLSKLocalized: uLocalized,
 			ParamFormURL: uLink(),
 			ParamProject: Math.random().toString(),
@@ -82,7 +82,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if OLSKFundSetupDispatchClue not function', function () {
+	it('throws if ParamMod.OLSKFundSetupDispatchClue not function', function () {
 		throws(function () {
 			_OLSKFundSetup({
 				OLSKFundSetupDispatchClue: null,
@@ -123,7 +123,9 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 	});
 
 	it('returns ParamMod', function () {
-		const ParamMod = {};
+		const ParamMod = {
+			OLSKFundSetupDispatchClue: (function () {}),
+		};
 
 		strictEqual(_OLSKFundSetup({
 			ParamMod
@@ -178,16 +180,15 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		});
 		
 		it('sets ParamMod._ValueCloudToolbarHidden', function () {
-			const ParamMod = {};
-			
 			const flag = uRandomElement(true, false);
 
-			_OLSKFundSetup({
-				ParamMod,
+			const ParamMod = _OLSKFundSetup({
 				confirm: (function () {
 					return flag;
 				}),
-			})._OLSKAppToolbarDispatchFundNotConnected()
+			})
+
+			ParamMod._OLSKAppToolbarDispatchFundNotConnected()
 			
 			deepEqual(ParamMod._ValueCloudToolbarHidden, flag ? false : undefined);
 		});
@@ -263,9 +264,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			const _OLSKAppToolbarDispatchFundConnected = Math.random().toString();
 			deepEqual(uCapture(function (capture) {
 				Object.assign(_OLSKFundSetup({
-					ParamMod: {
-						_ValueCloudIdentity,
-					},
+					_ValueCloudIdentity,
 				}), {
 					_OLSKAppToolbarDispatchFundNotConnected: (function () {
 						capture(_OLSKAppToolbarDispatchFundNotConnected);
