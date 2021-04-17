@@ -53,6 +53,12 @@ export default function (params) {
 				before(function () {
 					return browser.OLSKLauncherRun('FakeFundDocumentLimit');
 				});
+
+				if (params.ParamBeforeCreate) {
+					before(function () {
+						return params.ParamBeforeCreate();
+					});
+				}
 				
 				it('shows OLSKFundGate', function() {
 					browser.assert.OLSKConfirmQuestion(function () {
@@ -176,7 +182,13 @@ export default function (params) {
 			});
 
 			context('create_item', function () {
-				
+
+				if (params.ParamBeforeCreate) {
+					before(function () {
+						return params.ParamBeforeCreate();
+					});
+				}
+
 				before(function () {
 					return ParamCreateDocument();
 				});
@@ -327,7 +339,13 @@ export default function (params) {
 
 			before(function () {
 				return browser.OLSKLauncherRun('FakeFundDocumentLimit');
-			});
+			});			
+
+			if (params.ParamBeforeCreate) {
+				before(function () {
+					return params.ParamBeforeCreate();
+				});
+			}
 
 			before(function () {
 				return ParamTriggerGate();
