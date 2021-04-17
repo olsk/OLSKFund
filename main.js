@@ -87,7 +87,7 @@ const mod = {
 		return Object.assign(params.ParamMod, {
 
 			_OLSKAppToolbarDispatchFundNotConnected () {
-				if (!(debug.ParamWindow || window).confirm(params.OLSKLocalized('OLSKRemoteStorageConnectConfirmText'))) {
+				if (!(debug.DebugWindow || window).confirm(params.OLSKLocalized('OLSKRemoteStorageConnectConfirmText'))) {
 					return;
 				}
 
@@ -97,19 +97,16 @@ const mod = {
 			_OLSKAppToolbarDispatchFundConnected () {
 				setHotfix('_ValueFundURL', mod.OLSKFundURL(Object.assign(Object.assign({}, params), {
 					ParamIdentity: params.ParamMod._ValueCloudIdentity,
-					ParamHomeURL: (debug.ParamWindow || window).location.origin + (debug.ParamWindow || window).location.pathname,
+					ParamHomeURL: (debug.DebugWindow || window).location.origin + (debug.DebugWindow || window).location.pathname,
 				})));
 
 				params.ParamMod._OLSKWebView.modPublic.OLSKModalViewShow();
 
-				return _this.OLSKFundListen({
-					ParamWindow: (debug.ParamWindow || window),
-					OLSKFundDispatchReceive: params.ParamMod.OLSKFundDispatchReceive,
-				});
+				return _this.OLSKFundListen(params.ParamMod, debug);
 			},
 
 			OLSKFundDocumentGate () {
-				if (!(debug.ParamWindow || window).confirm(params.OLSKLocalized('OLSKFundGateText'))) {
+				if (!(debug.DebugWindow || window).confirm(params.OLSKLocalized('OLSKFundGateText'))) {
 					return;
 				}
 
@@ -147,7 +144,7 @@ const mod = {
 		return !!this._DataFoilOLSKLocalStorage.OLKSLocalStorageGet(typeof window === 'undefined' ? null : window.localStorage, mod._OLSKFundGrantData())
 	},
 
-	OLSKFundSetupPostPay (params) {
+	OLSKFundSetupPostPay (params, debug = {}) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -160,13 +157,13 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		const clue = Object.fromEntries((new URLSearchParams((params.ParamWindow || window).location.hash.replace(/^#+/, ''))).entries()).clue;
+		const clue = Object.fromEntries((new URLSearchParams((debug.DebugWindow || window).location.hash.replace(/^#+/, ''))).entries()).clue;
 
 		if (!clue) {
 			return
 		}
 
-		(params.ParamWindow || window).location.hash = '';
+		(debug.DebugWindow || window).location.hash = '';
 
 		if (params._ValueFundClue) {
 			return;
@@ -179,23 +176,23 @@ const mod = {
 		return 'OLSK_FUND_GRANT_DATA';
 	},
 
-	async _OLSKFundSetupGrantDispatchPayload (params, payload) {
+	async _OLSKFundSetupGrantDispatchPayload (params, payload, debug = {}) {
 		try {
 			return params.OLSKFundDispatchGrant(JSON.parse(await OLSKCrypto.OLSKCryptoDecryptSigned(params.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE, params.OLSK_CRYPTO_PAIR_SENDER_PUBLIC, payload.OLSK_FUND_GRANT_V1)));
 		} catch (e) {
 			if (e.message.match('Invalid RSA private key')) {
-				return params.ParamWindow.alert(params.OLSKLocalized('OLSKFundGrantErrorDecryptionText'));
+				return (debug.DebugWindow || window).alert(params.OLSKLocalized('OLSKFundGrantErrorDecryptionText'));
 			}
 
 			if (e.message.match('OLSKErrorNotSigned')) {
-				return params.ParamWindow.alert(params.OLSKLocalized('OLSKFundGrantErrorSigningText'));
+				return (debug.DebugWindow || window).alert(params.OLSKLocalized('OLSKFundGrantErrorSigningText'));
 			}
 			
 			throw e;
 		}
 	},
 
-	async OLSKFundSetupGrant (params) {
+	async OLSKFundSetupGrant (params, debug = {}) {
 		if (typeof params !== 'object' || params === null) {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
@@ -236,9 +233,9 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		const payload = params.ParamSpecUI ? null : await this._DataFoilOLSKLocalStorage.OLKSLocalStorageGet((params.ParamWindow || window).localStorage, mod._OLSKFundGrantData());
+		const payload = params.ParamSpecUI ? null : await this._DataFoilOLSKLocalStorage.OLKSLocalStorageGet((debug.DebugWindow || window).localStorage, mod._OLSKFundGrantData());
 		if (payload) {
-			return mod._OLSKFundSetupGrantDispatchPayload(params, payload);
+			return mod._OLSKFundSetupGrantDispatchPayload(params, payload, debug);
 		}
 
 		let response;
@@ -246,7 +243,7 @@ const mod = {
 		try {
 			params.OLSKFundDispatchProgress(true);
 			
-			response = await (params.ParamWindow || window).fetch(params.OLSK_FUND_API_URL, {
+			response = await (debug.DebugWindow || window).fetch(params.OLSK_FUND_API_URL, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -254,7 +251,7 @@ const mod = {
 				body: JSON.stringify(params.ParamBody),
 			});
 		} catch (error) {
-			return (params.ParamWindow || window).alert(params.OLSKLocalized('OLSKFundGrantErrorConnectionText'));
+			return (debug.DebugWindow || window).alert(params.OLSKLocalized('OLSKFundGrantErrorConnectionText'));
 		}
 
 		const json = await response.json();
@@ -262,10 +259,10 @@ const mod = {
 		params.OLSKFundDispatchProgress(false);
 
 		if (response.status !== 200) {
-			return params.OLSKFundDispatchFail((params.ParamWindow || window).alert(json.RCSAPIError));
+			return params.OLSKFundDispatchFail((debug.DebugWindow || window).alert(json.RCSAPIError));
 		}
 
-		return mod._OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet((params.ParamWindow || window).localStorage, mod._OLSKFundGrantData(), json));
+		return mod._OLSKFundSetupGrantDispatchPayload(params, await this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet((debug.DebugWindow || window).localStorage, mod._OLSKFundGrantData(), json), debug);
 	},
 
 	OLSKFundGate (param1, OLSKLocalized) {
@@ -312,12 +309,8 @@ const mod = {
 		}).href;
 	},
 
-	OLSKFundListen (params) {
+	OLSKFundListen (params, debug = {}) {
 		if (typeof params !== 'object' || params === null) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (!params.ParamWindow.location) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
@@ -325,7 +318,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		return params.ParamWindow.addEventListener('message', function (event) {
+		return (debug.DebugWindow || window).addEventListener('message', function (event) {
 			if (typeof event.data !== 'object' || event.data === null) {
 				return;
 			}
@@ -561,15 +554,11 @@ const mod = {
 		};
 	},
 
-	OLSKFundLauncherItemEnterClue (params) {
+	OLSKFundLauncherItemEnterClue (params, debug = {}) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (!params.ParamWindow.location) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-		
 		if (typeof params.OLSKLocalized !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -592,13 +581,13 @@ const mod = {
 			LCHRecipeSignature: 'OLSKFundLauncherItemEnterClue',
 			LCHRecipeName: params.OLSKLocalized('OLSKFundLauncherItemEnterClueText'),
 			LCHRecipeCallback () {
-				const item = (params.ParamWindow.prompt(params.OLSKLocalized('OLSKFundLauncherItemEnterCluePromptText')) || '').trim();
+				const item = ((debug.DebugWindow || window).prompt(params.OLSKLocalized('OLSKFundLauncherItemEnterCluePromptText')) || '').trim();
 
 				if (!item) {
 					return;
 				}
 
-				_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), null);
+				_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet((debug.DebugWindow || window).localStorage, mod._OLSKFundGrantData(), null);
 
 				return params.OLSKFundDispatchPersist(item);
 			},
@@ -608,15 +597,11 @@ const mod = {
 		};
 	},
 
-	OLSKFundLauncherItemClearClue (params) {
+	OLSKFundLauncherItemClearClue (params, debug = {}) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (!params.ParamWindow.location) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-		
 		if (typeof params.OLSKLocalized !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -643,11 +628,11 @@ const mod = {
 			LCHRecipeSignature: 'OLSKFundLauncherItemClearClue',
 			LCHRecipeName: params.OLSKLocalized('OLSKFundLauncherItemClearClueText'),
 			LCHRecipeCallback () {
-				if (!params.ParamWindow.confirm(params.OLSKLocalized('OLSKFundLauncherItemClearClueConfirmText'))) {
+				if (!(debug.DebugWindow || window).confirm(params.OLSKLocalized('OLSKFundLauncherItemClearClueConfirmText'))) {
 					return;
 				}
 
-				return params.OLSKFundDispatchPersist(params.OLSKFundDispatchGrant(_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet(params.ParamWindow.localStorage, mod._OLSKFundGrantData(), null)));
+				return params.OLSKFundDispatchPersist(params.OLSKFundDispatchGrant(_this._DataFoilOLSKLocalStorage.OLKSLocalStorageSet((debug.DebugWindow || window).localStorage, mod._OLSKFundGrantData(), null)));
 			},
 			LCHRecipeIsExcluded () {
 				return !params.ParamConnected || !params.ParamAuthorized;

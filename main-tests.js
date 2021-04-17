@@ -65,7 +65,7 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 			ParamProject: Math.random().toString(),
 			ParamSpecUI: false,
 		}, inputData), {
-			ParamWindow: inputData.ParamWindow || uWindow(inputData),
+			DebugWindow: inputData.DebugWindow || uWindow(inputData),
 		});
 	};
 
@@ -333,17 +333,16 @@ describe('OLSKFundSetup', function test_OLSKFundSetup() {
 		});
 
 		it('calls OLSKFundListen', function () {
-			const ParamWindow = uWindow();
+			const DebugWindow = uWindow();
 			const ParamMod = _OLSKFundSetup({
 				_ValueCloudIdentity: Math.random().toString(),
 				OLSKFundListen: (function () {
 					return [...arguments];
 				}),
-				ParamWindow,
+				DebugWindow,
 			});
-			deepEqual(ParamMod._OLSKAppToolbarDispatchFundConnected(), [{
-				ParamWindow,
-				OLSKFundDispatchReceive: ParamMod.OLSKFundDispatchReceive,
+			deepEqual(ParamMod._OLSKAppToolbarDispatchFundConnected(), [ParamMod, {
+				DebugWindow,
 			}]);
 		});
 	
@@ -525,17 +524,18 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		const item = {};
 
 		mod.OLSKFundSetupPostPay({
-			ParamWindow: inputData.ParamWindow || uWindow(Object.assign({
+			_ValueFundClue: inputData._ValueFundClue || null,
+			OLSKFundDispatchPersist: (function () {
+				item.OLSKFundDispatchPersist = inputData.OLSKFundDispatchPersist ? inputData.OLSKFundDispatchPersist() :  item.OLSKFundDispatchPersist = [...arguments];
+			}),
+		}, {
+			DebugWindow: inputData.DebugWindow || uWindow(Object.assign({
 				location: Object.assign(new URL(uLink()), {
 					hash: (new URLSearchParams(inputData.clue ? {
 						clue: inputData.clue,
 					} : {})).toString(),
 				}),
 			})),
-			_ValueFundClue: inputData._ValueFundClue || null,
-			OLSKFundDispatchPersist: (function () {
-				item.OLSKFundDispatchPersist = inputData.OLSKFundDispatchPersist ? inputData.OLSKFundDispatchPersist() :  item.OLSKFundDispatchPersist = [...arguments];
-			}),
 		});
 
 		return item;
@@ -595,7 +595,7 @@ describe('OLSKFundSetupPostPay', function test_OLSKFundSetupPostPay() {
 		});
 
 		_OLSKFundSetupPostPay({
-			ParamWindow: uWindow(Object.assign({
+			DebugWindow: uWindow(Object.assign({
 				location,
 			})),
 		});
@@ -653,20 +653,6 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 				}),
 			},
 		}).OLSKFundSetupGrant(Object.assign({
-			ParamWindow: uWindow({
-				fetch: inputData.fetch || (function () {
-					item.fetch = [...arguments];
-					return {
-						response: 200,
-						json: (function () {
-							return {};
-						}),
-					};
-				}),
-				alert: inputData.alert || (function () {
-					item.alert = [...arguments];
-				}),
-			}),
 			OLSK_FUND_API_URL: inputData.OLSK_FUND_API_URL || Math.random().toString(),
 			OLSKLocalized: uLocalized,
 			OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE: process.env.OLSK_CRYPTO_PAIR_RECEIVER_PRIVATE,
@@ -688,7 +674,22 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 				OLSKPactPayIdentity: 'alfa@bravo.charlie',
 				OLSKPactPayClue: Math.random().toString(),
 			}, inputData.ParamBody || {}),
-		}));
+		}), {
+			DebugWindow: uWindow({
+				fetch: inputData.fetch || (function () {
+					item.fetch = [...arguments];
+					return {
+						response: 200,
+						json: (function () {
+							return {};
+						}),
+					};
+				}),
+				alert: inputData.alert || (function () {
+					item.alert = [...arguments];
+				}),
+			}),
+		});
 		
 		return item;
 	};
@@ -795,7 +796,7 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 
 	context('request', function test_request () {
 		
-		it('calls ParamWindow.fetch', async function () {
+		it('calls window.fetch', async function () {
 			const OLSK_FUND_API_URL = Math.random().toString();
 			const ParamBody = {
 				OLSKPactAuthType: OLSKPact.OLSKPactAuthTypeEmail(),
@@ -825,7 +826,7 @@ describe('OLSKFundSetupGrant', function test_OLSKFundSetupGrant() {
 			})).OLSKFundDispatchProgress, [true]);
 		});
 
-		it('alerts if ParamWindow.fetch throws', async function () {
+		it('alerts if window.fetch throws', async function () {
 			deepEqual((await _OLSKFundSetupGrant({
 				fetch: (function () {
 					throw new Error(Math.random().toString());
@@ -1056,13 +1057,14 @@ describe('OLSKFundListen', function test_OLSKFundListen() {
 		const item = {};
 
 		mod.OLSKFundListen({
-			ParamWindow: inputData.ParamWindow || uWindow({
+			OLSKFundDispatchReceive: (function () {
+				item.OLSKFundDispatchReceive = inputData.OLSKFundDispatchReceive ? inputData.OLSKFundDispatchReceive() :  item.OLSKFundDispatchReceive = [...arguments];
+			}),
+		}, {
+			DebugWindow: inputData.DebugWindow || uWindow({
 				addEventListener: (function (a, b, c) {
 					b(inputData);
 				}),
-			}),
-			OLSKFundDispatchReceive: (function () {
-				item.OLSKFundDispatchReceive = inputData.OLSKFundDispatchReceive ? inputData.OLSKFundDispatchReceive() :  item.OLSKFundDispatchReceive = [...arguments];
 			}),
 		});
 
@@ -1075,18 +1077,10 @@ describe('OLSKFundListen', function test_OLSKFundListen() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if ParamWindow not valid', function () {
-		throws(function () {
-			_OLSKFundListen({
-				ParamWindow: {},
-			});
-		}, /OLSKErrorInputNotValid/);
-	});
-
 	it('throws if OLSKFundDispatchReceive not function', function () {
 		throws(function () {
 			mod.OLSKFundListen({
-				ParamWindow: uWindow(),
+				DebugWindow: uWindow(),
 				OLSKFundDispatchReceive: Math.random().toString(),
 			});
 		}, /OLSKErrorInputNotValid/);
@@ -1796,25 +1790,18 @@ describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnte
 				OLKSLocalStorageSet: inputData.OLKSLocalStorageSet || (function() {}),
 			},
 		}).OLSKFundLauncherItemEnterClue(Object.assign({
-			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
 			ParamConnected: true,
 			ParamAuthorized: true,
 			OLSKFundDispatchPersist: (function () {}),
-		}, inputData))
+		}, inputData), {
+			DebugWindow: inputData.DebugWindow || uWindow(),
+		})
 	}
 
 	it('throws if not object', function () {
 		throws(function () {
 			mod.OLSKFundLauncherItemEnterClue(null);
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if ParamWindow not window', function () {
-		throws(function () {
-			_OLSKFundLauncherItemEnterClue({
-				ParamWindow: {},
-			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
@@ -1867,11 +1854,11 @@ describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnte
 			deepEqual(_OLSKFundLauncherItemEnterClue().LCHRecipeCallback(), undefined);
 		});
 
-		it('calls ParamWindow.prompt', function () {
+		it('calls window.prompt', function () {
 			const item = [];
 
 			_OLSKFundLauncherItemEnterClue({
-				ParamWindow: uWindow({
+				DebugWindow: uWindow({
 					prompt () {
 						item.push(...arguments);
 					},
@@ -1881,11 +1868,11 @@ describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnte
 			deepEqual(item, [uLocalized('OLSKFundLauncherItemEnterCluePromptText')]);
 		});
 
-		it('returns if ParamWindow.prompt blank', function () {
+		it('returns if window.prompt blank', function () {
 			const item = [];
 
 			_OLSKFundLauncherItemEnterClue({
-				ParamWindow: uWindow({
+				DebugWindow: uWindow({
 					prompt () {
 						return ' ';
 					},
@@ -1902,7 +1889,7 @@ describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnte
 			const item = [];
 
 			_OLSKFundLauncherItemEnterClue({
-				ParamWindow: uWindow({
+				DebugWindow: uWindow({
 					prompt () {
 						return Math.random().toString();
 					},
@@ -1920,7 +1907,7 @@ describe('OLSKFundLauncherItemEnterClue', function test_OLSKFundLauncherItemEnte
 			const item = [];
 
 			_OLSKFundLauncherItemEnterClue({
-				ParamWindow: uWindow({
+				DebugWindow: uWindow({
 					prompt () {
 						return prompt;
 					},
@@ -1970,26 +1957,19 @@ describe('OLSKFundLauncherItemClearClue', function test_OLSKFundLauncherItemClea
 				OLKSLocalStorageSet: inputData.OLKSLocalStorageSet || (function() {}),
 			},
 		}).OLSKFundLauncherItemClearClue(Object.assign({
-			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
 			ParamConnected: true,
 			ParamAuthorized: true,
 			OLSKFundDispatchGrant: (function () {}),
 			OLSKFundDispatchPersist: (function () {}),
-		}, inputData))
+		}, inputData), {
+			DebugWindow: inputData.DebugWindow || uWindow(),
+		})
 	}
 
 	it('throws if not object', function () {
 		throws(function () {
 			mod.OLSKFundLauncherItemClearClue(null);
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if ParamWindow not window', function () {
-		throws(function () {
-			_OLSKFundLauncherItemClearClue({
-				ParamWindow: {},
-			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
@@ -2050,11 +2030,11 @@ describe('OLSKFundLauncherItemClearClue', function test_OLSKFundLauncherItemClea
 			deepEqual(_OLSKFundLauncherItemClearClue().LCHRecipeCallback(), undefined);
 		});
 
-		it('calls ParamWindow.confirm', function () {
+		it('calls window.confirm', function () {
 			const item = [];
 
 			_OLSKFundLauncherItemClearClue({
-				ParamWindow: uWindow({
+				DebugWindow: uWindow({
 					confirm () {
 						item.push(...arguments);
 					},
@@ -2064,11 +2044,11 @@ describe('OLSKFundLauncherItemClearClue', function test_OLSKFundLauncherItemClea
 			deepEqual(item, [uLocalized('OLSKFundLauncherItemClearClueConfirmText')]);
 		});
 
-		it('returns if ParamWindow.confirm false', function () {
+		it('returns if window.confirm false', function () {
 			const item = [];
 
 			_OLSKFundLauncherItemClearClue({
-				ParamWindow: uWindow({
+				DebugWindow: uWindow({
 					confirm () {
 						return false;
 					},
@@ -2085,7 +2065,7 @@ describe('OLSKFundLauncherItemClearClue', function test_OLSKFundLauncherItemClea
 			const item = [];
 
 			_OLSKFundLauncherItemClearClue({
-				ParamWindow: uWindow({
+				DebugWindow: uWindow({
 					confirm () {
 						return true;
 					},
@@ -2102,7 +2082,7 @@ describe('OLSKFundLauncherItemClearClue', function test_OLSKFundLauncherItemClea
 			const item = [];
 
 			_OLSKFundLauncherItemClearClue({
-				ParamWindow: uWindow({
+				DebugWindow: uWindow({
 					confirm () {
 						return true;
 					},
@@ -2119,7 +2099,7 @@ describe('OLSKFundLauncherItemClearClue', function test_OLSKFundLauncherItemClea
 			const item = [];
 
 			_OLSKFundLauncherItemClearClue({
-				ParamWindow: uWindow({
+				DebugWindow: uWindow({
 					confirm () {
 						return true;
 					},
@@ -2165,7 +2145,6 @@ describe('OLSKFundRecipes', function test_OLSKFundRecipes() {
 
 	const _OLSKFundRecipes = function (inputData = {}) {
 		return mod.OLSKFundRecipes(Object.assign({
-			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
 			ParamConnected: uRandomElement(true, false),
 			ParamAuthorized: uRandomElement(true, false),
