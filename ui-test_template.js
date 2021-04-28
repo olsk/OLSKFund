@@ -30,7 +30,7 @@ export default function (params) {
 			return OLSKTestingLocalized(inputData, OLSKRoutingLanguage);
 		};
 
-		describe(`OLSKFundTemplate_Localize-${ OLSKRoutingLanguage }`, function () {
+		describe('OLSKFundTemplate_Localize-' + OLSKRoutingLanguage, function () {
 
 			before(function() {
 				return browser.OLSKVisit(kDefaultRoute, {
