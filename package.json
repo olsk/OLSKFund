@@ -2,26 +2,16 @@
   "name": "OLSKFund",
   "main": "main.js",
   "scripts": {
-    "postinstall": "olsk-bundle tidy && node ./package-postinstall.js",
-    
-    "setup": "olsk-bundle",
-    
-    "start": "olsk-express .",
-
-    "test": "olsk-spec"
+    "postinstall": "olsk-bundle tidy && node ./package-postinstall.js"
   },
   "dependencies": {
   	"OLSKPact": "olsk/OLSKPact",
     "OLSKObject": "olsk/OLSKObject",
     "OLSKCrypto": "olsk/OLSKCrypto",
-    "OLSKLocalStorage": "olsk/OLSKLocalStorage",
-  	
-    "// I sacrifice myself for the commas of others": null    
+    "OLSKLocalStorage": "olsk/OLSKLocalStorage"
   },
   "devDependencies": {
-  	"OLSKPithToolchain": "olsk/OLSKPithToolchain",
     "launchlet": "latest",
-    
-    "// I sacrifice myself for the commas of others": null    
+    "OLSKInternational": "olsk/OLSKInternational"
   }
 }
