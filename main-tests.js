@@ -4,7 +4,7 @@ const mod = require('./main.js');
 
 const OLSKPact = require('OLSKPact');
 const OLSKCrypto = require('OLSKCrypto');
-const OLSKObject = require('OLSKObject').default;
+const OLSKObject = require('OLSKObject');
 
 const uWindow = function (inputData = {}) {
 	return Object.assign({
