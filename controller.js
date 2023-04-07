@@ -6,7 +6,7 @@ const mod = {
 			OLSKRouteMethod: 'get',
 			OLSKRouteSignature: 'OLSKFundStubRoute',
 			OLSKRouteFunction(req, res, next) {
-				require('fs').writeFileSync(require('path').join(__dirname, '__compiled/main.js'), `(function (require) { ${ require('fs').readFileSync(require('path').join(__dirname, 'main.js'), 'utf8') } })(() => exports)`);
+				require('fs').writeFileSync(require('path').join(__dirname, '__compiled/main.js'), `(function (require) { ${ require('fs').readFileSync(require('path').join(__dirname, 'main.js'), 'utf8') } })((inputData) => window[inputData])`);
 
 				return res.render(require('path').join(__dirname, 'stub-view'));
 			},

@@ -29,7 +29,7 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 			});
 			
 			it('localizes OLSKFundLauncherItemEnterCluePrompt', function () {
-				browser.assert.OLSKPromptQuestion(function () {
+				return browser.assert.OLSKPromptQuestion(function () {
 					return browser.click('.LCHLauncherPipeItem');
 				}, uLocalized('OLSKFundLauncherItemEnterCluePromptText'));
 			});
@@ -57,7 +57,7 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 				});
 				
 				it('localizes OLSKFundLauncherItemClearClueConfirm', function () {
-					browser.assert.OLSKConfirmQuestion(function () {
+					return browser.assert.OLSKConfirmQuestion(function () {
 						return browser.click('.LCHLauncherPipeItem');
 					}, uLocalized('OLSKFundLauncherItemClearClueConfirmText'));
 				});
@@ -69,7 +69,7 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 		context('OLSKFundGate', function () {
 
 			it('localizes OLSKFundGate', function () {
-				browser.assert.OLSKConfirmQuestion(function () {
+				return browser.assert.OLSKConfirmQuestion(function () {
 					return browser.pressButton('#TestFakeGate');
 				}, uLocalized('OLSKFundGateText'));
 			});
@@ -79,25 +79,25 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 		context('OLSKFundSetupGrant', function () {
 
 			it('localizes OLSKFundGrantErrorConnection', async function () {
-				browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
+				return browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
 					return browser.pressButton('#TestFakeErrorConnection');
 				}), uLocalized('OLSKFundGrantErrorConnectionText'));
 			});
 
 			it('localizes OLSKFundGrantErrorDecryption', async function () {
-				browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
+				return browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
 					return browser.pressButton('#TestFakeErrorDecryption');
 				}), uLocalized('OLSKFundGrantErrorDecryptionText'));
 			});
 
 			it('localizes OLSKFundGrantErrorSigning', async function () {
-				browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
+				return browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
 					return browser.pressButton('#TestFakeErrorSigning');
 				}), uLocalized('OLSKFundGrantErrorSigningText'));
 			});
 
 			it.skip('localizes OLSKFundGrantErrorExpired', async function () {
-				browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
+				return browser.assert.deepEqual(await browser.OLSKAlertAsync(function () {
 					return browser.pressButton('#TestFakeErrorExpired');
 				}), uLocalized('OLSKFundGrantErrorExpiredText'));
 			});

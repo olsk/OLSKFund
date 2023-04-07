@@ -11,11 +11,11 @@ export default function (params) {
 		});
 
 		it('shows OLSKAppToolbarFundButton', function () {
-	 		browser.assert.elements('.OLSKAppToolbarFundButton', 1);
+	 		return browser.assert.elements('.OLSKAppToolbarFundButton', 1);
 	 	});
 
 	 	it('shows OLSKAppToolbarFundLimit', function () {
-	 		browser.assert.elements('.OLSKAppToolbarFundLimit', 1);
+	 		return browser.assert.elements('.OLSKAppToolbarFundLimit', 1);
 	 	});
 
 	 	it('shows OLSKFundLauncherFakeItemProxy', function () {
@@ -41,7 +41,7 @@ export default function (params) {
 			context('not_connected', function () {
 
 				it('alerts', function() {
-					browser.assert.OLSKConfirmQuestion(function () {
+					return browser.assert.OLSKConfirmQuestion(function () {
 						return browser.pressButton('.OLSKAppToolbarFundButton');
 					}, uLocalized('OLSKRemoteStorageConnectConfirmText'));
 				});
@@ -61,7 +61,7 @@ export default function (params) {
 				}
 				
 				it('shows OLSKFundGate', function() {
-					browser.assert.OLSKConfirmQuestion(function () {
+					return browser.assert.OLSKConfirmQuestion(function () {
 						return ParamTriggerGate();
 					}, uLocalized('OLSKFundGateText'));
 				});
@@ -83,7 +83,7 @@ export default function (params) {
 			context('not connected', function () {
 
 				before(function () {
-					browser.assert.elements('.OLSKCloud', 0);
+					return browser.assert.elements('.OLSKCloud', 0);
 				});
 				
 				context('click', function () {
@@ -93,7 +93,7 @@ export default function (params) {
 					});
 
 					it('shows OLSKCloud', function () {
-						browser.assert.elements('.OLSKCloud', 1);
+						return browser.assert.elements('.OLSKCloud', 1);
 					});
 
 					context('cancel', function () {
@@ -103,7 +103,7 @@ export default function (params) {
 						});
 
 						before(function () {
-							browser.assert.elements('.OLSKCloud', 0);
+							return browser.assert.elements('.OLSKCloud', 0);
 						});
 						
 						before(function () {
@@ -117,7 +117,7 @@ export default function (params) {
 						});
 
 						it('does nothing', function () {
-							browser.assert.elements('.OLSKCloud', 0);
+							return browser.assert.elements('.OLSKCloud', 0);
 						});
 					
 					});
@@ -141,7 +141,7 @@ export default function (params) {
 				});
 
 				it('opens OLSKWebView', function () {
-					browser.assert.attribute('.OLSKWebViewWindowButton', 'href', OLSKFund.OLSKFundURL({
+					return browser.assert.attribute('.OLSKWebViewWindowButton', 'href', OLSKFund.OLSKFundURL({
 						ParamFormURL: process.env.OLSK_FUND_FORM_URL,
 						ParamProject,
 						ParamIdentity: 'ZDR_FAKE_CLOUD_IDENTITY',
@@ -162,7 +162,7 @@ export default function (params) {
 					});
 
 					it('closes OLSKWebView', function () {
-						browser.assert.elements('.OLSKWebView', 0);
+						return browser.assert.elements('.OLSKWebView', 0);
 					});
 				
 				});
@@ -178,7 +178,7 @@ export default function (params) {
 			});
 
 			it('starts at OLSK_FUND_DOCUMENT_LIMIT', function () {
-				browser.assert.text('.OLSKAppToolbarFundLimit', process.env.OLSK_FUND_DOCUMENT_LIMIT);
+				return browser.assert.text('.OLSKAppToolbarFundLimit', process.env.OLSK_FUND_DOCUMENT_LIMIT);
 			});
 
 			context('create_item', function () {
@@ -194,7 +194,7 @@ export default function (params) {
 				});
 
 				it('updates number', function () {
-					browser.assert.text('.OLSKAppToolbarFundLimit', process.env.OLSK_FUND_DOCUMENT_LIMIT - 1);
+					return browser.assert.text('.OLSKAppToolbarFundLimit', process.env.OLSK_FUND_DOCUMENT_LIMIT - 1);
 				});
 			
 			});
@@ -206,7 +206,7 @@ export default function (params) {
 				});
 
 				it('updates number', function () {
-					browser.assert.text('.OLSKAppToolbarFundLimit', process.env.OLSK_FUND_DOCUMENT_LIMIT);
+					return browser.assert.text('.OLSKAppToolbarFundLimit', process.env.OLSK_FUND_DOCUMENT_LIMIT);
 				});
 			
 			});
@@ -218,7 +218,7 @@ export default function (params) {
 				});
 
 				it('updates number', function () {
-					browser.assert.text('.OLSKAppToolbarFundLimit', process.env.OLSK_FUND_DOCUMENT_LIMIT - 1);
+					return browser.assert.text('.OLSKAppToolbarFundLimit', process.env.OLSK_FUND_DOCUMENT_LIMIT - 1);
 				});
 			
 			});
@@ -250,11 +250,11 @@ export default function (params) {
 			});
 
 			it('hides OLSKAppToolbarFundButton', function () {
-				browser.assert.elements('.OLSKAppToolbarFundButton', 0);
+				return browser.assert.elements('.OLSKAppToolbarFundButton', 0);
 			});
 
 			it('hides OLSKAppToolbarFundLimit', function () {
-				browser.assert.elements('.OLSKAppToolbarFundLimit', 0);
+				return browser.assert.elements('.OLSKAppToolbarFundLimit', 0);
 			});
 
 		});
@@ -310,7 +310,7 @@ export default function (params) {
 			});
 
 			it('shows OLSKFundLauncherItemClearClue', function () {
-				browser.assert.OLSKLauncherItems('OLSKFundLauncherItemClearClue', 1);
+				return browser.assert.OLSKLauncherItems('OLSKFundLauncherItemClearClue', 1);
 			});
 
 			describe('OLSKApropos', function test_OLSKApropos() {
@@ -320,7 +320,7 @@ export default function (params) {
 				});
 
 				it('sets OLSKAproposFeedbackValue', function () {
-					browser.assert.attribute('.OLSKAproposFeedbackButton', 'href', `javascript:window.location.href = window.atob('${ browser.window.btoa('mailto:' + OLSKTestingFormatted(process.env.OLSK_APROPOS_FEEDBACK_EMAIL, ParamProject + '+' + clue)) }')`);
+					return browser.assert.attribute('.OLSKAproposFeedbackButton', 'href', `javascript:window.location.href = window.atob('${ browser.window.btoa('mailto:' + OLSKTestingFormatted(process.env.OLSK_APROPOS_FEEDBACK_EMAIL, ParamProject + '+' + clue)) }')`);
 				});
 
 				after(function () {
@@ -352,7 +352,7 @@ export default function (params) {
 			});
 
 			it('shows OLSKCloud', function () {
-				browser.assert.elements('.OLSKCloud', 1);
+				return browser.assert.elements('.OLSKCloud', 1);
 			});
 
 			context('cancel', function () {
@@ -362,7 +362,7 @@ export default function (params) {
 				});
 
 				before(function () {
-					browser.assert.elements('.OLSKCloud', 0);
+					return browser.assert.elements('.OLSKCloud', 0);
 				});
 				
 				before(function () {
@@ -376,7 +376,7 @@ export default function (params) {
 				});
 
 				it('does nothing', function () {
-					browser.assert.elements('.OLSKCloud', 0);
+					return browser.assert.elements('.OLSKCloud', 0);
 				});
 			
 			});
